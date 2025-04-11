@@ -6,39 +6,27 @@ export function Footer() {
   
   const footerLinks = [
     {
-      title: "Product",
+      title: "Pagina's",
       links: [
+        { name: "Home", href: "#hero" },
         { name: "Functies", href: "#features" },
-        { name: "Oplossingen", href: "#solutions" },
-        { name: "Prijzen", href: "#pricing" },
-        { name: "Documentatie", href: "#docs" },
+        { name: "Succesverhalen", href: "#cases" },
+        { name: "Contact", href: "#cta" },
       ],
     },
     {
       title: "Bedrijf",
       links: [
-        { name: "Over ons", href: "#about" },
-        { name: "Team", href: "#team" },
-        { name: "Carrières", href: "#careers" },
-        { name: "Contact", href: "#contact" },
-      ],
-    },
-    {
-      title: "Bronnen",
-      links: [
-        { name: "Blog", href: "#blog" },
-        { name: "Use Cases", href: "#cases" },
-        { name: "Evenementen", href: "#events" },
-        { name: "Partners", href: "#partners" },
+        { name: "Over ons", href: "#hero" },
+        { name: "Contact", href: "#cta" },
       ],
     },
     {
       title: "Juridisch",
       links: [
-        { name: "Privacy", href: "#privacy" },
-        { name: "Voorwaarden", href: "#terms" },
-        { name: "Beveiliging", href: "#security" },
-        { name: "Cookies", href: "#cookies" },
+        { name: "Privacybeleid", href: "#" },
+        { name: "Gebruiksvoorwaarden", href: "#" },
+        { name: "Cookies", href: "#" },
       ],
     },
   ];

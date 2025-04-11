@@ -21,7 +21,7 @@ export default function Home() {
         connectionRadius={150}
         connectionOpacity={0.05}
       />
-      
+
       {/* Header */}
       <Header />
       
@@ -32,7 +32,7 @@ export default function Home() {
         <ShowcaseSection />
         <CtaSection />
       </main>
-      
+
       {/* Footer */}
       <Footer />
     </div>

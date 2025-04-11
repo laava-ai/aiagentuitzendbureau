@@ -20,11 +20,9 @@ export function Header() {
   }, []);
 
   const menuItems = [
-    { name: "Oplossingen", href: "#solutions" },
-    { name: "Proces", href: "#process" },
-    { name: "Cases", href: "#cases" },
-    { name: "Over ons", href: "#about" },
-    { name: "Contact", href: "#contact" },
+    { name: "Functies", href: "#features" },
+    { name: "Succesverhalen", href: "#cases" },
+    { name: "Contact", href: "#cta" },
   ];
 
   return (

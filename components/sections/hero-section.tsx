@@ -98,8 +98,8 @@ export function HeroSection() {
                 <RevealText
                   text="Intelligent, adaptief en altijd beschikbaar"
                   as="h2"
-                  textStyle="outline"
-                  className="text-2xl md:text-3xl font-light"
+                  textStyle="gradient"
+                  className="text-2xl md:text-3xl font-light text-black"
                   preset="word"
                   staggerChildren={0.05}
                   delay={0.6}
