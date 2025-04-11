@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { motion, useInView, useAnimation, Variants } from "framer-motion";
 
 type TextStyle = "gradient" | "outline" | "glow" | "stroke" | "blur" | "standard";
@@ -108,26 +108,26 @@ export function RevealText({
   
   const textClass = getTextStyle(textStyle);
   
-  return (
-    <Component className={className}>
-      <motion.div
-        ref={ref}
-        initial="hidden"
-        animate={controls}
-        variants={container}
-        className="inline"
-      >
-        {parts.map((part, index) => (
-          <motion.span
-            key={index}
-            variants={childVariants}
-            className={`${textClass} inline-block ${preset === "word" ? "mr-[0.25em]" : ""}`}
-          >
-            {part}
-            {preset === "line" && index < parts.length - 1 ? <br /> : ""}
-          </motion.span>
-        ))}
-      </motion.div>
-    </Component>
+  return React.createElement(
+    Component,
+    { className },
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={container}
+      className="inline"
+    >
+      {parts.map((part, index) => (
+        <motion.span
+          key={index}
+          variants={childVariants}
+          className={`${textClass} inline-block ${preset === "word" ? "mr-[0.25em]" : ""}`}
+        >
+          {part}
+          {preset === "line" && index < parts.length - 1 ? <br /> : ""}
+        </motion.span>
+      ))}
+    </motion.div>
   );
 } 
