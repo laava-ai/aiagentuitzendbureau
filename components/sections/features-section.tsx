@@ -50,7 +50,7 @@ function FeatureCard({ title, description, icon, index, color }: FeatureCardProp
               whileHover={{ x: 5 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <span>Learn more</span>
+              <span>Meer informatie</span>
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-1">
                 <path d="M1.16699 7H12.8337" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 <path d="M7 1.16675L12.8333 7.00008L7 12.8334" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -70,50 +70,50 @@ export function FeaturesSection() {
   const features = [
     {
       icon: <Zap className="h-6 w-6" />,
-      title: "AI Task Automation",
-      description: "Automate repetitive tasks and complex workflows with intelligent AI systems that learn and adapt to your needs.",
+      title: "AI Taakautomatisering",
+      description: "Automatiseer repetitieve taken en complexe workflows met intelligente AI-systemen die leren en zich aanpassen aan je behoeften.",
       color: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
     },
     {
       icon: <MessageSquare className="h-6 w-6" />,
-      title: "Natural Language Processing",
-      description: "Advanced conversational AI that understands context and nuance, enabling human-like interactions with your systems.",
+      title: "Natuurlijke Taalverwerking",
+      description: "Geavanceerde conversatie-AI die context en nuance begrijpt, waardoor mensachtige interacties met je systemen mogelijk worden.",
       color: "bg-purple-500/10 text-purple-600 dark:text-purple-400",
     },
     {
       icon: <Database className="h-6 w-6" />,
-      title: "Intelligent Data Analysis",
-      description: "Transform raw data into actionable insights with AI-powered analytics that identify patterns and opportunities.",
+      title: "Intelligente Data-analyse",
+      description: "Transformeer ruwe gegevens in bruikbare inzichten met AI-gestuurde analyses die patronen en kansen identificeren.",
       color: "bg-green-500/10 text-green-600 dark:text-green-400",
     },
     {
       icon: <Users className="h-6 w-6" />,
-      title: "Seamless Team Integration",
-      description: "AI coworkers that collaborate with your human team, enhancing productivity and sharing workloads effectively.",
+      title: "Naadloze Teamintegratie",
+      description: "AI-collega's die samenwerken met je menselijke team, de productiviteit verbeteren en werklasten effectief delen.",
       color: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
     },
     {
       icon: <Cpu className="h-6 w-6" />,
-      title: "Adaptive Learning Systems",
-      description: "Self-improving AI that continuously learns from interactions, becoming more efficient and accurate over time.",
+      title: "Adaptieve Leersystemen",
+      description: "Zelf-verbeterende AI die voortdurend leert van interacties, en die met de tijd efficiënter en nauwkeuriger wordt.",
       color: "bg-pink-500/10 text-pink-600 dark:text-pink-400",
     },
     {
       icon: <BarChart3 className="h-6 w-6" />,
-      title: "Predictive Analytics",
-      description: "Forecast trends and anticipate changes with AI models that analyze historical data to predict future outcomes.",
+      title: "Voorspellende Analyses",
+      description: "Voorspel trends en anticipeer op veranderingen met AI-modellen die historische gegevens analyseren om toekomstige resultaten te voorspellen.",
       color: "bg-sky-500/10 text-sky-600 dark:text-sky-400",
     },
     {
       icon: <Bot className="h-6 w-6" />,
-      title: "Custom AI Solutions",
-      description: "Bespoke AI systems engineered specifically for your industry and business requirements.",
+      title: "Op Maat Gemaakte AI-oplossingen",
+      description: "Op maat gemaakte AI-systemen die specifiek zijn ontwikkeld voor jouw branche en bedrijfsvereisten.",
       color: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400",
     },
     {
       icon: <Lightbulb className="h-6 w-6" />,
-      title: "Innovation Acceleration",
-      description: "Accelerate your R&D with AI-assisted ideation and problem-solving capabilities that expand possibilities.",
+      title: "Innovatieversnelling",
+      description: "Versnel je R&D met AI-ondersteunde ideevorming en probleemoplossende mogelijkheden die mogelijkheden vergroten.",
       color: "bg-orange-500/10 text-orange-600 dark:text-orange-400",
     },
   ];
@@ -134,11 +134,11 @@ export function FeaturesSection() {
       <div className="container relative">
         <div className="text-center max-w-3xl mx-auto mb-20">
           <div className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-            <span className="mr-2">⚡</span> Advanced Capabilities
+            <span className="mr-2">⚡</span> Geavanceerde Mogelijkheden
           </div>
           
           <RevealText
-            text="Transformative AI Features"
+            text="Transformatieve AI-functionaliteiten"
             as="h2"
             textStyle="gradient"
             className="text-4xl md:text-5xl font-bold mb-6"
@@ -147,7 +147,7 @@ export function FeaturesSection() {
           />
           
           <RevealText
-            text="Our comprehensive suite of AI technologies provides cutting-edge capabilities to revolutionize how your business operates."
+            text="Ons uitgebreide pakket AI-technologieën biedt geavanceerde mogelijkheden om de werkwijze van je bedrijf te revolutioneren."
             as="p" 
             className="text-lg text-muted-foreground"
             preset="word"

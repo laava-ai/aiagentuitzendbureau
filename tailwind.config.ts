@@ -2,7 +2,6 @@ import type { Config } from 'tailwindcss';
 import { fontFamily } from 'tailwindcss/defaultTheme';
 
 const config: Config = {
-  darkMode: ['class'],
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -44,16 +43,6 @@ const config: Config = {
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
-          '50': 'hsl(var(--primary) / 0.05)',
-          '100': 'hsl(var(--primary) / 0.1)',
-          '200': 'hsl(var(--primary) / 0.2)',
-          '300': 'hsl(var(--primary-300))',
-          '400': 'hsl(var(--primary-400))',
-          '500': 'hsl(var(--primary-500))',
-          '600': 'hsl(var(--primary-500) / 0.9)',
-          '700': 'hsl(var(--primary-500) / 0.8)',
-          '800': 'hsl(var(--primary-500) / 0.7)',
-          '900': 'hsl(var(--primary-500) / 0.6)',
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',

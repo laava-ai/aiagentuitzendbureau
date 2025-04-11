@@ -8,36 +8,36 @@ export function Footer() {
     {
       title: "Product",
       links: [
-        { name: "Features", href: "#features" },
-        { name: "Solutions", href: "#solutions" },
-        { name: "Pricing", href: "#pricing" },
-        { name: "Documentation", href: "#docs" },
+        { name: "Functies", href: "#features" },
+        { name: "Oplossingen", href: "#solutions" },
+        { name: "Prijzen", href: "#pricing" },
+        { name: "Documentatie", href: "#docs" },
       ],
     },
     {
-      title: "Company",
+      title: "Bedrijf",
       links: [
-        { name: "About", href: "#about" },
+        { name: "Over ons", href: "#about" },
         { name: "Team", href: "#team" },
-        { name: "Careers", href: "#careers" },
+        { name: "Carrières", href: "#careers" },
         { name: "Contact", href: "#contact" },
       ],
     },
     {
-      title: "Resources",
+      title: "Bronnen",
       links: [
         { name: "Blog", href: "#blog" },
         { name: "Use Cases", href: "#cases" },
-        { name: "Events", href: "#events" },
+        { name: "Evenementen", href: "#events" },
         { name: "Partners", href: "#partners" },
       ],
     },
     {
-      title: "Legal",
+      title: "Juridisch",
       links: [
         { name: "Privacy", href: "#privacy" },
-        { name: "Terms", href: "#terms" },
-        { name: "Security", href: "#security" },
+        { name: "Voorwaarden", href: "#terms" },
+        { name: "Beveiliging", href: "#security" },
         { name: "Cookies", href: "#cookies" },
       ],
     },
@@ -64,7 +64,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-gray-600 text-sm mb-6">
-              Revolutionizing businesses with intelligent AI solutions that transform how you work.
+              Revolutioneren van bedrijven met intelligente AI-oplossingen die transformeren hoe je werkt.
             </p>
             <div className="flex space-x-4">
               {socialLinks.map((social) => (
@@ -103,15 +103,15 @@ export function Footer() {
 
           <div className="col-span-2 md:col-span-2 lg:col-span-3">
             <h3 className="font-semibold text-sm text-gray-900 mb-4">
-              Stay Updated
+              Blijf op de hoogte
             </h3>
             <p className="text-gray-600 text-sm mb-4">
-              Subscribe to our newsletter for the latest updates, insights, and AI news.
+              Abonneer je op onze nieuwsbrief voor de laatste updates, inzichten en AI-nieuws.
             </p>
             <form className="flex gap-2 mb-2">
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Voer je e-mail in"
                 className="flex-1 px-3 py-2 text-sm rounded-md border border-gray-300 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-600"
                 required
               />
@@ -119,11 +119,11 @@ export function Footer() {
                 type="submit"
                 className="px-3 py-2 text-sm font-medium rounded-md bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white transition-colors"
               >
-                Subscribe
+                Abonneren
               </button>
             </form>
             <p className="text-xs text-gray-500">
-              By subscribing, you agree to our Privacy Policy.
+              Door je te abonneren, ga je akkoord met ons Privacybeleid.
             </p>
           </div>
         </div>
@@ -131,14 +131,14 @@ export function Footer() {
         <div className="border-t border-gray-200 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-gray-600">
-              © {currentYear} Laava. All rights reserved.
+              © {currentYear} Laava. Alle rechten voorbehouden.
             </p>
             <div className="flex space-x-4 mt-4 md:mt-0">
               <a href="#" className="text-sm text-gray-600 hover:text-indigo-600">
-                Privacy Policy
+                Privacybeleid
               </a>
               <a href="#" className="text-sm text-gray-600 hover:text-indigo-600">
-                Terms of Service
+                Gebruiksvoorwaarden
               </a>
               <a href="#" className="text-sm text-gray-600 hover:text-indigo-600">
                 Cookies

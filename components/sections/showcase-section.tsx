@@ -9,53 +9,53 @@ import { RevealText } from "@/components/ui/atoms/reveal-text";
 const caseStudies = [
   {
     id: "ecommerce",
-    title: "E-Commerce Revolution",
-    subtitle: "How AI transformed customer service for a leading retailer",
-    description: "A global e-commerce company implemented our AI solution to handle customer inquiries and automate order processing. The results were transformative, with response times cut by 72% and customer satisfaction scores increasing by 38%.",
+    title: "E-Commerce Revolutie",
+    subtitle: "Hoe AI de klantenservice transformeerde voor een toonaangevende retailer",
+    description: "Een wereldwijd e-commercebedrijf implementeerde onze AI-oplossing om klantverzoeken af te handelen en orderverwerking te automatiseren. De resultaten waren transformerend, met 72% kortere responstijden en 38% hogere klanttevredenheidsscores.",
     image: "https://images.unsplash.com/photo-1661956602944-249bcd04b63f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
     stats: [
-      { value: "72%", label: "Faster Responses" },
-      { value: "38%", label: "Increased Satisfaction" },
-      { value: "4.2x", label: "ROI Multiplier" },
+      { value: "72%", label: "Snellere Respons" },
+      { value: "38%", label: "Hogere Tevredenheid" },
+      { value: "4.2x", label: "ROI Vermenigvuldiger" },
     ],
     color: "from-blue-500 to-indigo-600",
   },
   {
     id: "healthcare",
-    title: "Healthcare Innovation",
-    subtitle: "AI-powered patient care and operational efficiency",
-    description: "A leading healthcare provider deployed our AI system to optimize scheduling, streamline administrative tasks, and enhance patient communication. The results included reduced wait times and dramatic improvements in staff resource allocation.",
+    title: "Gezondheidszorg Innovatie",
+    subtitle: "AI-gestuurde patiëntenzorg en operationele efficiëntie",
+    description: "Een toonaangevende zorgaanbieder heeft ons AI-systeem ingezet om planning te optimaliseren, administratieve taken te stroomlijnen en patiëntcommunicatie te verbeteren. De resultaten omvatten kortere wachttijden en drastische verbeteringen in personeelstoewijzing.",
     image: "https://images.unsplash.com/photo-1631815588090-d1bcbe9b4b38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80",
     stats: [
-      { value: "35%", label: "Reduced Wait Times" },
-      { value: "89%", label: "Staff Satisfaction" },
-      { value: "41%", label: "Cost Reduction" },
+      { value: "35%", label: "Kortere Wachttijden" },
+      { value: "89%", label: "Personeelstevredenheid" },
+      { value: "41%", label: "Kostenbesparing" },
     ],
     color: "from-teal-500 to-emerald-600",
   },
   {
     id: "finance",
-    title: "Financial Intelligence",
-    subtitle: "AI-driven insights and risk mitigation",
-    description: "A financial institution integrated our AI to analyze customer behavior and provide personalized service recommendations. The platform also identified potential risks and fraudulent activities with unprecedented accuracy.",
+    title: "Financiële Intelligentie",
+    subtitle: "AI-gedreven inzichten en risicovermindering",
+    description: "Een financiële instelling integreerde onze AI om klantgedrag te analyseren en gepersonaliseerde serviceaanbevelingen te doen. Het platform identificeerde ook potentiële risico's en frauduleuze activiteiten met ongekende nauwkeurigheid.",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
     stats: [
-      { value: "62%", label: "Faster Processing" },
-      { value: "93%", label: "Detection Accuracy" },
-      { value: "2.8x", label: "Revenue Growth" },
+      { value: "62%", label: "Snellere Verwerking" },
+      { value: "93%", label: "Detectienauwkeurigheid" },
+      { value: "2.8x", label: "Omzetgroei" },
     ],
     color: "from-purple-500 to-violet-600",
   },
   {
     id: "manufacturing",
-    title: "Smart Manufacturing",
-    subtitle: "Predictive maintenance and production optimization",
-    description: "A manufacturing company implemented our AI to predict equipment failures and optimize production schedules. The system's real-time analytics and adaptive learning capabilities have transformed their operational efficiency.",
+    title: "Slimme Productie",
+    subtitle: "Voorspellend onderhoud en productieoptimalisatie",
+    description: "Een productiebedrijf implementeerde onze AI om apparatuurstoringen te voorspellen en productieschema's te optimaliseren. De realtime analyses en adaptieve leermogelijkheden van het systeem hebben hun operationele efficiëntie getransformeerd.",
     image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
     stats: [
-      { value: "57%", label: "Downtime Reduction" },
-      { value: "42%", label: "Efficiency Increase" },
-      { value: "3.4M", label: "Annual Savings" },
+      { value: "57%", label: "Minder Uitvaltijd" },
+      { value: "42%", label: "Efficiëntieverhoging" },
+      { value: "3.4M", label: "Jaarlijkse Besparing" },
     ],
     color: "from-orange-500 to-amber-600",
   },
@@ -117,11 +117,11 @@ export function ShowcaseSection() {
       <div className="container relative">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-white/90 text-sm font-medium mb-6 backdrop-blur-sm">
-            <span className="mr-2">💼</span> Success Stories
+            <span className="mr-2">💼</span> Succesverhalen
           </div>
           
           <RevealText
-            text="Real-World Transformations"
+            text="Transformaties in de Praktijk"
             as="h2"
             textStyle="gradient"
             className="text-4xl md:text-5xl font-bold mb-6"
@@ -130,7 +130,7 @@ export function ShowcaseSection() {
           />
           
           <RevealText
-            text="See how leading organizations across industries have revolutionized their operations with our intelligent AI solutions."
+            text="Ontdek hoe toonaangevende organisaties in verschillende sectoren hun activiteiten hebben gerevolutioneerd met onze intelligente AI-oplossingen."
             as="p" 
             className="text-lg text-gray-300"
             preset="word"
@@ -198,7 +198,7 @@ export function ShowcaseSection() {
                           </div>
                           
                           <Button className="group w-full bg-transparent backdrop-blur-sm border border-white/10 hover:bg-white/10">
-                            <span>View Full Case Study</span>
+                            <span>Bekijk volledige casestudy</span>
                             <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                           </Button>
                         </div>

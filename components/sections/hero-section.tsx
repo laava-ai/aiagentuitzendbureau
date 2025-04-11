@@ -81,12 +81,12 @@ export function HeroSection() {
               transition={{ duration: 0.8 }}
             >
               <div className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6 border border-primary/20">
-                <span className="mr-2">✨</span> Your AI Coworker
+                <span className="mr-2">✨</span> Uw AI Collega
               </div>
               
               <div className="mb-6">
                 <RevealText
-                  text="Meet Your New Digital Teammate"
+                  text="Ontmoet Je Nieuwe Digitale Teamgenoot"
                   as="h1"
                   textStyle="gradient"
                   className="text-5xl md:text-7xl font-bold tracking-tight mb-2"
@@ -96,7 +96,7 @@ export function HeroSection() {
                 />
                 
                 <RevealText
-                  text="Intelligent, adaptive, and always available"
+                  text="Intelligent, adaptief en altijd beschikbaar"
                   as="h2"
                   textStyle="outline"
                   className="text-2xl md:text-3xl font-light"
@@ -107,7 +107,7 @@ export function HeroSection() {
               </div>
               
               <RevealText
-                text="Laava creates intelligent AI coworkers that seamlessly integrate with your team, automating complex tasks and enhancing productivity across your organization."
+                text="Laava creëert intelligente AI-collega's die naadloos integreren met je team, complexe taken automatiseren en de productiviteit in je hele organisatie verbeteren."
                 as="p"
                 className="text-lg text-muted-foreground mb-8 max-w-2xl"
                 preset="word"
@@ -122,11 +122,11 @@ export function HeroSection() {
                 transition={{ delay: 1.2 }}
               >
                 <Button size="lg" className="group bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 border-0">
-                  <span>Connect with AI</span>
+                  <span>Verbind met AI</span>
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
                 <Button size="lg" variant="outline" className="border-white/10 backdrop-blur-sm bg-white/5 hover:bg-white/10">
-                  How It Works
+                  Hoe het werkt
                 </Button>
               </motion.div>
               
@@ -137,9 +137,9 @@ export function HeroSection() {
                 transition={{ delay: 1.5, duration: 1 }}
               >
                 {[
-                  { label: "Tasks Automated", value: "5M+" },
-                  { label: "Time Saved", value: "98%" },
-                  { label: "AI Accuracy", value: "99.6%" }
+                  { label: "Taken Geautomatiseerd", value: "5M+" },
+                  { label: "Tijd Bespaard", value: "98%" },
+                  { label: "AI Nauwkeurigheid", value: "99.6%" }
                 ].map((stat, index) => (
                   <div key={index} className="text-center">
                     <p className="text-xl md:text-2xl font-bold text-gradient">{stat.value}</p>
@@ -165,16 +165,16 @@ export function HeroSection() {
                 pulseColor="#6366f1"
                 glowColor="rgba(99, 102, 241, 0.4)"
                 idleMessages={[
-                  "Hello there! 👋",
-                  "I'm your AI coworker",
-                  "Let's collaborate",
-                  "I can help with tasks",
-                  "I learn from our interactions",
-                  "Ask me anything",
-                  "I'm ready to assist",
-                  "I work 24/7",
-                  "No coffee breaks needed",
-                  "Let's achieve more together",
+                  "Hallo daar! 👋",
+                  "Ik ben je AI-collega",
+                  "Laten we samenwerken",
+                  "Ik kan helpen met taken",
+                  "Ik leer van onze interacties",
+                  "Vraag me alles",
+                  "Ik sta klaar om te helpen",
+                  "Ik werk 24/7",
+                  "Geen koffiepauzes nodig",
+                  "Samen bereiken we meer",
                 ]}
               />
               
@@ -191,7 +191,7 @@ export function HeroSection() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <span className="text-xs font-medium text-white">Always Learning</span>
+                  <span className="text-xs font-medium text-white">Continu Lerend</span>
                 </div>
               </motion.div>
               
@@ -207,7 +207,7 @@ export function HeroSection() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
-                  <span className="text-xs font-medium text-white">Lightning Fast</span>
+                  <span className="text-xs font-medium text-white">Bliksemnel</span>
                 </div>
               </motion.div>
               
@@ -223,7 +223,7 @@ export function HeroSection() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
                   </div>
-                  <span className="text-xs font-medium text-white">Secure & Private</span>
+                  <span className="text-xs font-medium text-white">Veilig & Privé</span>
                 </div>
               </motion.div>
               

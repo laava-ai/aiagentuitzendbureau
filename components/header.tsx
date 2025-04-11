@@ -20,10 +20,10 @@ export function Header() {
   }, []);
 
   const menuItems = [
-    { name: "Solutions", href: "#solutions" },
-    { name: "Process", href: "#process" },
+    { name: "Oplossingen", href: "#solutions" },
+    { name: "Proces", href: "#process" },
     { name: "Cases", href: "#cases" },
-    { name: "About", href: "#about" },
+    { name: "Over ons", href: "#about" },
     { name: "Contact", href: "#contact" },
   ];
 
@@ -70,7 +70,7 @@ export function Header() {
           </ul>
           
           <Button size="sm" className="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white border-0">
-            Get Started
+            Aan de slag
           </Button>
         </nav>
 
@@ -114,7 +114,7 @@ export function Header() {
                   className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white border-0"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Get Started
+                  Aan de slag
                 </Button>
               </div>
             </div>

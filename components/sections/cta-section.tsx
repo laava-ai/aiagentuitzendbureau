@@ -70,7 +70,7 @@ export function CtaSection() {
             {/* Content */}
             <div className="p-10 md:p-16 text-center relative z-10">
               <RevealText
-                text="Experience the Future of Work"
+                text="Ervaar de Toekomst van Werk"
                 as="h2"
                 textStyle="gradient"
                 className="text-4xl md:text-5xl font-bold mb-6"
@@ -79,7 +79,7 @@ export function CtaSection() {
               />
               
               <RevealText
-                text="Join hundreds of organizations using Laava's AI solutions to transform operations, enhance productivity, and unlock new possibilities."
+                text="Doe mee met honderden organisaties die Laava's AI-oplossingen gebruiken om processen te transformeren, productiviteit te verhogen en nieuwe mogelijkheden te ontsluiten."
                 as="p" 
                 className="text-lg mb-12 max-w-3xl mx-auto text-muted-foreground"
                 preset="word"
@@ -100,7 +100,7 @@ export function CtaSection() {
                     size="lg"
                     className="group bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 border-0 text-white px-8"
                   >
-                    <span>Get Started Today</span>
+                    <span>Begin Vandaag</span>
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </motion.div>
@@ -110,7 +110,7 @@ export function CtaSection() {
                   variant="outline"
                   className="bg-transparent border-white/10 hover:bg-white/5 backdrop-blur-sm"
                 >
-                  Schedule a Demo
+                  Plan een Demo
                 </Button>
               </div>
               
@@ -122,7 +122,7 @@ export function CtaSection() {
                       <path d="M5 13L9 17L19 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
-                  <span className="text-xs font-medium">Fast Integration</span>
+                  <span className="text-xs font-medium">Snelle Integratie</span>
                 </div>
               </div>
               
@@ -134,7 +134,7 @@ export function CtaSection() {
                       <path d="M8.21 13.89L7 23L12 20L17 23L15.79 13.88" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
-                  <span className="text-xs font-medium">Award-winning AI</span>
+                  <span className="text-xs font-medium">Bekroonde AI</span>
                 </div>
               </div>
             </div>
