@@ -1,11 +1,18 @@
+"use client";
+
 import Link from "next/link";
 import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Linkedin, Twitter, Github, Facebook, Instagram } from "lucide-react";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
   
   const pageLinks = [
     { name: "Home", href: "/" },
@@ -35,6 +42,56 @@ export function Footer() {
     { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/laava.ai" },
     { name: "Facebook", icon: Facebook, href: "https://www.facebook.com/laava.ai" },
   ];
+
+  const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    if (!email || !email.includes('@')) {
+      toast({
+        title: "Fout",
+        description: "Vul een geldig e-mailadres in.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          newsletter: true,
+        }),
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Er is iets misgegaan');
+      }
+      
+      toast({
+        title: "Gelukt!",
+        description: "Bedankt voor uw aanmelding bij onze nieuwsbrief!",
+      });
+      
+      setEmail("");
+    } catch (error) {
+      console.error('Error submitting newsletter form:', error);
+      toast({
+        title: "Fout",
+        description: "Er is iets misgegaan. Probeer het later opnieuw.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <footer className="bg-gray-50 border-t border-gray-200">
@@ -106,7 +163,7 @@ export function Footer() {
             <p className="text-gray-600 mb-4">
               Ontvang de laatste AI nieuws en tips
             </p>
-            <form className="flex flex-col gap-2">
+            <form className="flex flex-col gap-2" onSubmit={handleNewsletterSubmit}>
               <div className="flex">
                 <div className="relative w-full">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -117,11 +174,17 @@ export function Footer() {
                     placeholder="E-mailadres"
                     className="pl-10"
                     required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
-              <Button className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white border-0">
-                Aanmelden
+              <Button 
+                type="submit" 
+                className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white border-0"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Bezig..." : "Aanmelden"}
               </Button>
             </form>
           </div>
