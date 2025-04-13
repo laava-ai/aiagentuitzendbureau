@@ -1,10 +1,11 @@
 "use client";
 
 import { useRef, useEffect, useState, useMemo } from "react";
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useMotionValue, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RevealText } from "@/components/ui/atoms/reveal-text";
+import Image from "next/image";
 
 const caseStudies = [
   {
@@ -63,9 +64,11 @@ const caseStudies = [
 
 export function ShowcaseSection() {
   const sectionRef = useRef(null);
+  const headerRef = useRef(null);
   const containerRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
   const [activeIndices, setActiveIndices] = useState(Array(caseStudies.length).fill(false));
+  const inView = useInView(sectionRef, { amount: 0.1, once: false });
 
   // Check mobile status
   useEffect(() => {
@@ -75,40 +78,42 @@ export function ShowcaseSection() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Scroll tracking for desktop
+  // Scroll tracking for desktop - now using the whole section as the target
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
   });
 
-  // Transform scroll progress for case study transitions
+  // Adjust progress range to start the effect immediately
   const progressRange = useTransform(
     scrollYProgress,
-    [0, 1],
+    // Use smaller input range to make the effect start sooner
+    [0, 0.65],
     [0, caseStudies.length - 1]
   );
-  const activeIndex = useSpring(progressRange, { stiffness: 100, damping: 30 });
   
+  const activeIndex = useSpring(progressRange, { stiffness: 100, damping: 30, restDelta: 0.001 });
+
   // Create individual motion values for each case study
   // Case 0
-  const opacity0 = useTransform(activeIndex, [-1, 0, 1], [0, 1, 0]);
-  const rotateY0 = useTransform(activeIndex, [-1, 0, 1], [-15, 0, 15]);
-  const scale0 = useTransform(activeIndex, [-1, 0, 1], [0.95, 1, 0.95]);
+  const opacity0 = useTransform(activeIndex, [-0.5, 0, 0.8], [0, 1, 0]);
+  const rotateY0 = useTransform(activeIndex, [-0.5, 0, 0.8], [-15, 0, 15]);
+  const scale0 = useTransform(activeIndex, [-0.5, 0, 0.8], [0.95, 1, 0.95]);
   
   // Case 1
-  const opacity1 = useTransform(activeIndex, [0, 1, 2], [0, 1, 0]);
-  const rotateY1 = useTransform(activeIndex, [0, 1, 2], [-15, 0, 15]);
-  const scale1 = useTransform(activeIndex, [0, 1, 2], [0.95, 1, 0.95]);
+  const opacity1 = useTransform(activeIndex, [0, 1, 1.8], [0, 1, 0]);
+  const rotateY1 = useTransform(activeIndex, [0, 1, 1.8], [-15, 0, 15]);
+  const scale1 = useTransform(activeIndex, [0, 1, 1.8], [0.95, 1, 0.95]);
   
   // Case 2
-  const opacity2 = useTransform(activeIndex, [1, 2, 3], [0, 1, 0]);
-  const rotateY2 = useTransform(activeIndex, [1, 2, 3], [-15, 0, 15]);
-  const scale2 = useTransform(activeIndex, [1, 2, 3], [0.95, 1, 0.95]);
+  const opacity2 = useTransform(activeIndex, [1, 2, 2.8], [0, 1, 0]);
+  const rotateY2 = useTransform(activeIndex, [1, 2, 2.8], [-15, 0, 15]);
+  const scale2 = useTransform(activeIndex, [1, 2, 2.8], [0.95, 1, 0.95]);
   
   // Case 3
-  const opacity3 = useTransform(activeIndex, [2, 3, 4], [0, 1, 0]);
-  const rotateY3 = useTransform(activeIndex, [2, 3, 4], [-15, 0, 15]);
-  const scale3 = useTransform(activeIndex, [2, 3, 4], [0.95, 1, 0.95]);
+  const opacity3 = useTransform(activeIndex, [2, 3, 3.8], [0, 1, 0]);
+  const rotateY3 = useTransform(activeIndex, [2, 3, 3.8], [-15, 0, 15]);
+  const scale3 = useTransform(activeIndex, [2, 3, 3.8], [0.95, 1, 0.95]);
   
   const motionValues = [
     { opacity: opacity0, rotateY: rotateY0, scale: scale0 },
@@ -153,43 +158,76 @@ export function ShowcaseSection() {
     };
   }, [isMobile]);
 
+  // Track header height for spacing
+  const [headerHeight, setHeaderHeight] = useState(0);
+  
+  useEffect(() => {
+    if (headerRef.current && !isMobile) {
+      const resizeObserver = new ResizeObserver(entries => {
+        for (let entry of entries) {
+          setHeaderHeight(entry.contentRect.height);
+        }
+      });
+      
+      resizeObserver.observe(headerRef.current);
+      return () => {
+        if (headerRef.current) resizeObserver.unobserve(headerRef.current);
+      };
+    }
+  }, [isMobile]);
+
   return (
     <section
       ref={sectionRef}
-      className="relative bg-gray-950 text-white"
-      style={{ minHeight: isMobile ? "auto" : `${caseStudies.length * 100}vh` }}
+      className="relative bg-gray-950 text-white showcase-section"
+      style={{ 
+        minHeight: isMobile ? "auto" : `${(caseStudies.length) * 80}vh`,
+        scrollMarginTop: "0px"
+      }}
       id="cases"
     >
       {/* Background grid */}
       <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[length:40px_40px] opacity-[0.03]" />
 
       {/* Header */}
-      <div className="container relative py-24">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-white/90 text-sm font-medium mb-6 backdrop-blur-sm">
-            <span className="mr-2">💼</span> Succesverhalen
+      <div 
+        ref={headerRef} 
+        className="sticky top-0 z-30 pt-16 pb-8 bg-gray-950 showcase-header"
+      >
+        <div className="container">
+          <div className="text-center max-w-3xl mx-auto">
+            <RevealText
+              text="Transformaties in de Praktijk"
+              as="h2"
+              textStyle="gradient"
+              className="text-4xl md:text-5xl font-bold mb-6"
+              preset="word"
+              staggerChildren={0.08}
+            />
+            <RevealText
+              text="Ontdek hoe toonaangevende organisaties in verschillende sectoren hun activiteiten hebben gerevolutioneerd met onze intelligente AI-oplossingen."
+              as="div"
+              className="text-lg text-gray-300"
+              preset="word"
+              staggerChildren={0.02}
+              delay={0.4}
+            />
           </div>
-          <RevealText
-            text="Transformaties in de Praktijk"
-            as="h2"
-            textStyle="gradient"
-            className="text-4xl md:text-5xl font-bold mb-6"
-            preset="word"
-            staggerChildren={0.08}
-          />
-          <RevealText
-            text="Ontdek hoe toonaangevende organisaties in verschillende sectoren hun activiteiten hebben gerevolutioneerd met onze intelligente AI-oplossingen."
-            as="div"
-            className="text-lg text-gray-300"
-            preset="word"
-            staggerChildren={0.02}
-            delay={0.4}
-          />
         </div>
+        {/* Gradient fade effect for header */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-gray-950 to-transparent pointer-events-none"></div>
       </div>
 
       {/* Case Studies Container */}
-      <div ref={containerRef} className={`relative ${isMobile ? "pb-20" : "h-screen sticky top-0"}`}>
+      <div 
+        ref={containerRef} 
+        className={`relative ${isMobile ? "pb-20 pt-8" : "min-h-screen sticky top-0"}`}
+        style={!isMobile ? { 
+          top: headerHeight, 
+          height: `calc(100vh - ${headerHeight}px)`,
+          perspective: "1200px"
+        } : {}}
+      >
         {caseStudies.map((study, index) => {
           const { opacity, rotateY, scale } = motionValues[index];
 
@@ -198,7 +236,7 @@ export function ShowcaseSection() {
           return (
             <motion.div
               key={study.id}
-              className={`case-study ${isMobile ? "mb-20 relative" : "absolute inset-0"}`}
+              className={`case-study ${isMobile ? "mb-20 relative" : "absolute inset-0 flex items-center justify-center"}`}
               style={!isMobile ? {
                 opacity,
                 rotateY,
@@ -270,10 +308,12 @@ export function ShowcaseSection() {
                     </div>
                     <div className={`${isMobile ? "order-1 h-52" : "md:col-span-3 h-[600px]"} relative overflow-hidden`}>
                       <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-transparent z-10"></div>
-                      <img
+                      <Image
                         src={study.image}
                         alt={study.title}
                         className="w-full h-full object-cover"
+                        width={1000}
+                        height={1000}
                       />
                     </div>
                   </div>
@@ -299,6 +339,17 @@ export function ShowcaseSection() {
           transition: opacity 0.3s ease;
           width: 100%;
         }
+        
+        @media (min-width: 768px) {
+          .showcase-section {
+            scroll-snap-type: y proximity;
+          }
+          
+          .showcase-header {
+            scroll-snap-align: start;
+          }
+        }
+        
         @media (prefers-reduced-motion: reduce) {
           .case-study, .stat-item {
             transition: none !important;

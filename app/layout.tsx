@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: 'Laava | AI Agency Solutions',
   description: 'Revolutionize your business with AI-powered solutions tailored for your industry. Laava helps companies automate tasks and enhance productivity.',
   keywords: 'AI agency, artificial intelligence, automation, productivity, business solutions',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({

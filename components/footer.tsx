@@ -1,137 +1,147 @@
 import Link from "next/link";
-import { Twitter, Instagram, Linkedin, Github, ArrowUpRight } from "lucide-react";
+import { Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Linkedin, Twitter, Github, Facebook, Instagram } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
   
-  const footerLinks = [
-    {
-      title: "Pagina's",
-      links: [
-        { name: "Home", href: "#hero" },
-        { name: "Functies", href: "#features" },
-        { name: "Succesverhalen", href: "#cases" },
-        { name: "Contact", href: "#cta" },
-      ],
-    },
-    {
-      title: "Bedrijf",
-      links: [
-        { name: "Over ons", href: "#hero" },
-        { name: "Contact", href: "#cta" },
-      ],
-    },
-    {
-      title: "Juridisch",
-      links: [
-        { name: "Privacybeleid", href: "#" },
-        { name: "Gebruiksvoorwaarden", href: "#" },
-        { name: "Cookies", href: "#" },
-      ],
-    },
+  const pageLinks = [
+    { name: "Home", href: "/" },
+    { name: "Services", href: "/services" },
+    { name: "Bedrijf", href: "/company" },
+    { name: "Blog", href: "/blog" },
+    { name: "Contact", href: "/contact" },
   ];
-
+  
+  const companyLinks = [
+    { name: "Over ons", href: "/about" },
+    { name: "Succesverhalen", href: "/company/success-stories" },
+    { name: "Referenties", href: "/company/testimonials" },
+    { name: "Team", href: "/company/team" },
+    { name: "Vacatures", href: "/company/careers" },
+  ];
+  
+  const legalLinks = [
+    { name: "Privacy Policy", href: "/privacy-policy" },
+    { name: "Algemene voorwaarden", href: "/terms-of-service" },
+    { name: "Cookie beleid", href: "/cookie-policy" },
+  ];
+  
   const socialLinks = [
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
-    { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Github, href: "#", label: "GitHub" },
+    { name: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com/company/laava-ai" },
+    { name: "Twitter", icon: Twitter, href: "https://twitter.com/laava_ai" },
+    { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/laava.ai" },
+    { name: "Facebook", icon: Facebook, href: "https://www.facebook.com/laava.ai" },
   ];
 
   return (
     <footer className="bg-gray-50 border-t border-gray-200">
-      <div className="container px-4 mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-8 py-12">
-          <div className="col-span-2 md:col-span-2 lg:col-span-3">
-            <Link href="/" className="flex items-center gap-2 mb-6">
-              <div className="relative p-1.5 bg-indigo-50 rounded-full">
-                <div className="h-6 w-6 flex items-center justify-center font-bold text-indigo-600">L</div>
-              </div>
+      <div className="container px-4 mx-auto py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+          {/* Logo and social links */}
+          <div className="lg:col-span-2">
+            <Link href="/" className="inline-block mb-6">
               <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
                 Laava
               </span>
             </Link>
-            <p className="text-gray-600 text-sm mb-6">
-              Revolutioneren van bedrijven met intelligente AI-oplossingen die transformeren hoe je werkt.
+            <p className="text-gray-600 mb-6 max-w-md">
+              Wij helpen bedrijven met het implementeren van AI-oplossingen om hun efficiëntie te verhogen en concurrentievoordeel te behalen.
             </p>
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 mb-6">
               {socialLinks.map((social) => (
-                <a
-                  key={social.label}
+                <a 
+                  key={social.name}
                   href={social.href}
-                  className="text-gray-500 hover:text-indigo-600 transition-colors"
-                  aria-label={social.label}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-600 hover:text-indigo-600 transition-colors"
                 >
                   <social.icon className="h-5 w-5" />
+                  <span className="sr-only">{social.name}</span>
                 </a>
               ))}
             </div>
           </div>
-
-          {footerLinks.map((group) => (
-            <div key={group.title} className="col-span-1 md:col-span-1 lg:col-span-2">
-              <h3 className="font-semibold text-sm text-gray-900 mb-4">
-                {group.title}
-              </h3>
-              <ul className="space-y-3">
-                {group.links.map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      href={link.href}
-                      className="text-gray-600 hover:text-indigo-600 text-sm flex items-center group"
-                    >
-                      {link.name}
-                      <ArrowUpRight className="h-3 w-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-
-          <div className="col-span-2 md:col-span-2 lg:col-span-3">
-            <h3 className="font-semibold text-sm text-gray-900 mb-4">
-              Blijf op de hoogte
-            </h3>
-            <p className="text-gray-600 text-sm mb-4">
-              Abonneer je op onze nieuwsbrief voor de laatste updates, inzichten en AI-nieuws.
+          
+          {/* Pages */}
+          <div>
+            <h3 className="font-medium text-gray-900 mb-4">Pagina&apos;s</h3>
+            <ul className="space-y-2">
+              {pageLinks.map((link) => (
+                <li key={link.name}>
+                  <Link 
+                    href={link.href}
+                    className="text-gray-600 hover:text-indigo-600 transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          
+          {/* Company */}
+          <div>
+            <h3 className="font-medium text-gray-900 mb-4">Bedrijf</h3>
+            <ul className="space-y-2">
+              {companyLinks.map((link) => (
+                <li key={link.name}>
+                  <Link 
+                    href={link.href}
+                    className="text-gray-600 hover:text-indigo-600 transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          
+          {/* Newsletter */}
+          <div>
+            <h3 className="font-medium text-gray-900 mb-4">Nieuwsbrief</h3>
+            <p className="text-gray-600 mb-4">
+              Ontvang de laatste AI nieuws en tips
             </p>
-            <form className="flex gap-2 mb-2">
-              <input
-                type="email"
-                placeholder="Voer je e-mail in"
-                className="flex-1 px-3 py-2 text-sm rounded-md border border-gray-300 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                required
-              />
-              <button
-                type="submit"
-                className="px-3 py-2 text-sm font-medium rounded-md bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white transition-colors"
-              >
-                Abonneren
-              </button>
+            <form className="flex flex-col gap-2">
+              <div className="flex">
+                <div className="relative w-full">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <Mail className="h-4 w-4 text-gray-400" />
+                  </div>
+                  <Input
+                    type="email"
+                    placeholder="E-mailadres"
+                    className="pl-10"
+                    required
+                  />
+                </div>
+              </div>
+              <Button className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white border-0">
+                Aanmelden
+              </Button>
             </form>
-            <p className="text-xs text-gray-500">
-              Door je te abonneren, ga je akkoord met ons Privacybeleid.
-            </p>
           </div>
         </div>
-
-        <div className="border-t border-gray-200 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-gray-600">
-              © {currentYear} Laava. Alle rechten voorbehouden.
-            </p>
-            <div className="flex space-x-4 mt-4 md:mt-0">
-              <a href="#" className="text-sm text-gray-600 hover:text-indigo-600">
-                Privacybeleid
-              </a>
-              <a href="#" className="text-sm text-gray-600 hover:text-indigo-600">
-                Gebruiksvoorwaarden
-              </a>
-              <a href="#" className="text-sm text-gray-600 hover:text-indigo-600">
-                Cookies
-              </a>
-            </div>
+        
+        {/* Bottom section */}
+        <div className="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-gray-600 text-sm order-2 md:order-1 mt-4 md:mt-0">
+            © {currentYear} Laava. Alle rechten voorbehouden.
+          </p>
+          <div className="flex space-x-6 order-1 md:order-2">
+            {legalLinks.map((link) => (
+              <Link 
+                key={link.name} 
+                href={link.href}
+                className="text-gray-600 hover:text-indigo-600 text-sm transition-colors"
+              >
+                {link.name}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

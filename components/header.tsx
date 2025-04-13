@@ -5,10 +5,13 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
   
   useEffect(() => {
     const handleScroll = () => {
@@ -20,9 +23,11 @@ export function Header() {
   }, []);
 
   const menuItems = [
-    { name: "Functies", href: "#features" },
-    { name: "Succesverhalen", href: "#cases" },
-    { name: "Contact", href: "#cta" },
+    { name: "Home", href: "/" },
+    { name: "Services", href: "/services" },
+    { name: "Bedrijf", href: "/company" },
+    { name: "Blog", href: "/blog" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (
@@ -42,11 +47,8 @@ export function Header() {
             className="relative"
           >
             <div className="absolute -inset-1 bg-gradient-to-r from-indigo-600 to-violet-600 rounded-full blur-md opacity-70" />
-            <div className="relative bg-white rounded-full p-1.5">
-              <div className="h-6 w-6 flex items-center justify-center text-indigo-600 font-bold">L</div>
-            </div>
           </motion.div>
-          <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
+          <span className={`text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent`}>
             Laava
           </span>
         </Link>
@@ -58,17 +60,29 @@ export function Header() {
               <li key={item.name}>
                 <Link 
                   href={item.href}
-                  className="text-gray-700 hover:text-indigo-600 px-1 py-2 text-sm font-medium relative group"
+                  className={`${
+                    !scrolled && !isHomePage 
+                      ? "text-white hover:text-white/80" 
+                      : "text-gray-700 hover:text-indigo-600"
+                  } px-1 py-2 text-sm font-medium relative group`}
                 >
                   {item.name}
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                  <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left`} />
                 </Link>
               </li>
             ))}
           </ul>
           
-          <Button size="sm" className="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white border-0">
-            Aan de slag
+          <Button 
+            size="sm" 
+            asChild 
+            className={`${
+              !scrolled && !isHomePage 
+                ? "bg-white text-indigo-600 hover:bg-white/90" 
+                : "bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white"
+            } border-0`}
+          >
+            <Link href="/contact">Aan de slag</Link>
           </Button>
         </nav>
 
@@ -76,7 +90,9 @@ export function Header() {
         <div className="flex items-center gap-4 md:hidden">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-md text-gray-700"
+            className={`p-2 rounded-md ${
+              !scrolled && !isHomePage ? "text-white" : "text-gray-700"
+            }`}
           >
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -110,9 +126,9 @@ export function Header() {
               <div className="mt-6">
                 <Button 
                   className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white border-0"
-                  onClick={() => setMobileMenuOpen(false)}
+                  asChild
                 >
-                  Aan de slag
+                  <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>Aan de slag</Link>
                 </Button>
               </div>
             </div>

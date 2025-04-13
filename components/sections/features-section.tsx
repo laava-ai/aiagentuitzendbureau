@@ -133,9 +133,6 @@ export function FeaturesSection() {
       
       <div className="container relative">
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <div className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-            <span className="mr-2">⚡</span> Geavanceerde Mogelijkheden
-          </div>
           
           <RevealText
             text="Transformatieve AI-functionaliteiten"

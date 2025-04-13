@@ -4,13 +4,13 @@ import { ChevronRight, MoreHorizontal } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
-const Breadcrumb = React.forwardRef<
+const BreadcrumbRoot = React.forwardRef<
   HTMLElement,
   React.ComponentPropsWithoutRef<'nav'> & {
     separator?: React.ReactNode;
   }
 >(({ ...props }, ref) => <nav ref={ref} aria-label="breadcrumb" {...props} />);
-Breadcrumb.displayName = 'Breadcrumb';
+BreadcrumbRoot.displayName = 'Breadcrumb';
 
 const BreadcrumbList = React.forwardRef<
   HTMLOListElement,
@@ -104,12 +104,55 @@ const BreadcrumbEllipsis = ({
 );
 BreadcrumbEllipsis.displayName = 'BreadcrumbElipssis';
 
+// Higher-level Breadcrumb component that accepts items
+interface BreadcrumbItemType {
+  title: string;
+  link?: string;
+}
+
+interface BreadcrumbComponentProps {
+  items: BreadcrumbItemType[];
+  className?: string;
+  separator?: React.ReactNode;
+}
+
+const Breadcrumb = ({
+  items,
+  className,
+  separator,
+  ...props
+}: BreadcrumbComponentProps) => {
+  if (!items?.length) return null;
+  
+  return (
+    <BreadcrumbRoot className={className} separator={separator} {...props}>
+      <BreadcrumbList>
+        {items.map((item, index) => (
+          <React.Fragment key={item.title}>
+            {index > 0 && <BreadcrumbSeparator />}
+            <BreadcrumbItem>
+              {index < items.length - 1 && item.link ? (
+                <BreadcrumbLink href={item.link}>
+                  {item.title}
+                </BreadcrumbLink>
+              ) : (
+                <BreadcrumbPage>{item.title}</BreadcrumbPage>
+              )}
+            </BreadcrumbItem>
+          </React.Fragment>
+        ))}
+      </BreadcrumbList>
+    </BreadcrumbRoot>
+  );
+};
+
 export {
-  Breadcrumb,
+  BreadcrumbRoot as BreadcrumbPrimitive,
   BreadcrumbList,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbPage,
   BreadcrumbSeparator,
   BreadcrumbEllipsis,
+  Breadcrumb,
 };

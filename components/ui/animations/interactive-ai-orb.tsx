@@ -9,7 +9,6 @@ import { Canvas } from "@react-three/fiber";
 interface InteractiveAIOrbProps {
   className?: string;
   size?: number;
-  idleMessages?: string[];
   pulseColor?: string;
   glowColor?: string;
   messageInterval?: number;
@@ -65,18 +64,6 @@ function ThreeJSOrb({
 export function InteractiveAIOrb({
   className = "",
   size = 300,
-  idleMessages = [
-    "Hallo daar! 👋",
-    "Ik ben je AI-collega",
-    "Laten we samenwerken",
-    "Hulp nodig?",
-    "Ik ben hier om te helpen",
-    "Vraag me alles",
-    "Laten we samen bouwen",
-    "Ik analyseer gegevens snel",
-    "Ik leer continu",
-    "Ik pas me aan jouw behoeften aan",
-  ],
   pulseColor = "#00aaff",
   glowColor = "rgba(99, 102, 241, 0.5)",
   messageInterval = 4000,
@@ -104,8 +91,6 @@ export function InteractiveAIOrb({
   const glowSize = useMotionValue(size * 1.2);
   const springGlow = useSpring(glowSize, { damping: 15, stiffness: 200 });
 
-  const currentMessageWords = idleMessages[currentMessage].split(" ");
-
   useEffect(() => {
     const updateWindowSize = () => {
       setWindowSize({
@@ -121,7 +106,6 @@ export function InteractiveAIOrb({
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (!isHovered && !isDragging) {
-        setCurrentMessage((prev) => (prev + 1) % idleMessages.length);
         setDisplayedWords([]);
         setWordIndex(0);
         glowSize.set(size * 1.4);
@@ -129,17 +113,7 @@ export function InteractiveAIOrb({
       }
     }, messageInterval);
     return () => clearInterval(intervalId);
-  }, [idleMessages.length, isHovered, isDragging, messageInterval, size]);
-
-  useEffect(() => {
-    if (wordIndex < currentMessageWords.length) {
-      const timeoutId = setTimeout(() => {
-        setDisplayedWords((prev) => [...prev, currentMessageWords[wordIndex]]);
-        setWordIndex((prev) => prev + 1);
-      }, typingSpeed);
-      return () => clearTimeout(timeoutId);
-    }
-  }, [wordIndex, currentMessageWords, typingSpeed]);
+  }, [isHovered, isDragging, messageInterval, size]);
 
   useEffect(() => {
     setDisplayedWords([]);
@@ -252,36 +226,6 @@ export function InteractiveAIOrb({
           }}
         />
       ))}
-
-      <motion.div
-        className="absolute top-0 transform -translate-y-full mb-6 px-5 py-3 bg-gray-900/80 backdrop-blur-lg rounded-2xl border border-white/10 text-white text-center shadow-xl"
-        style={{
-          width: "max-content",
-          maxWidth: "220px",
-          translateY: "-130%",
-        }}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{
-          opacity: isHovered ? 1 : 0.9,
-          y: isHovered ? 0 : 5,
-          scale: isHovered ? 1.05 : 1,
-        }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-      >
-        <p className="text-sm font-medium tracking-tight">
-          {displayedWords.map((word, index) => (
-            <motion.span
-              key={`${currentMessage}-${index}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.2 }}
-            >
-              {word}{" "}
-            </motion.span>
-          ))}
-        </p>
-        <div className="absolute bottom-0 left-1/2 transform translate-y-1/2 -translate-x-1/2 rotate-45 w-3 h-3 bg-gray-900/80 border-r border-b border-white/10" />
-      </motion.div>
 
       {isHovered && (
         <motion.div
