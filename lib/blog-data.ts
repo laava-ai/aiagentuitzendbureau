@@ -12,6 +12,36 @@ export interface BlogPost {
 // Blog posts data - would typically come from a CMS
 export const blogPosts: BlogPost[] = [
   {
+    id: "8",
+    title: "AI voor Recruitment: Revolutionaire Technologie voor Moderne Recruiters",
+    date: "2023-08-15",
+    excerpt: "Ontdek hoe AI het recruitmentproces transformeert, van kandidaatselectie tot onboarding. Een essentiële gids voor recruiters en uitzendbureau's die voorop willen blijven lopen in de talentwerving.",
+    image: "/images/blog/ai-recruitment.jpg",
+    slug: "ai-voor-recruitment-technologie-moderne-recruiters",
+    category: "Recruitment & AI",
+    readingTime: "9 min"
+  },
+  {
+    id: "7",
+    title: "AI voor HR, Finance en Productie: De belangrijkste bedrijfstakken transformeren",
+    date: "2023-07-20",
+    excerpt: "Ontdek hoe verschillende bedrijfstakken zoals HR, Finance en Productie revolutionaire veranderingen ondergaan door de integratie van AI-technologie. Een uitgebreide gids voor besluitvormers.",
+    image: "/images/blog/ai-business-departments.jpg",
+    slug: "ai-voor-hr-finance-productie-bedrijfstakken-transformeren",
+    category: "Bedrijfstakken & AI",
+    readingTime: "10 min"
+  },
+  {
+    id: "0",
+    title: "AI Agents vs Digitale Medewerkers: De Evolutie van Intelligente Assistenten",
+    date: "2023-06-15",
+    excerpt: "Een diepgaande vergelijking tussen traditionele AI Agents en volwaardige Digitale Medewerkers. Ontdek hoe deze technologieën fundamenteel verschillen en welke het beste past bij jouw organisatie.",
+    image: "/images/blog/ai-digital-employee.jpg",
+    slug: "ai-agents-vs-digitale-medewerkers-evolutie",
+    category: "AI Technologie",
+    readingTime: "8 min"
+  },
+  {
     id: "1",
     title: "Kunstmatige Intelligentie: De Toekomst van Bedrijfsautomatisering",
     date: "2023-04-12",

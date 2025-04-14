@@ -31,6 +31,12 @@ export function Footer() {
     { name: "Vacatures", href: "/company/careers" },
   ];
   
+  const blogLinks = [
+    { name: "AI voor Recruitment", href: "/blog/ai-voor-recruitment-technologie-moderne-recruiters" },
+    { name: "AI voor Bedrijfstakken", href: "/blog/ai-voor-hr-finance-productie-bedrijfstakken-transformeren" },
+    { name: "AI Agents vs Digitale Medewerkers", href: "/blog/ai-agents-vs-digitale-medewerkers-evolutie" },
+  ];
+  
   const legalLinks = [
     { name: "Privacy Policy", href: "/privacy-policy" },
     { name: "Algemene voorwaarden", href: "/terms-of-service" },
@@ -64,6 +70,29 @@ export function Footer() {
     },
     "sameAs": [
       "https://www.linkedin.com/company/laava-ai"
+    ],
+    "blogPosts": [
+      {
+        "@type": "BlogPosting",
+        "headline": "AI voor Recruitment: Revolutionaire Technologie voor Moderne Recruiters",
+        "description": "Ontdek hoe AI het recruitmentproces transformeert, van kandidaatselectie tot onboarding.",
+        "url": "https://laava.nl/blog/ai-voor-recruitment-technologie-moderne-recruiters",
+        "keywords": ["AI recruitment", "werving", "selectie", "recruitmentbureaus", "uitzendbureaus", "talentwerving"]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "AI voor HR, Finance en Productie: De belangrijkste bedrijfstakken transformeren",
+        "description": "Hoe verschillende bedrijfstakken revolutionaire veranderingen ondergaan door AI-technologie.",
+        "url": "https://laava.nl/blog/ai-voor-hr-finance-productie-bedrijfstakken-transformeren",
+        "keywords": ["AI bedrijfstakken", "HR", "Finance", "Productie", "AI transformatie"]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "AI Agents vs Digitale Medewerkers: De Evolutie van Intelligente Assistenten",
+        "description": "Een diepgaande vergelijking tussen traditionele AI Agents en volwaardige Digitale Medewerkers.",
+        "url": "https://laava.nl/blog/ai-agents-vs-digitale-medewerkers-evolutie",
+        "keywords": ["AI agents", "digitale medewerker", "virtuele assistent", "AI assistenten"]
+      }
     ]
   };
 
@@ -124,7 +153,7 @@ export function Footer() {
       </Script>
 
       <div className="container px-4 mx-auto py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
           {/* Logo and social links */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-6">
@@ -174,6 +203,23 @@ export function Footer() {
             <h3 className="font-medium text-gray-900 mb-4">Bedrijf</h3>
             <ul className="space-y-2">
               {companyLinks.map((link) => (
+                <li key={link.name}>
+                  <Link 
+                    href={link.href}
+                    className="text-gray-600 hover:text-indigo-600 transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          
+          {/* Populaire Blogs */}
+          <div>
+            <h3 className="font-medium text-gray-900 mb-4">Populaire Blogs</h3>
+            <ul className="space-y-2">
+              {blogLinks.map((link) => (
                 <li key={link.name}>
                   <Link 
                     href={link.href}

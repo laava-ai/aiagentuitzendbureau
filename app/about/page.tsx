@@ -9,6 +9,36 @@ import { AboutValues } from "@/components/sections/about/about-values";
 import { CtaSection } from "@/components/sections/cta-section";
 
 export default function About() {
+  const teamMembers = [
+    {
+      name: "Alec Siemerink",
+      role: "Co-Founder",
+      bio: "Alec heeft een passie voor het ontwerpen van AI-oplossingen die menselijke capaciteiten versterken. Hij leidt onze AI-agent ontwikkeling en implementatiestrategieën.",
+      image: "/images/alec.jpeg",
+      social: {
+        linkedin: "https://www.linkedin.com/in/alecsiemerink/"
+      }
+    },
+    {
+      name: "Ruben Haisma",
+      role: "Co-Founder",
+      bio: "Ruben richt zich op het creëren van AI-agents die naadloos samenwerken met mensen, waardoor teams productiever en creatiever kunnen worden.",
+      image: "/images/ruben.jpg",
+      social: {
+        linkedin: "https://www.linkedin.com/in/ruben-haisma-526a70158/"
+      }
+    },
+    {
+      name: "Marcel Grauwen",
+      role: "Co-Founder",
+      bio: "Marcel is gespecialiseerd in het optimaliseren van bedrijfsprocessen met AI-technologie. Hij helpt organisaties hun efficiëntie te verhogen door slimme automatisering.",
+      image: "/images/marcel.jpg",
+      social: {
+        linkedin: "https://www.linkedin.com/in/marcel-grauwen/"
+      }
+    }
+  ];
+
   return (
     <div className="relative">
       {/* Background particle effect */}
@@ -47,7 +77,7 @@ export default function About() {
 
         <AboutMission />
         <AboutValues />
-        <AboutTeam />
+        <AboutTeam teamMembers={teamMembers} />
         <CtaSection />
       </main>
 

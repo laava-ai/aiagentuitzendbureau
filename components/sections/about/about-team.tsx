@@ -5,26 +5,23 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
 
-export function AboutTeam() {
+interface TeamMember {
+  name: string;
+  role: string;
+  bio: string;
+  image: string;
+  social: {
+    linkedin: string;
+  };
+}
+
+interface AboutTeamProps {
+  teamMembers: TeamMember[];
+}
+
+export function AboutTeam({ teamMembers }: AboutTeamProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
-
-  const teamMembers = [
-    {
-      name: "Alec Siemerink",
-      role: "Co-Founder",
-      image: "/images/alec.jpeg",
-      linkedin: "https://www.linkedin.com/in/alecsiemerink/",
-      bio: "Alec heeft een passie voor het ontwerpen van AI-oplossingen die menselijke capaciteiten versterken. Hij leidt onze AI-agent ontwikkeling en implementatiestrategieën."
-    },
-    {
-      name: "Ruben Haisma",
-      role: "Co-Founder",
-      image: "/images/ruben.jpg",
-      linkedin: "https://www.linkedin.com/in/ruben-haisma-526a70158/",
-      bio: "Ruben richt zich op het creëren van AI-agents die naadloos samenwerken met mensen, waardoor teams productiever en creatiever kunnen worden."
-    }
-  ];
 
   return (
     <section 
@@ -50,7 +47,7 @@ export function AboutTeam() {
           </p>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-5xl mx-auto">
           {teamMembers.map((member, index) => (
             <motion.div
               key={member.name}
@@ -72,7 +69,7 @@ export function AboutTeam() {
                 <div className="text-purple-400 mb-4 flex items-center justify-between">
                   <span>{member.role}</span>
                   <a 
-                    href={member.linkedin}
+                    href={member.social.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-gray-400 hover:text-blue-400 transition-colors"
