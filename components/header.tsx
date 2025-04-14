@@ -12,6 +12,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
+  const isBlogPostPage = pathname.startsWith("/blog/") && pathname !== "/blog";
   
   useEffect(() => {
     const handleScroll = () => {
@@ -33,7 +34,7 @@ export function Header() {
   return (
     <header 
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled 
+        scrolled || isBlogPostPage
           ? "bg-white/80 backdrop-blur-lg shadow-md py-3" 
           : "bg-transparent py-5"
       }`}
@@ -61,7 +62,7 @@ export function Header() {
                 <Link 
                   href={item.href}
                   className={`${
-                    !scrolled && !isHomePage 
+                    (!scrolled && !isHomePage && !isBlogPostPage) 
                       ? "text-white hover:text-white/80" 
                       : "text-gray-700 hover:text-indigo-600"
                   } px-1 py-2 text-sm font-medium relative group`}
@@ -77,7 +78,7 @@ export function Header() {
             size="sm" 
             asChild 
             className={`${
-              !scrolled && !isHomePage 
+              (!scrolled && !isHomePage && !isBlogPostPage) 
                 ? "bg-white text-indigo-600 hover:bg-white/90" 
                 : "bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white"
             } border-0`}
@@ -91,7 +92,7 @@ export function Header() {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className={`p-2 rounded-md ${
-              !scrolled && !isHomePage ? "text-white" : "text-gray-700"
+              (!scrolled && !isHomePage && !isBlogPostPage) ? "text-white" : "text-gray-700"
             }`}
           >
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}

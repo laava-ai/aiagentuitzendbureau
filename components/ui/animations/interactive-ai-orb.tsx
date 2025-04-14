@@ -1,250 +1,549 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { motion, useSpring, useMotionValue, useTransform } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, useAnimation, useMotionValue, useTransform, animate } from "framer-motion";
+import { Mic, Send, Volume2, VolumeX } from "lucide-react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Sphere, MeshDistortMaterial } from "@react-three/drei";
+import { throttle } from "lodash";
 import * as THREE from "three";
-import { useFrame } from "@react-three/fiber";
-import { Canvas } from "@react-three/fiber";
 
 interface InteractiveAIOrbProps {
-  className?: string;
   size?: number;
   pulseColor?: string;
   glowColor?: string;
-  messageInterval?: number;
-  typingSpeed?: number;
-}
-
-function ThreeJSOrb({
-  size,
-  pulseColor,
-  glowColor,
-  isHovered,
-}: {
-  size: number;
-  pulseColor: string;
-  glowColor: string;
-  isHovered: boolean;
-}) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const groupRef = useRef<THREE.Group>(null);
-  const frameCountRef = useRef(0);
-
-  useFrame(({ clock }: { clock: THREE.Clock }) => {
-    frameCountRef.current += 1;
-    
-    // Only update every 2 frames for better performance
-    if (frameCountRef.current % 2 !== 0) return;
-    
-    if (meshRef.current && groupRef.current) {
-      // Reduce rotation speed
-      groupRef.current.rotation.x += 0.002;
-      groupRef.current.rotation.y += 0.002;
-
-      // Simplify animation - less dramatic scale changes
-      const scale = 1 + Math.sin(clock.getElapsedTime()) * (isHovered ? 0.03 : 0.01);
-      meshRef.current.scale.set(scale, scale, scale);
-
-      const material = meshRef.current.material as THREE.MeshStandardMaterial;
-      material.emissiveIntensity = isHovered ? 0.6 : 0.3;
-    }
-  });
-
-  // Use simpler geometry with fewer vertices
-  return (
-    <group ref={groupRef}>
-      <mesh ref={meshRef}>
-        <sphereGeometry args={[size / 200, 32, 32]} />
-        <meshStandardMaterial
-          color={pulseColor}
-          wireframe={true}
-          emissive={glowColor}
-          emissiveIntensity={0.3}
-          roughness={0.2}
-          metalness={0.8}
-        />
-      </mesh>
-      <pointLight color={glowColor} intensity={isHovered ? 1.5 : 0.8} distance={size / 50} position={[0, 0, 0]} />
-      <ambientLight color={pulseColor} intensity={0.2} />
-    </group>
-  );
 }
 
 export function InteractiveAIOrb({
-  className = "",
-  size = 300,
-  pulseColor = "#00aaff",
-  glowColor = "rgba(99, 102, 241, 0.5)",
-  messageInterval = 4000,
-  typingSpeed = 200,
+  size = 400,
+  pulseColor = "#8b5cf6",
+  glowColor = "rgba(99, 102, 241, 0.6)",
 }: InteractiveAIOrbProps) {
-  const orbRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(true);
-  const lastMoveTimeRef = useRef(0);
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
+  // Use framer-motion values 
+  const springX = useMotionValue(0);
+  const springY = useMotionValue(0);
+  
+  // Transform the motion values to be used in the 3D transform
+  const rotateX = useTransform(springY, value => -value);
+  const rotateY = useTransform(springX, value => value);
 
-  // Less responsive but more efficient spring config
-  const springConfig = { damping: 25, stiffness: 150 };
-  const springX = useSpring(x, springConfig);
-  const springY = useSpring(y, springConfig);
-
-  const rotateX = useTransform(springY, [-100, 100], [5, -5]);
-  const rotateY = useTransform(springX, [-100, 100], [-5, 5]);
-
-  const glowSize = useMotionValue(size * 1.2);
-  const springGlow = useSpring(glowSize, { damping: 15, stiffness: 150 });
-
-  // Check if component is visible to pause animations when not in viewport
+  // Intersection observer
   useEffect(() => {
-    if (typeof window === 'undefined' || !orbRef.current) return;
-    
-    const observer = new IntersectionObserver(
-      (entries) => {
-        setIsVisible(entries[0]?.isIntersecting ?? false);
+    if (!containerRef.current) return;
+
+    observerRef.current = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.1 }
+      { threshold: 0.1, rootMargin: "150px" }
     );
-    
-    observer.observe(orbRef.current);
-    return () => observer.disconnect();
+
+    observerRef.current.observe(containerRef.current);
+
+    return () => {
+      if (observerRef.current && containerRef.current) {
+        observerRef.current.unobserve(containerRef.current);
+      }
+    };
   }, []);
 
-  // Throttle mouse movement handling
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!orbRef.current || !isVisible) return;
-    
-    // Throttle mouse move events to once every 50ms
-    const now = Date.now();
-    if (now - lastMoveTimeRef.current < 50) return;
-    lastMoveTimeRef.current = now;
-    
-    const rect = orbRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const mouseX = e.clientX - centerX;
-    const mouseY = e.clientY - centerY;
-    setMousePosition({ x: mouseX, y: mouseY });
+  // Mouse move handler
+  const handleMouseMove = throttle(
+    (e: React.MouseEvent) => {
+      if (!containerRef.current || !isVisible) return;
 
-    if (isHovered || isDragging) {
-      // Limit movement range for better performance
-      const maxDistance = 20;
-      const distanceX = Math.min(Math.max(mouseX, -maxDistance), maxDistance);
-      const distanceY = Math.min(Math.max(mouseY, -maxDistance), maxDistance);
-      x.set(distanceX);
-      y.set(distanceY);
-    }
-  };
+      const rect = containerRef.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      const distX = e.clientX - centerX;
+      const distY = e.clientY - centerY;
+      const distance = Math.sqrt(distX * distX + distY * distY);
+      const maxDistance = Math.max(rect.width, rect.height) / 2;
+
+      const falloff = Math.pow(Math.min(1, distance / maxDistance), 3) * 0.7 + 0.3;
+
+      const x = (distX / (rect.width / 2)) * falloff;
+      const y = (distY / (rect.height / 2)) * falloff;
+
+      // Use animate for spring physics
+      animate(springX, x * 0.35, {
+        type: "spring",
+        stiffness: isHovered ? 180 : 140,
+        damping: isHovered ? 18 : 24,
+        mass: 1.4
+      });
+      
+      animate(springY, -y * 0.35, {
+        type: "spring",
+        stiffness: isHovered ? 180 : 140,
+        damping: isHovered ? 18 : 24,
+        mass: 1.4
+      });
+    },
+    12,
+    { leading: true, trailing: true }
+  );
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-    x.set(0);
-    y.set(0);
+    
+    // Reset position with animation
+    animate(springX, 0, {
+      type: "spring",
+      stiffness: 100,
+      damping: 16,
+      mass: 1
+    });
+    
+    animate(springY, 0, {
+      type: "spring",
+      stiffness: 100,
+      damping: 16,
+      mass: 1
+    });
   };
 
-  // Reduce number of particles
-  const particles = Array.from({ length: 10 }).map((_, i) => ({
-    id: i,
-    x: Math.random() * 50 - 25,
-    y: Math.random() * 50 - 25,
-    size: Math.random() * 3 + 1,
-    duration: Math.random() * 10 + 5, // Slower animations
-    delay: Math.random() * 4,
-    opacity: Math.random() * 0.3 + 0.1,
-  }));
+  // Three.js orb with continuous active pulsing
+  function ThreeJSOrb() {
+    const meshRef = useRef<THREE.Mesh>(null);
+    const targetScale = useRef({ x: 1.15, y: 1.15, z: 1.15 });
+    const currentRotation = useRef({ x: 0, y: 0 });
+    const lastUpdateTime = useRef(0);
+    const distortionRef = useRef(0.6);
+    const speedRef = useRef(4);
+
+    useFrame((state) => {
+      if (!meshRef.current || !isVisible) return;
+
+      const time = state.clock.getElapsedTime();
+      const deltaTime = Math.min(0.033, time - lastUpdateTime.current);
+      lastUpdateTime.current = time;
+
+      // Rotation
+      const rotationSpeed = isHovered ? 0.35 : 0.25;
+      const wobble = Math.sin(time * 1.5) * 0.02;
+
+      currentRotation.current.x += rotationSpeed * deltaTime * 0.3 + wobble * deltaTime;
+      currentRotation.current.y += rotationSpeed * deltaTime * 0.4 - wobble * deltaTime * 0.7;
+
+      meshRef.current.rotation.x = currentRotation.current.x;
+      meshRef.current.rotation.y = currentRotation.current.y;
+
+      // Continuous pulsing around active state
+      const pulseSpeed = 0.8;
+      const pulseAmplitude = isHovered ? 0.08 : 0.05;
+      const pulseBase = 1.15; // Active scale
+      const pulse = Math.sin(time * pulseSpeed) * pulseAmplitude + pulseBase;
+      const phaseOffset = Math.cos(time * pulseSpeed * 0.7) * 0.01;
+
+      targetScale.current = {
+        x: pulse + phaseOffset,
+        y: pulse,
+        z: pulse - phaseOffset,
+      };
+
+      // Smooth scale transitions
+      const scaleLerpFactor = isHovered ? 5 : 4;
+      meshRef.current.scale.x +=
+        (targetScale.current.x - meshRef.current.scale.x) * scaleLerpFactor * deltaTime;
+      meshRef.current.scale.y +=
+        (targetScale.current.y - meshRef.current.scale.y) * scaleLerpFactor * deltaTime;
+      meshRef.current.scale.z +=
+        (targetScale.current.z - meshRef.current.scale.z) * scaleLerpFactor * deltaTime;
+
+      // Continuous material pulsing around active values
+      const baseDistortion = 0.6;
+      const baseSpeed = 4;
+      const distortionAmplitude = isHovered ? 0.1 : 0.06;
+      const speedAmplitude = isHovered ? 0.8 : 0.5;
+
+      distortionRef.current = baseDistortion + Math.sin(time * pulseSpeed) * distortionAmplitude;
+      speedRef.current = baseSpeed + Math.cos(time * pulseSpeed * 0.8) * speedAmplitude;
+    });
+
+    return (
+      <Sphere args={[1, 32, 32]} ref={meshRef}>
+        <MeshDistortMaterial
+          color={pulseColor}
+          attach="material"
+          distort={distortionRef.current}
+          speed={speedRef.current}
+          roughness={0.3}
+          metalness={0.7}
+          bumpScale={0.05}
+          clearcoat={0.4}
+          clearcoatRoughness={0.4}
+          radius={1}
+        />
+      </Sphere>
+    );
+  }
 
   return (
     <div
-      className={`relative flex items-center justify-center ${className}`}
+      ref={containerRef}
+      className="relative cursor-pointer select-none"
       style={{ width: size, height: size }}
-      ref={orbRef}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
     >
-      {isVisible && (
-        <>
-          <motion.div
-            className="absolute rounded-full blur-3xl pointer-events-none"
-            style={{
-              background: `radial-gradient(circle, ${glowColor} 10%, transparent 70%)`,
-              width: springGlow,
-              height: springGlow,
-              opacity: isHovered ? 0.6 : 0.4,
-            }}
-            initial={{ scale: 1 }}
-            animate={{ scale: [1, 1.02, 1] }}
-            transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-          />
+      {/* Continuous active glow */}
+      <motion.div
+        className="absolute inset-0 rounded-full opacity-70 blur-2xl"
+        animate={{
+          scale: [1.35, 1.45, 1.35],
+          opacity: [0.95, 1, 0.95],
+          filter: ["blur(35px)", "blur(40px)", "blur(35px)"],
+        }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        style={{
+          background: `radial-gradient(circle, rgba(139, 92, 246, 0.75) 0%, rgba(99, 102, 241, 0.85) 50%, rgba(79, 70, 229, 0.65) 100%)`,
+        }}
+      />
 
-          <motion.div
-            className="absolute"
-            style={{
-              width: size,
-              height: size,
-              x: springX,
-              y: springY,
-              rotateX,
-              rotateY,
-              transformStyle: "preserve-3d",
+      {/* Continuous pulse rings */}
+      <motion.div
+        initial={{ opacity: 0.7, scale: 0.95 }}
+        animate={{ opacity: [0.7, 0, 0.7], scale: [0.95, 1.65, 0.95] }}
+        transition={{
+          duration: 1.6,
+          repeat: Infinity,
+          ease: [0.25, 0.1, 0.25, 1.0],
+          times: [0, 0.7, 1],
+        }}
+        className="absolute inset-0 rounded-full border-2 border-indigo-500"
+        style={{
+          boxShadow: "0 0 20px rgba(99, 102, 241, 0.3)",
+          filter: "blur(1px)",
+        }}
+      />
+      <motion.div
+        initial={{ opacity: 0.5, scale: 0.9 }}
+        animate={{ opacity: [0.5, 0, 0.5], scale: [0.9, 1.45, 0.9] }}
+        transition={{
+          duration: 1.8,
+          repeat: Infinity,
+          ease: [0.19, 1, 0.22, 1],
+          delay: 0.15,
+          times: [0, 0.7, 1],
+        }}
+        className="absolute inset-0 rounded-full border border-indigo-400"
+        style={{ filter: "blur(0.5px)" }}
+      />
+      <motion.div
+        initial={{ opacity: 0.3, scale: 1 }}
+        animate={{ opacity: [0.3, 0, 0.3], scale: [1, 1.25, 1] }}
+        transition={{
+          duration: 1.2,
+          repeat: Infinity,
+          ease: "easeOut",
+          delay: 0.3,
+          times: [0, 0.7, 1],
+        }}
+        className="absolute inset-0 rounded-full border border-violet-400"
+      />
+
+      {/* Orb container - now using motion.div with styles from motion values */}
+      <motion.div
+        className="absolute inset-0 will-change-transform"
+        style={{
+          rotateX,
+          rotateY,
+          perspective: 1200,
+          transformStyle: "preserve-3d",
+          backfaceVisibility: "hidden",
+        }}
+      >
+        {isVisible && (
+          <Canvas
+            dpr={[1, 2]}
+            gl={{
+              antialias: true,
+              alpha: true,
+              powerPreference: "high-performance",
             }}
+            camera={{ fov: 45, position: [0, 0, 5] }}
           >
-            <Canvas
-              camera={{ position: [0, 0, 5], fov: 60 }}
-              style={{ width: "100%", height: "100%" }}
-              gl={{ alpha: true, antialias: true }}
-            >
-              <ThreeJSOrb size={size} pulseColor={pulseColor} glowColor={pulseColor} isHovered={isHovered} />
-            </Canvas>
-          </motion.div>
+            <ambientLight intensity={0.65} />
+            <pointLight position={[10, 10, 10]} intensity={1.8} color="#8b5cf6" />
+            <pointLight position={[-10, -10, -5]} intensity={1.2} color="#6366f1" />
+            <directionalLight position={[0, 5, 5]} intensity={0.8} color="#f9fafb" />
+            <ThreeJSOrb />
+          </Canvas>
+        )}
+      </motion.div>
 
-          {/* Only render particles when hovered to improve performance */}
-          {isHovered && particles.map((particle) => (
-            <motion.div
-              key={particle.id}
-              className="absolute rounded-full bg-blue-400"
-              style={{
-                width: particle.size,
-                height: particle.size,
-                x: particle.x,
-                y: particle.y,
-                opacity: particle.opacity,
-                top: "50%",
-                left: "50%",
-                translateX: "-50%",
-                translateY: "-50%",
-              }}
-              animate={{
-                x: [particle.x, particle.x + (Math.random() * 30 - 15)],
-                y: [particle.y, particle.y + (Math.random() * 30 - 15)],
-                opacity: [particle.opacity, particle.opacity * 0.5, particle.opacity],
-              }}
-              transition={{
-                duration: particle.duration,
-                repeat: Infinity,
-                repeatType: "reverse",
-                delay: particle.delay,
-                ease: "easeInOut",
-              }}
-            />
-          ))}
+      {/* Continuous particle effect (active state) */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {isVisible &&
+          Array.from({ length: 10 }).map((_, i) => {
+            const angleOffset = Math.random() * 0.2 - 0.1;
+            const angle = (i / 10) * Math.PI * 2 + angleOffset;
+            const distanceVariation = 0.7 + Math.random() * 0.6;
+            const distance = size * 0.38 * distanceVariation;
+            const startX = Math.cos(angle) * distance + size / 2;
+            const startY = Math.sin(angle) * distance + size / 2;
 
-          {isHovered && (
-            <motion.div
-              className="absolute bottom-0 transform translate-y-full mt-6 px-5 py-2 bg-gray-900/80 backdrop-blur-lg rounded-lg border border-white/10 text-white text-center"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
+            const moveDistance = isHovered ? 80 : 70;
+            const moveX =
+              Math.cos(angle + (Math.random() * 0.8 - 0.4)) * moveDistance * (0.8 + Math.random() * 0.4);
+            const moveY =
+              Math.sin(angle + (Math.random() * 0.8 - 0.4)) * moveDistance * (0.8 + Math.random() * 0.4);
+
+            const duration = 3 + Math.random() * 4;
+            const delay = Math.random() * 4;
+
+            const particleSize = (isHovered ? 4 : 3.5) + Math.random() * 2;
+
+            return (
+              <motion.div
+                key={i}
+                className="absolute rounded-full"
+                style={{
+                  left: startX,
+                  top: startY,
+                  opacity: 0,
+                  filter: "blur(1px)",
+                  width: particleSize + "px",
+                  height: particleSize + "px",
+                  background:
+                    i % 3 === 0
+                      ? "linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)"
+                      : i % 3 === 1
+                      ? "linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)"
+                      : "linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%)",
+                }}
+                animate={{
+                  x: [0, moveX * 0.3, moveX],
+                  y: [0, moveY * 0.4, moveY],
+                  scale: [0, 1.2, 0],
+                  opacity: [0, isHovered ? 1 : 0.95, 0],
+                  filter: ["blur(2px)", "blur(1px)", "blur(3px)"],
+                }}
+                transition={{
+                  duration: duration,
+                  repeat: Infinity,
+                  delay: delay,
+                  ease: [0.25, 0.1, 0.25, 1.0],
+                  times: [0, 0.4, 1],
+                }}
+              />
+            );
+          })}
+      </div>
+    </div>
+  );
+}
+
+interface TalkingAIAgentProps {
+  className?: string;
+}
+
+export function TalkingAIAgent({ className = "" }: TalkingAIAgentProps) {
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [userInput, setUserInput] = useState("");
+  const [conversation, setConversation] = useState<{ role: "user" | "ai"; text: string }[]>([]);
+  const [isMuted, setIsMuted] = useState(false);
+  const speechRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const recognitionRef = useRef<any>(null);
+  const controls = useAnimation();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Initialize speech synthesis
+  useEffect(() => {
+    speechRef.current = new SpeechSynthesisUtterance();
+    speechRef.current.lang = "en-US";
+    speechRef.current.volume = 1;
+    speechRef.current.rate = 1;
+    speechRef.current.pitch = 1;
+
+    return () => {
+      window.speechSynthesis.cancel();
+    };
+  }, []);
+
+  // Initialize speech recognition
+  useEffect(() => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = false;
+      recognitionRef.current.interimResults = false;
+      recognitionRef.current.lang = "en-US";
+
+      recognitionRef.current.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setUserInput(transcript);
+        setConversation((prev) => [...prev, { role: "user", text: transcript }]);
+        handleResponse(transcript);
+        setIsListening(false);
+      };
+
+      recognitionRef.current.onerror = () => {
+        setIsListening(false);
+        setConversation((prev) => [...prev, { role: "ai", text: "Sorry, I couldn't understand that." }]);
+      };
+
+      recognitionRef.current.onend = () => {
+        setIsListening(false);
+      };
+    }
+
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
+  }, []);
+
+  // Speak a response
+  const speak = (text: string) => {
+    if (isMuted || !speechRef.current) return;
+    window.speechSynthesis.cancel();
+    speechRef.current.text = text;
+    window.speechSynthesis.speak(speechRef.current);
+    setIsSpeaking(true);
+    controls.start({ scale: [1, 1.1, 1], transition: { repeat: Infinity, duration: 0.5 } });
+    speechRef.current.onend = () => {
+      setIsSpeaking(false);
+      controls.stop();
+      controls.set({ scale: 1 });
+    };
+  };
+
+  // Mock AI response
+  const getAIResponse = (input: string): string => {
+    const lowerInput = input.toLowerCase();
+    if (lowerInput.includes("hello") || lowerInput.includes("hi")) {
+      return "Hey there! How can I assist you today?";
+    } else if (lowerInput.includes("weather")) {
+      return "I don't have real-time data, but tell me your city, and I'll give you a sunny vibe!";
+    } else if (lowerInput.includes("joke")) {
+      return "Why did the computer go to art school? Because it wanted to learn how to draw a better 'byte'!";
+    } else {
+      return "That's an interesting question! Could you clarify or ask something else?";
+    }
+  };
+
+  // Handle user input and AI response
+  const handleResponse = (input: string) => {
+    const response = getAIResponse(input);
+    setConversation((prev) => [...prev, { role: "ai", text: response }]);
+    speak(response);
+  };
+
+  // Handle voice input
+  const handleVoiceInput = () => {
+    if (!recognitionRef.current) {
+      setConversation((prev) => [
+        ...prev,
+        { role: "ai", text: "Voice input is not supported in this browser." },
+      ]);
+      return;
+    }
+    if (isListening) {
+      recognitionRef.current.stop();
+    } else {
+      recognitionRef.current.start();
+      setIsListening(true);
+    }
+  };
+
+  // Handle text input
+  const handleTextInput = () => {
+    if (!userInput.trim()) return;
+    setConversation((prev) => [...prev, { role: "user", text: userInput }]);
+    handleResponse(userInput);
+    setUserInput("");
+  };
+
+  // Toggle mute
+  const toggleMute = () => {
+    setIsMuted((prev) => {
+      if (!prev) window.speechSynthesis.cancel();
+      return !prev;
+    });
+  };
+
+  return (
+    <div className={`flex flex-col items-center p-4 ${className}`}>
+      {/* Animated avatar/icon */}
+      <motion.div
+        className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center mb-4"
+        animate={controls}
+      >
+        {isSpeaking ? (
+          <Volume2 className="w-8 h-8 text-white" />
+        ) : isListening ? (
+          <Mic className="w-8 h-8 text-white animate-pulse" />
+        ) : (
+          <div className="w-6 h-6 bg-white rounded-full" />
+        )}
+      </motion.div>
+
+      {/* Conversation display */}
+      <div className="w-full max-w-md h-64 overflow-y-auto mb-4 p-4 bg-gray-100 rounded-lg">
+        {conversation.map((msg, index) => (
+          <div
+            key={index}
+            className={`mb-2 ${msg.role === "user" ? "text-right" : "text-left"}`}
+          >
+            <span
+              className={`inline-block p-2 rounded-lg ${
+                msg.role === "user" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"
+              }`}
             >
-              <p className="text-xs font-medium">Interageer met de AI-kern</p>
-            </motion.div>
-          )}
-        </>
-      )}
+              {msg.role === "user" ? "You" : "AI"}: {msg.text}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Input controls */}
+      <div className="flex w-full max-w-md items-center space-x-2">
+        <input
+          ref={inputRef}
+          type="text"
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          onKeyPress={(e) => e.key === "Enter" && handleTextInput()}
+          placeholder="Type or speak..."
+          className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+        />
+        <button
+          onClick={handleVoiceInput}
+          className={`p-2 rounded-lg ${isListening ? "bg-red-500" : "bg-purple-500"} text-white`}
+          aria-label={isListening ? "Stop listening" : "Start listening"}
+        >
+          <Mic className="w-6 h-6" />
+        </button>
+        <button
+          onClick={handleTextInput}
+          className="p-2 bg-blue-500 rounded-lg text-white"
+          aria-label="Send message"
+        >
+          <Send className="w-6 h-6" />
+        </button>
+        <button
+          onClick={toggleMute}
+          className="p-2 bg-gray-500 rounded-lg text-white"
+          aria-label={isMuted ? "Unmute" : "Mute"}
+        >
+          {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
+        </button>
+      </div>
     </div>
   );
 }

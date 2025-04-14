@@ -31,7 +31,7 @@ export function RevealText({
   threshold = 0.3,
 }: RevealTextProps) {
   const controls = useAnimation();
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<any>(null);
   const inView = useInView(ref, { 
     once,
     amount: threshold
@@ -108,10 +108,29 @@ export function RevealText({
   
   const textClass = getTextStyle(textStyle);
   
+  // Get the appropriate motion component to match the parent component type
+  // Handle different HTML elements to prevent nesting violations
+  const getMotionComponent = () => {
+    // Common HTML elements that need special handling to avoid invalid nesting
+    if (Component === 'p') return motion.p;
+    if (Component === 'h1') return motion.h1;
+    if (Component === 'h2') return motion.h2;
+    if (Component === 'h3') return motion.h3;
+    if (Component === 'h4') return motion.h4;
+    if (Component === 'h5') return motion.h5;
+    if (Component === 'h6') return motion.h6;
+    if (Component === 'span') return motion.span;
+    
+    // Default to div for custom components
+    return motion.div;
+  };
+  
+  const MotionComponent = getMotionComponent();
+  
   return React.createElement(
     Component,
     { className },
-    <motion.div
+    <MotionComponent
       ref={ref}
       initial="hidden"
       animate={controls}
@@ -128,6 +147,6 @@ export function RevealText({
           {preset === "line" && index < parts.length - 1 ? <br /> : ""}
         </motion.span>
       ))}
-    </motion.div>
+    </MotionComponent>
   );
 } 

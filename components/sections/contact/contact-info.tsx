@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Mail, MapPin, Phone, Clock, Linkedin, MessagesSquare, Brain, Sparkles } from "lucide-react";
+import { InteractiveAIOrb } from "@/components/ui/animations/interactive-ai-orb";
 import Image from "next/image";
 
 export function ContactInfo() {
@@ -107,13 +108,7 @@ export function ContactInfo() {
         </div>
         
         <div className="mt-8 flex justify-center">
-          <Image
-            src="/images/logo.png"
-            alt="Laava - logo"
-            width={200}
-            height={200}
-            className="rounded-lg"
-          />
+          <InteractiveAIOrb size={100} />
         </div>
       </motion.div>
     </motion.div>
