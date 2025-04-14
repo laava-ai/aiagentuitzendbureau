@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Linkedin, Twitter, Github, Facebook, Instagram } from "lucide-react";
+import { Linkedin } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import Script from "next/script";
@@ -39,9 +39,6 @@ export function Footer() {
   
   const socialLinks = [
     { name: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com/company/laava-ai" },
-    { name: "Twitter", icon: Twitter, href: "https://twitter.com/laava_ai" },
-    { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/laava.ai" },
-    { name: "Facebook", icon: Facebook, href: "https://www.facebook.com/laava.ai" },
   ];
 
   const localBusinessData = {
@@ -50,7 +47,7 @@ export function Footer() {
     "name": "Laava",
     "url": "https://laava.nl",
     "logo": "https://laava.nl/logo.png",
-    "description": "Laava ontwikkelt intelligente AI-agents en digitale collega's die bedrijfsprocessen optimaliseren en de productiviteit verhogen.",
+    "description": "Laava ontwikkelt intelligente AI-agents en digitale collega&apos;s die bedrijfsprocessen optimaliseren en de productiviteit verhogen.",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Hoofdstraat 123",
@@ -66,10 +63,7 @@ export function Footer() {
       "availableLanguage": ["Dutch", "English"]
     },
     "sameAs": [
-      "https://www.linkedin.com/company/laava-ai",
-      "https://twitter.com/laava_ai",
-      "https://www.instagram.com/laava.ai",
-      "https://www.facebook.com/laava.ai"
+      "https://www.linkedin.com/company/laava-ai"
     ]
   };
 
@@ -139,7 +133,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-gray-600 mb-6 max-w-md">
-              Laava creëert intelligente AI-agents die als digitale collega's naadloos integreren in uw team. Onze computer collega's automatiseren taken, verbeteren besluitvorming en maximaliseren uw bedrijfsefficiëntie.
+              Laava creëert intelligente AI-agents die als digitale collega&apos;s naadloos integreren in uw team. Onze computer collega&apos;s automatiseren taken, verbeteren besluitvorming en maximaliseren uw bedrijfsefficiëntie.
             </p>
             <div className="flex space-x-4 mb-6">
               {socialLinks.map((social) => (
@@ -228,7 +222,7 @@ export function Footer() {
         {/* Bottom section */}
         <div className="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-600 text-sm order-2 md:order-1 mt-4 md:mt-0">
-            © {currentYear} Laava | Ontwikkelaars van AI-agents en digitale collega's. Alle rechten voorbehouden.
+            © {currentYear} Laava | Ontwikkelaars van AI-agents en digitale collega&apos;s. Alle rechten voorbehouden.
           </p>
           <div className="flex space-x-6 order-1 md:order-2">
             {legalLinks.map((link) => (

@@ -5,91 +5,50 @@ import { Footer } from "@/components/footer";
 import { ParticleField } from "@/components/ui/animations/particle-field";
 import { CtaSection } from "@/components/sections/cta-section";
 import { motion } from "framer-motion";
-import { Linkedin, Twitter, Globe } from "lucide-react";
+import { Linkedin } from "lucide-react";
 
 export default function Team() {
   const teamMembers = [
     {
-      name: "Robin Versteeg",
-      position: "CEO & Co-founder",
-      bio: "Robin heeft meer dan 15 jaar ervaring in de tech-industrie en heeft meerdere succesvolle startups opgericht. Hij heeft een passie voor AI en hoe het kan worden gebruikt om het werk van mensen te verbeteren.",
+      name: "Alec Siemerink",
+      position: "Co-founder",
+      bio: "Alec heeft meer dan 10 jaar ervaring in het leiden van technologiebedrijven en een passie voor innovatieve AI-oplossingen die bedrijven helpen efficiënter te werken.",
       image: "/images/team/placeholder-1.jpg", // Placeholder images
       socials: {
-        linkedin: "https://linkedin.com/",
-        twitter: "https://twitter.com/",
-        website: "https://example.com/"
+        linkedin: "https://linkedin.com/in/alecsiemerink"
       }
     },
     {
-      name: "Laura Janssen",
-      position: "CTO & Co-founder",
-      bio: "Met een achtergrond in computerwetenschappen en machinaal leren, leidt Laura de technische ontwikkeling van onze AI-oplossingen. Ze heeft eerder gewerkt bij toonaangevende tech-bedrijven.",
+      name: "Ruben Haisma",
+      position: "Co-founder",
+      bio: "Met een sterke achtergrond in software engineering en AI, leidt Ruben de technische ontwikkeling van onze geavanceerde AI-agents die naadloos integreren in uw werkprocessen.",
       image: "/images/team/placeholder-2.jpg",
       socials: {
-        linkedin: "https://linkedin.com/",
-        twitter: "https://twitter.com/"
+        linkedin: "https://linkedin.com/in/rubenhaisma"
       }
     },
     {
-      name: "Martijn de Groot",
-      position: "Head of AI Research",
-      bio: "Martijn heeft een PhD in AI en heeft bijgedragen aan baanbrekend onderzoek op het gebied van natuurlijke taalverwerking. Hij zorgt ervoor dat onze AI-modellen state-of-the-art blijven.",
+      name: "Marcel Grauwen",
+      position: "Co-founder",
+      bio: "Marcel heeft ruime ervaring in operationeel management en zorgt ervoor dat onze AI-oplossingen efficiënt worden geïmplementeerd en optimaal presteren voor onze klanten.",
       image: "/images/team/placeholder-3.jpg",
       socials: {
-        linkedin: "https://linkedin.com/",
-        website: "https://example.com/"
-      }
-    },
-    {
-      name: "Sophie Bakker",
-      position: "Head of Product",
-      bio: "Sophie vertaalt complexe technologie naar gebruiksvriendelijke producten. Met haar achtergrond in UX-design en productmanagement zorgt ze ervoor dat onze oplossingen intuïtief en waardevol zijn.",
-      image: "/images/team/placeholder-4.jpg",
-      socials: {
-        linkedin: "https://linkedin.com/",
-        twitter: "https://twitter.com/"
-      }
-    },
-    {
-      name: "David van der Berg",
-      position: "Head of Sales",
-      bio: "David heeft een uitgebreide achtergrond in B2B-sales en helpt bedrijven de juiste AI-oplossingen te vinden om hun specifieke uitdagingen aan te pakken.",
-      image: "/images/team/placeholder-5.jpg",
-      socials: {
-        linkedin: "https://linkedin.com/"
-      }
-    },
-    {
-      name: "Noor El Fahmi",
-      position: "Head of Customer Success",
-      bio: "Noor zorgt ervoor dat onze klanten maximale waarde halen uit onze AI-oplossingen. Ze leidt het customer success team dat klanten begeleidt vanaf de implementatie tot doorlopende optimalisatie.",
-      image: "/images/team/placeholder-6.jpg",
-      socials: {
-        linkedin: "https://linkedin.com/",
-        twitter: "https://twitter.com/"
+        linkedin: "https://linkedin.com/in/marcelgrauwen"
       }
     }
   ];
 
   const departments = [
-    { name: "Leiderschap", count: 2 },
-    { name: "AI Research", count: 8 },
-    { name: "Product", count: 6 },
-    { name: "Engineering", count: 12 },
-    { name: "Design", count: 5 },
-    { name: "Sales", count: 7 },
-    { name: "Marketing", count: 4 },
-    { name: "Customer Success", count: 9 }
+    { name: "Leiderschap", count: 3 },
+    { name: "Engineering", count: 5 },
+    { name: "AI Research", count: 4 },
+    { name: "Customer Success", count: 3 }
   ];
 
   const renderSocialIcon = (platform: string) => {
     switch (platform) {
       case 'linkedin':
         return <Linkedin className="w-5 h-5" />;
-      case 'twitter':
-        return <Twitter className="w-5 h-5" />;
-      case 'website':
-        return <Globe className="w-5 h-5" />;
       default:
         return null;
     }
