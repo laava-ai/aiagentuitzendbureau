@@ -27,14 +27,14 @@ interface ParticleFieldProps {
 
 export function ParticleField({
   className = "",
-  particleCount = 50,
+  particleCount = 20,
   particleSize = 2,
   particleColor = "#3b82f6",
-  particleSpeed = 0.5,
-  interactiveRadius = 150,
-  interactiveStrength = 3,
-  connectionRadius = 100,
-  connectionOpacity = 0.15,
+  particleSpeed = 0.2,
+  interactiveRadius = 100,
+  interactiveStrength = 2,
+  connectionRadius = 80,
+  connectionOpacity = 0.1,
   backgroundLayer = true,
 }: ParticleFieldProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -42,6 +42,23 @@ export function ParticleField({
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isMouseInCanvas, setIsMouseInCanvas] = useState(false);
   const particlesRef = useRef<Particle[]>([]);
+  const frameCountRef = useRef(0);
+  const [isVisible, setIsVisible] = useState(true);
+  
+  // Check if component is visible in viewport to pause animations when not visible
+  useEffect(() => {
+    if (typeof window === 'undefined' || !canvasRef.current) return;
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        setIsVisible(entries[0]?.isIntersecting ?? false);
+      },
+      { threshold: 0.1 }
+    );
+    
+    observer.observe(canvasRef.current);
+    return () => observer.disconnect();
+  }, []);
   
   // Initialize canvas and dimensions
   useEffect(() => {
@@ -98,37 +115,46 @@ export function ParticleField({
     if (!ctx) return;
     
     let animationFrameId: number;
+    let lastTime = 0;
     
-    const render = () => {
+    const render = (timestamp: number) => {
+      if (timestamp - lastTime < 33 || !isVisible) {
+        animationFrameId = requestAnimationFrame(render);
+        return;
+      }
+      
+      lastTime = timestamp;
+      frameCountRef.current++;
+      
       ctx.clearRect(0, 0, dimensions.width, dimensions.height);
       
-      // Draw connections first (behind particles)
-      for (let i = 0; i < particlesRef.current.length; i++) {
-        const particle = particlesRef.current[i];
-        
-        // Draw connections between nearby particles
-        for (let j = i + 1; j < particlesRef.current.length; j++) {
-          const other = particlesRef.current[j];
-          const dx = particle.x - other.x;
-          const dy = particle.y - other.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+      const shouldDrawConnections = frameCountRef.current % 3 === 0;
+      
+      if (shouldDrawConnections) {
+        for (let i = 0; i < particlesRef.current.length; i += 2) {
+          const particle = particlesRef.current[i];
           
-          if (distance < connectionRadius) {
-            const opacity = (1 - distance / connectionRadius) * connectionOpacity;
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(${particleColor.replace(/^#/, "").match(/.{2}/g)?.map(hex => parseInt(hex, 16)).join(", ")}, ${opacity})`;
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(other.x, other.y);
-            ctx.stroke();
+          for (let j = i + 2; j < particlesRef.current.length; j += 2) {
+            const other = particlesRef.current[j];
+            const dx = particle.x - other.x;
+            const dy = particle.y - other.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < connectionRadius) {
+              const opacity = (1 - distance / connectionRadius) * connectionOpacity;
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(${particleColor.replace(/^#/, "").match(/.{2}/g)?.map(hex => parseInt(hex, 16)).join(", ")}, ${opacity})`;
+              ctx.lineWidth = 0.5;
+              ctx.moveTo(particle.x, particle.y);
+              ctx.lineTo(other.x, other.y);
+              ctx.stroke();
+            }
           }
         }
       }
       
-      // Update and draw each particle
       particlesRef.current.forEach((particle) => {
-        // Apply mouse interaction
-        if (isMouseInCanvas) {
+        if (isMouseInCanvas && frameCountRef.current % 2 === 0) {
           const dx = mousePosition.x - particle.x;
           const dy = mousePosition.y - particle.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
@@ -140,11 +166,9 @@ export function ParticleField({
           }
         }
         
-        // Update position
         particle.x += particle.speedX;
         particle.y += particle.speedY;
         
-        // Bounce off edges
         if (particle.x < 0 || particle.x > dimensions.width) {
           particle.speedX = -particle.speedX;
         }
@@ -152,11 +176,9 @@ export function ParticleField({
           particle.speedY = -particle.speedY;
         }
         
-        // Apply damping
         particle.speedX *= 0.99;
         particle.speedY *= 0.99;
         
-        // Draw particle
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${particleColor.replace(/^#/, "").match(/.{2}/g)?.map(hex => parseInt(hex, 16)).join(", ")}, ${particle.opacity})`;
@@ -166,7 +188,7 @@ export function ParticleField({
       animationFrameId = requestAnimationFrame(render);
     };
     
-    render();
+    animationFrameId = requestAnimationFrame(render);
     
     return () => {
       cancelAnimationFrame(animationFrameId);
@@ -180,12 +202,15 @@ export function ParticleField({
     mousePosition.x, 
     mousePosition.y, 
     interactiveRadius, 
-    interactiveStrength
+    interactiveStrength,
+    isVisible
   ]);
   
-  // Handle mouse events
+  // Throttle mouse movement events for better performance
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!canvasRef.current) return;
+    if (!canvasRef.current || !isVisible) return;
+    
+    if (frameCountRef.current % 3 !== 0) return;
     
     const canvas = canvasRef.current;
     const rect = canvas.getBoundingClientRect();

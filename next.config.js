@@ -10,11 +10,6 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
   productionBrowserSourceMaps: false,
-  i18n: {
-    locales: ['nl', 'en'],
-    defaultLocale: 'nl',
-    localeDetection: true,
-  },
   async headers() {
     return [
       {

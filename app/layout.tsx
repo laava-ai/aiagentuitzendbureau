@@ -69,10 +69,6 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: 'https://laava.nl',
-    languages: {
-      'nl-NL': 'https://laava.nl',
-      'en-US': 'https://laava.nl/en',
-    },
   },
 };
 
