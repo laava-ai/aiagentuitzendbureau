@@ -84,7 +84,7 @@ export function HeroSection() {
               
               <div className="mb-6">
                 <RevealText
-                  text="Ontmoet Je Nieuwe Digitale Teamgenoot"
+                  text="AI Agents: Uw Nieuwe Digitale Collega's"
                   as="h1"
                   textStyle="gradient"
                   className="text-5xl md:text-7xl font-bold tracking-tight mb-2"
@@ -94,7 +94,7 @@ export function HeroSection() {
                 />
                 
                 <RevealText
-                  text="Intelligent, adaptief en altijd beschikbaar"
+                  text="Intelligente AI-assistenten die uw team versterken"
                   as="h2"
                   textStyle="gradient"
                   className="text-2xl md:text-3xl font-light text-black"
@@ -105,7 +105,7 @@ export function HeroSection() {
               </div>
               
               <RevealText
-                text="Laava creëert intelligente AI-collega's die naadloos integreren met je team, complexe taken automatiseren en de productiviteit in je hele organisatie verbeteren."
+                text="Laava ontwikkelt geavanceerde AI-agents die als digitale collega's naadloos samenwerken met uw team. Onze intelligente computer collega's automatiseren complexe taken, verbeteren besluitvorming en verhogen de productiviteit in uw hele organisatie."
                 as="p"
                 className="text-lg text-muted-foreground mb-8 max-w-2xl"
                 preset="word"

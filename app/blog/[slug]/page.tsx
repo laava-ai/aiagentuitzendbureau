@@ -47,6 +47,37 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     { title: post.title }
   ];
 
+  // Create JSON-LD structured data for the blog post
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.excerpt,
+    "image": `https://laava.nl${post.image}`,
+    "datePublished": post.date,
+    "dateModified": post.date,
+    "author": {
+      "@type": "Person",
+      "name": "Laava Team"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Laava",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://laava.nl/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://laava.nl/blog/${post.slug}`
+    },
+    "keywords": [
+      "AI agent", "digitale collega", "computer collega", "AI-agent", 
+      "kunstmatige intelligentie", post.category, "AI-oplossingen"
+    ]
+  };
+
   // Function to get blog content based on slug
   const getBlogContent = (slug: string) => {
     switch(slug) {
@@ -1267,54 +1298,53 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </p>
           </>
         );
+      default:
+        return <p>Content not found for this blog post.</p>;
     }
   };
 
   return (
     <Shell>
-      {/* Hero section with gradient background */}
-      <section className="relative py-24 md:py-32 overflow-hidden bg-gradient-to-b from-[#080F26] to-[#0A0F2C]">
-        <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="max-w-4xl mx-auto">
-            <Breadcrumb items={breadcrumbItems} className="mb-6 text-gray-300" />
-            
-            <Badge 
-              variant="outline" 
-              className="mb-4 border-indigo-500 text-indigo-300"
-            >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      
+      <div className="container mx-auto px-4 py-12 max-w-4xl">
+        <Breadcrumb items={breadcrumbItems} />
+        
+        <article className="mt-8">
+          {post.image && (
+            <div className="relative w-full h-96 mb-8 rounded-xl overflow-hidden">
+              <Image
+                src={post.image}
+                alt={post.title}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          )}
+          
+          <div className="flex items-center gap-4 mb-4">
+            <Badge variant="outline" className="text-xs capitalize">
               {post.category}
             </Badge>
-            
-            <h1 className="text-3xl md:text-5xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
-              {post.title}
-            </h1>
-            
-            <div className="flex items-center gap-3 text-gray-300">
-              <time dateTime={post.date}>{post.date}</time>
-              <span>•</span>
-              <span>{post.readingTime}</span>
-            </div>
+            <span className="text-sm text-muted-foreground">{post.date}</span>
           </div>
-        </div>
-      </section>
-
-      <div className="container mx-auto px-4 sm:px-6 py-12">
-        <div className="max-w-4xl mx-auto">
-          <div className="relative w-full aspect-video mb-10 rounded-lg overflow-hidden shadow-2xl -mt-20 border-4 border-white">
-            <Image 
-              src={post.image} 
-              alt={post.title}
-              fill
-              className="object-cover"
-              priority
-            />
+          
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            {post.title}
+          </h1>
+          
+          <div className="mb-8 text-muted-foreground">
+            <p>Reading time: {post.readingTime}</p>
           </div>
-
-          <div className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700">
+          
+          <div className="prose prose-lg max-w-none">
             {getBlogContent(post.slug)}
           </div>
-        </div>
+        </article>
       </div>
     </Shell>
   );

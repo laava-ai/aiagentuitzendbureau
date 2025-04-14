@@ -70,50 +70,50 @@ export function FeaturesSection() {
   const features = [
     {
       icon: <Zap className="h-6 w-6" />,
-      title: "AI Taakautomatisering",
-      description: "Automatiseer repetitieve taken en complexe workflows met intelligente AI-systemen die leren en zich aanpassen aan je behoeften.",
+      title: "AI Agent Automatisering",
+      description: "Verbeter werkprocessen met intelligente AI-agents die repetitieve taken en complexe workflows autonoom uitvoeren en zich aanpassen aan specifieke behoeften.",
       color: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
     },
     {
       icon: <MessageSquare className="h-6 w-6" />,
-      title: "Natuurlijke Taalverwerking",
-      description: "Geavanceerde conversatie-AI die context en nuance begrijpt, waardoor mensachtige interacties met je systemen mogelijk worden.",
+      title: "Conversatie-AI Assistenten",
+      description: "Geavanceerde AI-agents voor natuurlijke gesprekken die context begrijpen en als digitale collega's fungeren bij klantinteracties en team-ondersteuning.",
       color: "bg-purple-500/10 text-purple-600 dark:text-purple-400",
     },
     {
       icon: <Database className="h-6 w-6" />,
-      title: "Intelligente Data-analyse",
-      description: "Transformeer ruwe gegevens in bruikbare inzichten met AI-gestuurde analyses die patronen en kansen identificeren.",
+      title: "Data-analyse Agents",
+      description: "Transformeer ruwe data in strategische inzichten met AI-agents die patronen herkennen, anomalieën detecteren en besluitvorming ondersteunen.",
       color: "bg-green-500/10 text-green-600 dark:text-green-400",
     },
     {
       icon: <Users className="h-6 w-6" />,
-      title: "Naadloze Teamintegratie",
-      description: "AI-collega's die samenwerken met je menselijke team, de productiviteit verbeteren en werklasten effectief delen.",
+      title: "Computer Collega's",
+      description: "Digitale teamleden die naadloos samenwerken met uw menselijke medewerkers, taken overnemen en de productiviteit verhogen met AI-gestuurde assistentie.",
       color: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
     },
     {
       icon: <Cpu className="h-6 w-6" />,
-      title: "Adaptieve Leersystemen",
-      description: "Zelf-verbeterende AI die voortdurend leert van interacties, en die met de tijd efficiënter en nauwkeuriger wordt.",
+      title: "Zelfverbeterende AI-agents",
+      description: "Intelligente agents die continu leren van interacties en feedback, waardoor ze steeds effectiever worden als uw digitale collega's.",
       color: "bg-pink-500/10 text-pink-600 dark:text-pink-400",
     },
     {
       icon: <BarChart3 className="h-6 w-6" />,
-      title: "Voorspellende Analyses",
-      description: "Voorspel trends en anticipeer op veranderingen met AI-modellen die historische gegevens analyseren om toekomstige resultaten te voorspellen.",
+      title: "Voorspellende AI Collega's",
+      description: "AI-agents die trends voorspellen en proactief handelen door historische data te analyseren, waardoor uw team altijd een stap vooruit blijft.",
       color: "bg-sky-500/10 text-sky-600 dark:text-sky-400",
     },
     {
       icon: <Bot className="h-6 w-6" />,
-      title: "Op Maat Gemaakte AI-oplossingen",
-      description: "Op maat gemaakte AI-systemen die specifiek zijn ontwikkeld voor jouw branche en bedrijfsvereisten.",
+      title: "Gepersonaliseerde AI-agents",
+      description: "Op maat gemaakte digitale assistenten die exact aansluiten op uw branche, bedrijfsprocessen en specifieke uitdagingen.",
       color: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400",
     },
     {
       icon: <Lightbulb className="h-6 w-6" />,
-      title: "Innovatieversnelling",
-      description: "Versnel je R&D met AI-ondersteunde ideevorming en probleemoplossende mogelijkheden die mogelijkheden vergroten.",
+      title: "Innovatieve Computer Collega's",
+      description: "Digitale teamgenoten die innovatie versnellen door AI-gestuurde ideevorming, probleem-oplossing en creatieve ondersteuning.",
       color: "bg-orange-500/10 text-orange-600 dark:text-orange-400",
     },
   ];
@@ -135,7 +135,7 @@ export function FeaturesSection() {
         <div className="text-center max-w-3xl mx-auto mb-20">
           
           <RevealText
-            text="Transformatieve AI-functionaliteiten"
+            text="Intelligente AI-agents als Digitale Collega's"
             as="h2"
             textStyle="gradient"
             className="text-4xl md:text-5xl font-bold mb-6"
@@ -144,7 +144,7 @@ export function FeaturesSection() {
           />
           
           <RevealText
-            text="Ons uitgebreide pakket AI-technologieën biedt geavanceerde mogelijkheden om de werkwijze van je bedrijf te revolutioneren."
+            text="Onze geavanceerde AI-agents functioneren als volwaardige computer collega's die naadloos integreren in uw team en de werkwijze van uw organisatie transformeren."
             as="p" 
             className="text-lg text-muted-foreground"
             preset="word"

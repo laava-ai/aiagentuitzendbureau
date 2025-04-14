@@ -35,9 +35,9 @@ export function BlogList() {
           transition={{ duration: 0.5 }}
           className="flex flex-col items-center text-center mb-12 md:mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-gray-900">Nieuwste Artikelen</h2>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-gray-900">AI Agents & Digitale Collega's Blog</h2>
           <p className="text-lg text-gray-600 max-w-3xl">
-            Ontdek de nieuwste trends, inzichten en best practices in de wereld van AI-gestuurde oplossingen en digitale transformatie.
+            Ontdek hoe AI-agents en computer collega's de werkplek transformeren. Lees over de nieuwste ontwikkelingen, praktijkvoorbeelden en implementatiestrategieën voor intelligente AI-assistenten in uw organisatie.
           </p>
         </motion.div>
 

@@ -74,28 +74,8 @@ export function Analytics() {
           } : 'unknown';
         }
         
-        // Get precise geolocation if available
+        // Geolocation - explicitly not requested for privacy
         let geolocation: GeolocationResult | 'unavailable' = 'unavailable';
-        if ('geolocation' in navigator) {
-          try {
-            const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-              navigator.geolocation.getCurrentPosition(resolve, reject, {
-                enableHighAccuracy: true,
-                timeout: 5000,
-                maximumAge: 0
-              });
-            });
-            
-            geolocation = {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              accuracy: position.coords.accuracy,
-              timestamp: position.timestamp
-            };
-          } catch (error) {
-            geolocation = { error: 'Permission denied or unavailable' };
-          }
-        }
         
         // Get battery status if available
         let batteryInfo: BatteryInfo | 'unavailable' = 'unavailable';

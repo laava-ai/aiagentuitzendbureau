@@ -15,11 +15,64 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: 'Laava | AI Agency Solutions',
-  description: 'Revolutioneer uw bedrijf met AI-oplossingen op maat voor uw branche. Laava helpt bedrijven taken te automatiseren en productiviteit te verhogen.',
-  keywords: 'AI agency, kunstmatige intelligentie, automatisering, productiviteit, bedrijfsoplossingen',
+  title: 'Laava | AI Agents & Digitale Collega\'s',
+  description: 'Verbeter uw organisatie met intelligente AI-agents en digitale collega\'s op maat. Laava creëert AI-oplossingen die naadloos integreren met uw team, complexe taken automatiseren en productiviteit verhogen.',
+  keywords: 'AI agent, digitale collega, computer collega, kunstmatige intelligentie, AI-agent, AI oplossingen, automatisering, productiviteit, bedrijfsautomatisering, intelligente assistenten, AI assistenten, digitale werknemers',
+  authors: [{ name: 'Laava', url: 'https://laava.nl' }],
+  creator: 'Laava',
+  publisher: 'Laava',
+  formatDetection: {
+    email: false,
+    telephone: false,
+    address: false,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'nl_NL',
+    url: 'https://laava.nl',
+    title: 'Laava | AI Agents & Digitale Collega\'s',
+    description: 'Verbeter uw organisatie met intelligente AI-agents en digitale collega\'s op maat. Laava creëert AI-oplossingen die naadloos integreren met uw team.',
+    siteName: 'Laava',
+    images: [
+      {
+        url: '/images/logo.png    ',
+        width: 1200,
+        height: 630,
+        alt: 'Laava AI Agents',
+      }
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Laava | AI Agents & Digitale Collega\'s',
+    description: 'Verbeter uw organisatie met intelligente AI-agents en digitale collega\'s op maat. Ontdek hoe onze AI-collega\'s uw team kunnen versterken.',
+    images: ['/images/twitter-image.jpg'],
+    creator: '@LaavaAI',
+  },
   icons: {
     icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
+  verification: {
+    google: 'google-site-verification-code',
+  },
+  alternates: {
+    canonical: 'https://laava.nl',
+    languages: {
+      'nl-NL': 'https://laava.nl',
+      'en-US': 'https://laava.nl/en',
+    },
   },
 };
 

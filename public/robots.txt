@@ -1,0 +1,12 @@
+# robots.txt for https://laava.nl
+
+User-agent: *
+Allow: /
+
+# Disallow admin or sensitive paths
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Sitemap
+Sitemap: https://laava.nl/sitemap.xml 
