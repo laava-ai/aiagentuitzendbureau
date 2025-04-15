@@ -68,10 +68,14 @@ export function ShowcaseSection() {
   const headerRef = useRef(null);
   const containerRef = useRef(null);
   const { isMobile, disableAllAnimations } = useMobileOptimizer();
-  const [activeIndices, setActiveIndices] = useState(Array(caseStudies.length).fill(false));
-  const inView = useInView(sectionRef, { amount: 0.1, once: false });
+  
+  // Only use animations on desktop
+  const useScrollAnimation = !disableAllAnimations && !isMobile;
 
-  // Scroll tracking for desktop - now using the whole section as the target
+  // Create null or empty values for mobile that won't trigger animations
+  const dummyMotionValue = useMotionValue(0);
+  
+  // Always declare the hooks but only use their values when needed
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
@@ -87,23 +91,23 @@ export function ShowcaseSection() {
   
   const activeIndex = useSpring(progressRange, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
-  // Create individual motion values for each case study
-  // Case 0
+  // Create all motion values outside of conditionals
+  // For case 0
   const opacity0 = useTransform(activeIndex, [-0.5, 0, 0.8], [0, 1, 0]);
   const rotateY0 = useTransform(activeIndex, [-0.5, 0, 0.8], [-15, 0, 15]);
   const scale0 = useTransform(activeIndex, [-0.5, 0, 0.8], [0.95, 1, 0.95]);
   
-  // Case 1
+  // For case 1
   const opacity1 = useTransform(activeIndex, [0, 1, 1.8], [0, 1, 0]);
   const rotateY1 = useTransform(activeIndex, [0, 1, 1.8], [-15, 0, 15]);
   const scale1 = useTransform(activeIndex, [0, 1, 1.8], [0.95, 1, 0.95]);
   
-  // Case 2
+  // For case 2
   const opacity2 = useTransform(activeIndex, [1, 2, 2.8], [0, 1, 0]);
   const rotateY2 = useTransform(activeIndex, [1, 2, 2.8], [-15, 0, 15]);
   const scale2 = useTransform(activeIndex, [1, 2, 2.8], [0.95, 1, 0.95]);
   
-  // Case 3
+  // For case 3
   const opacity3 = useTransform(activeIndex, [2, 3, 3.8], [0, 1, 0]);
   const rotateY3 = useTransform(activeIndex, [2, 3, 3.8], [-15, 0, 15]);
   const scale3 = useTransform(activeIndex, [2, 3, 3.8], [0.95, 1, 0.95]);
@@ -114,63 +118,6 @@ export function ShowcaseSection() {
     { opacity: opacity2, rotateY: rotateY2, scale: scale2 },
     { opacity: opacity3, rotateY: rotateY3, scale: scale3 },
   ];
-
-  // Setup intersection observers for mobile
-  useEffect(() => {
-    if (!isMobile || disableAllAnimations) return;
-    
-    const observers: IntersectionObserver[] = [];
-    const elements = document.querySelectorAll('.case-study');
-    
-    elements.forEach((element, index) => {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              setActiveIndices(prev => {
-                const newState = [...prev];
-                newState[index] = true;
-                return newState;
-              });
-            }
-          });
-        },
-        { threshold: 0.5, rootMargin: "-50px" }
-      );
-      
-      observer.observe(element);
-      observers.push(observer);
-    });
-    
-    return () => {
-      observers.forEach((observer, index) => {
-        if (elements[index]) {
-          observer.unobserve(elements[index]);
-        }
-      });
-    };
-  }, [isMobile, disableAllAnimations]);
-
-  // Track header height for spacing
-  const [headerHeight, setHeaderHeight] = useState(0);
-  
-  useEffect(() => {
-    if (headerRef.current && !disableAllAnimations) {
-      const resizeObserver = new ResizeObserver(entries => {
-        for (let entry of entries) {
-          setHeaderHeight(entry.contentRect.height);
-        }
-      });
-      
-      resizeObserver.observe(headerRef.current);
-      return () => {
-        if (headerRef.current) resizeObserver.unobserve(headerRef.current);
-      };
-    }
-  }, [disableAllAnimations]);
-  
-  // For no animations on mobile
-  const useScrollAnimation = !disableAllAnimations && !isMobile;
 
   return (
     <section
@@ -185,14 +132,14 @@ export function ShowcaseSection() {
       {/* Background grid */}
       <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[length:40px_40px] opacity-[0.03]" />
 
-      {/* Header */}
+      {/* Header - not sticky on mobile */}
       <div 
         ref={headerRef} 
-        className="sticky top-0 z-30 pt-16 pb-8 bg-gray-950 showcase-header"
+        className={`${!isMobile ? "sticky top-0" : ""} z-30 pt-16 pb-8 bg-gray-950 showcase-header`}
       >
         <div className="container">
           <div className="text-center max-w-3xl mx-auto">
-            {disableAllAnimations ? (
+            {isMobile || disableAllAnimations ? (
               <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gradient">
                 Transformaties in de Praktijk
               </h2>
@@ -207,7 +154,7 @@ export function ShowcaseSection() {
               />
             )}
             
-            {disableAllAnimations ? (
+            {isMobile || disableAllAnimations ? (
               <div className="text-lg text-gray-300">
                 Ontdek hoe toonaangevende organisaties in verschillende sectoren hun activiteiten hebben gerevolutioneerd met onze intelligente AI-oplossingen.
               </div>
@@ -223,8 +170,10 @@ export function ShowcaseSection() {
             )}
           </div>
         </div>
-        {/* Gradient fade effect for header */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-gray-950 to-transparent pointer-events-none"></div>
+        {/* Gradient fade effect for header - only on desktop */}
+        {!isMobile && (
+          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-gray-950 to-transparent pointer-events-none"></div>
+        )}
       </div>
 
       {/* Case Studies Container */}
@@ -232,18 +181,14 @@ export function ShowcaseSection() {
         ref={containerRef} 
         className={`relative ${!useScrollAnimation ? "pb-20 pt-8" : "min-h-screen sticky top-0"}`}
         style={useScrollAnimation ? { 
-          top: headerHeight, 
-          height: `calc(100vh - ${headerHeight}px)`,
+          top: 0, 
+          height: `100vh`,
           perspective: "1200px"
         } : {}}
       >
         {caseStudies.map((study, index) => {
-          const { opacity, rotateY, scale } = motionValues[index];
-
-          const isActive = useScrollAnimation && Math.round(activeIndex.get()) === index;
-
-          // For no animations at all
-          if (disableAllAnimations) {
+          // Simple static view for mobile
+          if (isMobile || disableAllAnimations) {
             return (
               <div
                 key={study.id}
@@ -302,81 +247,57 @@ export function ShowcaseSection() {
             );
           }
 
-          // For animated content
+          // Desktop with animations: 3D scroll effect
+          const { opacity, rotateY, scale } = motionValues[index];
           return (
             <motion.div
               key={study.id}
-              className={`case-study ${!useScrollAnimation ? "mb-20 relative" : "absolute inset-0 flex items-center justify-center"}`}
-              style={useScrollAnimation ? {
+              className="case-study absolute inset-0 flex items-center justify-center"
+              style={{
                 opacity,
                 rotateY,
                 scale,
                 zIndex: caseStudies.length - index,
                 transformStyle: "preserve-3d",
-              } : {}}
-              initial={!useScrollAnimation ? { opacity: 0, y: 50 } : {}}
-              animate={!useScrollAnimation && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
-              transition={!useScrollAnimation ? { duration: 0.8, ease: "easeOut" } : {}}
+              }}
             >
               <div className="container px-4 md:px-6">
                 <div className="bg-gray-900/80 backdrop-blur-md rounded-2xl overflow-hidden border border-white/10 shadow-xl max-w-6xl mx-auto">
-                  <div className={`grid ${isMobile ? "grid-cols-1" : "md:grid-cols-5"}`}>
-                    <div className={`${isMobile ? "order-2 p-6" : "md:col-span-2 p-8"} flex flex-col justify-between relative`}>
+                  <div className="grid md:grid-cols-5">
+                    <div className="md:col-span-2 p-8 flex flex-col justify-between relative">
                       <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${study.color}`}></div>
                       <div>
-                        <motion.h3
-                          className="case-title text-2xl md:text-4xl font-bold mb-3"
-                          initial={!useScrollAnimation ? { opacity: 0, y: 30 } : {}}
-                          animate={!useScrollAnimation && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
-                          transition={!useScrollAnimation ? { duration: 0.5, delay: 0.1 } : {}}
-                        >
+                        <h3 className="case-title text-2xl md:text-4xl font-bold mb-3">
                           {study.title}
-                        </motion.h3>
-                        <motion.div
-                          className="case-subtitle text-gray-400 text-sm mb-4 md:mb-6"
-                          initial={!useScrollAnimation ? { opacity: 0, y: 20 } : {}}
-                          animate={!useScrollAnimation && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
-                          transition={!useScrollAnimation ? { duration: 0.4, delay: 0.2 } : {}}
-                        >
+                        </h3>
+                        <div className="case-subtitle text-gray-400 text-sm mb-4 md:mb-6">
                           {study.subtitle}
-                        </motion.div>
-                        <motion.div
-                          className="case-description text-gray-300 text-sm mb-6 md:mb-8"
-                          initial={!useScrollAnimation ? { opacity: 0, y: 20 } : {}}
-                          animate={!useScrollAnimation && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
-                          transition={!useScrollAnimation ? { duration: 0.4, delay: 0.3 } : {}}
-                        >
+                        </div>
+                        <div className="case-description text-gray-300 text-sm mb-6 md:mb-8">
                           {study.description}
-                        </motion.div>
+                        </div>
                         <div className="grid grid-cols-3 gap-3 md:gap-4 mb-6 md:mb-8">
                           {study.stats.map((stat, i) => (
-                            <motion.div
+                            <div
                               key={i}
                               className="stat-item bg-white/5 p-2 md:p-3 rounded-lg border border-white/10 backdrop-blur-sm"
-                              initial={!useScrollAnimation ? { opacity: 0, y: 20 } : {}}
-                              animate={!useScrollAnimation && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
-                              transition={!useScrollAnimation ? { duration: 0.3, delay: 0.4 + i * 0.1 } : {}}
                             >
                               <div className={`text-base md:text-xl font-bold bg-gradient-to-r ${study.color} bg-clip-text text-transparent`}>
                                 {stat.value}
                               </div>
                               <div className="text-[10px] md:text-xs text-gray-400">{stat.label}</div>
-                            </motion.div>
+                            </div>
                           ))}
                         </div>
                       </div>
-                      <motion.div
-                        initial={!useScrollAnimation ? { opacity: 0, y: 20 } : {}}
-                        animate={!useScrollAnimation && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
-                        transition={!useScrollAnimation ? { duration: 0.3, delay: 0.7 } : {}}
-                      >
+                      <div>
                         <Button className="case-button group w-full bg-transparent backdrop-blur-sm border border-white/10 hover:bg-white/10">
                           <span>Bekijk volledige casestudy</span>
                           <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                         </Button>
-                      </motion.div>
+                      </div>
                     </div>
-                    <div className={`${isMobile ? "order-1 h-52" : "md:col-span-3 h-[600px]"} relative overflow-hidden`}>
+                    <div className="md:col-span-3 h-[600px] relative overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-transparent z-10"></div>
                       <Image
                         src={study.image}
