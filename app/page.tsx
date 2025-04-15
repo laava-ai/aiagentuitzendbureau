@@ -7,9 +7,26 @@ import { FeaturesSection } from "@/components/sections/features-section";
 import { ShowcaseSection } from "@/components/sections/showcase-section";
 import { CtaSection } from "@/components/sections/cta-section";
 import { ParticleField } from "@/components/ui/animations/particle-field";
+import { useMobileOptimizer } from "@/components/ui/mobile-optimizer";
 import Script from "next/script";
 
 export default function Home() {
+  const { isMobile, isLowEndDevice, disableAllAnimations } = useMobileOptimizer();
+  
+  // Only show particles on desktop
+  const showParticles = !disableAllAnimations;
+  
+  // If showing particles, calculate optimal settings based on device
+  const particleCount = isMobile 
+    ? (isLowEndDevice ? 15 : 30)
+    : 100;
+    
+  const connectionRadius = isMobile 
+    ? (isLowEndDevice ? 80 : 120)
+    : 150;
+    
+  const particleSpeed = isMobile ? 0.15 : 0.3;
+  
   return (
     <div className="relative">
       {/* JSON-LD Structured Data */}
@@ -76,16 +93,23 @@ export default function Home() {
         `}
       </Script>
 
-      {/* Background particle effect */}
-      <ParticleField 
-        className="fixed inset-0 -z-10"
-        particleCount={100}
-        particleSize={1}
-        particleColor="#6366f1"
-        particleSpeed={0.3}
-        connectionRadius={150}
-        connectionOpacity={0.05}
-      />
+      {/* Background particle effect - only on desktop */}
+      {showParticles && (
+        <ParticleField 
+          className="fixed inset-0 -z-10"
+          particleCount={particleCount}
+          particleSize={isMobile ? 1 : 1.5}
+          particleColor="#6366f1"
+          particleSpeed={particleSpeed}
+          connectionRadius={connectionRadius}
+          connectionOpacity={isMobile ? 0.03 : 0.05}
+        />
+      )}
+
+      {/* Background color for mobile when animations are disabled */}
+      {!showParticles && (
+        <div className="fixed inset-0 -z-10 bg-gradient-to-b from-indigo-50 to-white dark:from-gray-900 dark:to-gray-950" />
+      )}
 
       {/* Header */}
       <Header />

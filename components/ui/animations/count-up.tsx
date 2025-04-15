@@ -34,6 +34,20 @@ export function CountUp({
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once, amount: threshold });
   const [shouldCount, setShouldCount] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 768 || 
+                    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      setIsMobile(mobile);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   
   // Parse the end value if it's a string with special characters
   const parseEndValue = () => {
@@ -59,13 +73,27 @@ export function CountUp({
   const endValue = parseEndValue();
   const valueSuffix = getValueSuffix();
   
+  // Use larger threshold for mobile for earlier intersection detection
+  const mobileThreshold = isMobile ? Math.min(0.1, threshold) : threshold;
+  
   useEffect(() => {
     if (isInView) {
-      setShouldCount(true);
+      // Small delay for mobile to ensure smooth animation after page load
+      if (isMobile) {
+        const timer = setTimeout(() => {
+          setShouldCount(true);
+        }, 100);
+        return () => clearTimeout(timer);
+      } else {
+        setShouldCount(true);
+      }
     } else if (!once) {
       setShouldCount(false);
     }
-  }, [isInView, once]);
+  }, [isInView, once, isMobile]);
+
+  // Optimize duration for mobile (slightly faster)
+  const effectiveDuration = isMobile ? Math.max(1.2, duration * 0.8) : duration;
 
   return (
     <span ref={ref} className={className}>
@@ -73,8 +101,8 @@ export function CountUp({
         <ReactCountUp
           start={start}
           end={endValue}
-          duration={duration}
-          delay={delay}
+          duration={effectiveDuration}
+          delay={isMobile ? 0 : delay} // No delay on mobile
           prefix={prefix}
           suffix={valueSuffix}
           decimals={decimals}

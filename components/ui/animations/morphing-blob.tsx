@@ -24,6 +24,20 @@ export function MorphingBlob({
 }: MorphingBlobProps) {
   const [paths, setPaths] = useState<{ start: string; end: string }[]>([]);
   const [currentGradient, setCurrentGradient] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 768 || 
+                    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      setIsMobile(mobile);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Generate random blob path
   const generateBlobPath = (complexity: number, size: number) => {
@@ -47,9 +61,10 @@ export function MorphingBlob({
       const curr = points[i];
       const next = points[(i + 1) % points.length];
       
-      // Control points for bezier curve
-      const cp1x = curr.x + (next.x - curr.x) / 2 + Math.random() * 50 - 25;
-      const cp1y = curr.y + (next.y - curr.y) / 2 + Math.random() * 50 - 25;
+      // Control points for bezier curve - simpler on mobile
+      const randomFactor = isMobile ? 15 : 25;
+      const cp1x = curr.x + (next.x - curr.x) / 2 + Math.random() * randomFactor * 2 - randomFactor;
+      const cp1y = curr.y + (next.y - curr.y) / 2 + Math.random() * randomFactor * 2 - randomFactor;
       
       path += ` Q ${cp1x},${cp1y} ${next.x},${next.y}`;
     }
@@ -60,27 +75,36 @@ export function MorphingBlob({
 
   // Initialize and set up animation
   useEffect(() => {
+    // Use fewer blobs on mobile
+    const blobCount = isMobile ? 1 : 3;
     const newPaths = [];
     
-    for (let i = 0; i < 3; i++) {
+    // Use simpler shapes for mobile
+    const mobileComplexity = isMobile ? Math.max(3, complexity - 2) : complexity;
+    
+    for (let i = 0; i < blobCount; i++) {
       newPaths.push({
-        start: generateBlobPath(complexity, size),
-        end: generateBlobPath(complexity, size),
+        start: generateBlobPath(mobileComplexity, size),
+        end: generateBlobPath(mobileComplexity, size),
       });
     }
     
     setPaths(newPaths);
     
-    // Rotate through gradient colors
+    // Rotate through gradient colors - less frequently on mobile
     const intervalId = setInterval(() => {
       setCurrentGradient((prev) => (prev + 1) % colors.length);
-    }, duration * 1000);
+    }, duration * (isMobile ? 1.5 : 1) * 1000);
     
     return () => clearInterval(intervalId);
-  }, [complexity, size, colors.length, duration]);
+  }, [complexity, size, colors.length, duration, isMobile]);
 
   // If paths not generated yet, show nothing
   if (paths.length === 0) return null;
+
+  // Calculate effective blur and duration for mobile
+  const effectiveBlur = isMobile ? Math.floor(blur * 0.6) : blur;
+  const effectiveDuration = isMobile ? duration * 1.5 : duration;
 
   return (
     <div className={`absolute pointer-events-none ${className}`}>
@@ -93,9 +117,9 @@ export function MorphingBlob({
             key={index}
             className="absolute inset-0"
             initial={{ opacity: 0 }}
-            animate={{ opacity }}
+            animate={{ opacity: isMobile ? opacity * 0.8 : opacity }}
             transition={{ duration: 1 }}
-            style={{ filter: `blur(${blur}px)` }}
+            style={{ filter: `blur(${effectiveBlur}px)` }}
           >
             <svg
               width={size}
@@ -121,7 +145,7 @@ export function MorphingBlob({
                       ],
                     }}
                     transition={{
-                      duration: duration,
+                      duration: effectiveDuration,
                       repeat: Infinity,
                       ease: "linear",
                     }}
@@ -136,7 +160,7 @@ export function MorphingBlob({
                       ],
                     }}
                     transition={{
-                      duration: duration,
+                      duration: effectiveDuration,
                       repeat: Infinity,
                       ease: "linear",
                     }}
@@ -147,7 +171,7 @@ export function MorphingBlob({
                 d={pathData.start}
                 animate={{ d: pathData.end }}
                 transition={{
-                  duration: duration,
+                  duration: effectiveDuration,
                   ease: "easeInOut",
                   repeat: Infinity,
                   repeatType: "mirror",

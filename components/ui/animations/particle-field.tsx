@@ -28,7 +28,7 @@ interface ParticleFieldProps {
 export function ParticleField({
   className = "",
   particleCount = 20,
-  particleSize = 2,
+  particleSize = 2, 
   particleColor = "#3b82f6",
   particleSpeed = 0.2,
   interactiveRadius = 100,
@@ -45,6 +45,20 @@ export function ParticleField({
   const frameCountRef = useRef(0);
   const [isVisible, setIsVisible] = useState(true);
   const resizeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 768 || 
+                    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      setIsMobile(mobile);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   
   // Check if component is visible in viewport with larger rootMargin to reduce checks
   useEffect(() => {
@@ -78,8 +92,8 @@ export function ParticleField({
           const parent = canvas.parentElement;
           if (parent) {
             const { width, height } = parent.getBoundingClientRect();
-            // Use lower resolution for better performance
-            const scale = 0.7; // 70% of original resolution
+            // Use much lower resolution for mobile
+            const scale = isMobile ? 0.4 : 0.7;
             canvas.width = width * scale;
             canvas.height = height * scale;
             canvas.style.width = `${width}px`;
@@ -99,34 +113,38 @@ export function ParticleField({
         clearTimeout(resizeTimeoutRef.current);
       }
     };
-  }, []);
+  }, [isMobile]);
   
   // Create particles
   useEffect(() => {
     if (dimensions.width === 0 || dimensions.height === 0) return;
     
-    // Reduce particle count based on screen size for mobile optimization
+    // Drastically reduce particle count for mobile
+    const mobileFactor = isMobile ? 0.25 : 1;
     const dynamicParticleCount = Math.min(
-      particleCount,
-      Math.floor((dimensions.width * dimensions.height) / 15000) // Decrease density
+      Math.floor(particleCount * mobileFactor),
+      Math.floor((dimensions.width * dimensions.height) / (isMobile ? 40000 : 15000))
     );
     
     const particles: Particle[] = [];
+    
+    // Slower particle speed for mobile
+    const speedFactor = isMobile ? 0.3 : 1;
     
     for (let i = 0; i < dynamicParticleCount; i++) {
       particles.push({
         x: Math.random() * dimensions.width,
         y: Math.random() * dimensions.height,
-        size: particleSize * (0.5 + Math.random() * 0.5),
-        speedX: (Math.random() - 0.5) * particleSpeed * 0.8, // Slow down particles
-        speedY: (Math.random() - 0.5) * particleSpeed * 0.8,
+        size: particleSize * (0.5 + Math.random() * 0.5) * (isMobile ? 0.8 : 1),
+        speedX: (Math.random() - 0.5) * particleSpeed * 0.8 * speedFactor,
+        speedY: (Math.random() - 0.5) * particleSpeed * 0.8 * speedFactor,
         color: particleColor,
         opacity: 0.2 + Math.random() * 0.5,
       });
     }
     
     particlesRef.current = particles;
-  }, [dimensions, particleCount, particleSize, particleColor, particleSpeed]);
+  }, [dimensions, particleCount, particleSize, particleColor, particleSpeed, isMobile]);
   
   // Animation loop with frame skipping
   useEffect(() => {
@@ -138,7 +156,8 @@ export function ParticleField({
     
     let animationFrameId: number;
     let lastTime = 0;
-    const frameInterval = 40; // Target ~25fps instead of 60fps
+    // Much lower framerate on mobile
+    const frameInterval = isMobile ? 100 : 40; // Target ~10fps on mobile, ~25fps on desktop
     
     const render = (timestamp: number) => {
       // Skip frames to improve performance
@@ -152,24 +171,30 @@ export function ParticleField({
       
       ctx.clearRect(0, 0, dimensions.width, dimensions.height);
       
-      // Draw connections less frequently
-      const shouldDrawConnections = frameCountRef.current % 5 === 0;
+      // On mobile, draw connections much less frequently or not at all
+      const shouldDrawConnections = isMobile ? 
+                                   frameCountRef.current % 10 === 0 : 
+                                   frameCountRef.current % 5 === 0;
       
-      if (shouldDrawConnections) {
+      // Skip drawing connections entirely on low-end mobile devices
+      if (shouldDrawConnections && (!isMobile || dimensions.width > 350)) {
         // Use a more efficient connection algorithm
         for (let i = 0; i < particlesRef.current.length; i++) {
           const particle = particlesRef.current[i];
           
-          // Skip every other particle to reduce the number of connections
-          for (let j = i + 2; j < particlesRef.current.length; j += 2) {
+          // Skip even more particles on mobile
+          const skipFactor = isMobile ? 4 : 2;
+          for (let j = i + skipFactor; j < particlesRef.current.length; j += skipFactor) {
             const other = particlesRef.current[j];
             const dx = particle.x - other.x;
             const dy = particle.y - other.y;
             // Use approximation for distance calculation (avoid square root)
             const approxDistance = Math.abs(dx) + Math.abs(dy);
             
-            if (approxDistance < connectionRadius * 1.2) {
-              const opacity = (1 - approxDistance / (connectionRadius * 1.2)) * connectionOpacity * 0.7;
+            const mobileConnectionRadius = isMobile ? connectionRadius * 0.7 : connectionRadius;
+            if (approxDistance < mobileConnectionRadius * 1.2) {
+              const opacity = (1 - approxDistance / (mobileConnectionRadius * 1.2)) * 
+                            connectionOpacity * (isMobile ? 0.4 : 0.7);
               ctx.beginPath();
               ctx.strokeStyle = `rgba(${particleColor.replace(/^#/, "").match(/.{2}/g)?.map(hex => parseInt(hex, 16)).join(", ")}, ${opacity})`;
               ctx.lineWidth = 0.5;
@@ -183,8 +208,8 @@ export function ParticleField({
       
       // Update and draw particles
       particlesRef.current.forEach((particle, index) => {
-        // Only process mouse interaction every few frames and for some particles
-        if (isMouseInCanvas && frameCountRef.current % 3 === 0 && index % 2 === 0) {
+        // Disable or severely limit mouse interaction on mobile
+        if (!isMobile && isMouseInCanvas && frameCountRef.current % 3 === 0 && index % 2 === 0) {
           const dx = mousePosition.x - particle.x;
           const dy = mousePosition.y - particle.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
@@ -196,21 +221,23 @@ export function ParticleField({
           }
         }
         
-        // Update position
-        particle.x += particle.speedX;
-        particle.y += particle.speedY;
-        
-        // Boundary check
-        if (particle.x < 0 || particle.x > dimensions.width) {
-          particle.speedX = -particle.speedX * 0.8; // Add damping
+        // Update position at reduced frequency on mobile
+        if (!isMobile || frameCountRef.current % 2 === 0) {
+          particle.x += particle.speedX;
+          particle.y += particle.speedY;
+          
+          // Boundary check
+          if (particle.x < 0 || particle.x > dimensions.width) {
+            particle.speedX = -particle.speedX * (isMobile ? 0.5 : 0.8); // More damping on mobile
+          }
+          if (particle.y < 0 || particle.y > dimensions.height) {
+            particle.speedY = -particle.speedY * (isMobile ? 0.5 : 0.8);
+          }
+          
+          // Apply stronger friction on mobile
+          particle.speedX *= isMobile ? 0.95 : 0.98;
+          particle.speedY *= isMobile ? 0.95 : 0.98;
         }
-        if (particle.y < 0 || particle.y > dimensions.height) {
-          particle.speedY = -particle.speedY * 0.8; // Add damping
-        }
-        
-        // Apply stronger friction
-        particle.speedX *= 0.98;
-        particle.speedY *= 0.98;
         
         // Draw particle
         ctx.beginPath();
@@ -237,12 +264,13 @@ export function ParticleField({
     mousePosition.y, 
     interactiveRadius, 
     interactiveStrength,
-    isVisible
+    isVisible,
+    isMobile
   ]);
   
   // Throttle mouse movement events more aggressively
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!canvasRef.current || !isVisible) return;
+    if (!canvasRef.current || !isVisible || isMobile) return;
     
     // Skip most frames
     if (frameCountRef.current % 5 !== 0) return;

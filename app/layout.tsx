@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { Analytics } from '@/components/analytics';
 import { CookieConsent } from '@/components/cookie-consent';
+import { MobileOptimizerProvider } from '@/components/ui/mobile-optimizer';
 import Script from 'next/script';
 import { Suspense } from 'react';
 
@@ -149,12 +150,14 @@ export default function RootLayout({
       </head>
       <body className={`${montserrat.variable} font-sans antialiased`}>
         <ThemeProvider>
-          {children}
-          <Toaster />
-          <Suspense fallback={null}>
-            <Analytics />
-          </Suspense>
-          <CookieConsent />
+          <MobileOptimizerProvider>
+            {children}
+            <Toaster />
+            <Suspense fallback={null}>
+              <Analytics />
+            </Suspense>
+            <CookieConsent />
+          </MobileOptimizerProvider>
         </ThemeProvider>
       </body>
     </html>

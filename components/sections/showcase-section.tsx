@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useSpring, useMotionValue, useInView }
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RevealText } from "@/components/ui/atoms/reveal-text";
+import { useMobileOptimizer } from "@/components/ui/mobile-optimizer";
 import Image from "next/image";
 
 const caseStudies = [
@@ -66,17 +67,9 @@ export function ShowcaseSection() {
   const sectionRef = useRef(null);
   const headerRef = useRef(null);
   const containerRef = useRef(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const { isMobile, disableAllAnimations } = useMobileOptimizer();
   const [activeIndices, setActiveIndices] = useState(Array(caseStudies.length).fill(false));
   const inView = useInView(sectionRef, { amount: 0.1, once: false });
-
-  // Check mobile status
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   // Scroll tracking for desktop - now using the whole section as the target
   const { scrollYProgress } = useScroll({
@@ -124,7 +117,7 @@ export function ShowcaseSection() {
 
   // Setup intersection observers for mobile
   useEffect(() => {
-    if (!isMobile) return;
+    if (!isMobile || disableAllAnimations) return;
     
     const observers: IntersectionObserver[] = [];
     const elements = document.querySelectorAll('.case-study');
@@ -156,13 +149,13 @@ export function ShowcaseSection() {
         }
       });
     };
-  }, [isMobile]);
+  }, [isMobile, disableAllAnimations]);
 
   // Track header height for spacing
   const [headerHeight, setHeaderHeight] = useState(0);
   
   useEffect(() => {
-    if (headerRef.current && !isMobile) {
+    if (headerRef.current && !disableAllAnimations) {
       const resizeObserver = new ResizeObserver(entries => {
         for (let entry of entries) {
           setHeaderHeight(entry.contentRect.height);
@@ -174,14 +167,17 @@ export function ShowcaseSection() {
         if (headerRef.current) resizeObserver.unobserve(headerRef.current);
       };
     }
-  }, [isMobile]);
+  }, [disableAllAnimations]);
+  
+  // For no animations on mobile
+  const useScrollAnimation = !disableAllAnimations && !isMobile;
 
   return (
     <section
       ref={sectionRef}
       className="relative bg-gray-950 text-white showcase-section"
       style={{ 
-        minHeight: isMobile ? "auto" : `${(caseStudies.length) * 80}vh`,
+        minHeight: useScrollAnimation ? `${(caseStudies.length) * 80}vh` : "auto",
         scrollMarginTop: "0px"
       }}
       id="cases"
@@ -196,22 +192,35 @@ export function ShowcaseSection() {
       >
         <div className="container">
           <div className="text-center max-w-3xl mx-auto">
-            <RevealText
-              text="Transformaties in de Praktijk"
-              as="h2"
-              textStyle="gradient"
-              className="text-4xl md:text-5xl font-bold mb-6"
-              preset="word"
-              staggerChildren={0.08}
-            />
-            <RevealText
-              text="Ontdek hoe toonaangevende organisaties in verschillende sectoren hun activiteiten hebben gerevolutioneerd met onze intelligente AI-oplossingen."
-              as="div"
-              className="text-lg text-gray-300"
-              preset="word"
-              staggerChildren={0.02}
-              delay={0.4}
-            />
+            {disableAllAnimations ? (
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gradient">
+                Transformaties in de Praktijk
+              </h2>
+            ) : (
+              <RevealText
+                text="Transformaties in de Praktijk"
+                as="h2"
+                textStyle="gradient"
+                className="text-4xl md:text-5xl font-bold mb-6"
+                preset="word"
+                staggerChildren={0.08}
+              />
+            )}
+            
+            {disableAllAnimations ? (
+              <div className="text-lg text-gray-300">
+                Ontdek hoe toonaangevende organisaties in verschillende sectoren hun activiteiten hebben gerevolutioneerd met onze intelligente AI-oplossingen.
+              </div>
+            ) : (
+              <RevealText
+                text="Ontdek hoe toonaangevende organisaties in verschillende sectoren hun activiteiten hebben gerevolutioneerd met onze intelligente AI-oplossingen."
+                as="div"
+                className="text-lg text-gray-300"
+                preset="word"
+                staggerChildren={0.02}
+                delay={0.4}
+              />
+            )}
           </div>
         </div>
         {/* Gradient fade effect for header */}
@@ -221,8 +230,8 @@ export function ShowcaseSection() {
       {/* Case Studies Container */}
       <div 
         ref={containerRef} 
-        className={`relative ${isMobile ? "pb-20 pt-8" : "min-h-screen sticky top-0"}`}
-        style={!isMobile ? { 
+        className={`relative ${!useScrollAnimation ? "pb-20 pt-8" : "min-h-screen sticky top-0"}`}
+        style={useScrollAnimation ? { 
           top: headerHeight, 
           height: `calc(100vh - ${headerHeight}px)`,
           perspective: "1200px"
@@ -231,22 +240,83 @@ export function ShowcaseSection() {
         {caseStudies.map((study, index) => {
           const { opacity, rotateY, scale } = motionValues[index];
 
-          const isActive = !isMobile && Math.round(activeIndex.get()) === index;
+          const isActive = useScrollAnimation && Math.round(activeIndex.get()) === index;
 
+          // For no animations at all
+          if (disableAllAnimations) {
+            return (
+              <div
+                key={study.id}
+                className="case-study mb-20 relative"
+              >
+                <div className="container px-4 md:px-6">
+                  <div className="bg-gray-900/80 backdrop-blur-md rounded-2xl overflow-hidden border border-white/10 shadow-xl max-w-6xl mx-auto">
+                    <div className={`grid ${isMobile ? "grid-cols-1" : "md:grid-cols-5"}`}>
+                      <div className={`${isMobile ? "order-2 p-6" : "md:col-span-2 p-8"} flex flex-col justify-between relative`}>
+                        <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${study.color}`}></div>
+                        <div>
+                          <h3 className="case-title text-2xl md:text-4xl font-bold mb-3">
+                            {study.title}
+                          </h3>
+                          <div className="case-subtitle text-gray-400 text-sm mb-4 md:mb-6">
+                            {study.subtitle}
+                          </div>
+                          <div className="case-description text-gray-300 text-sm mb-6 md:mb-8">
+                            {study.description}
+                          </div>
+                          <div className="grid grid-cols-3 gap-3 md:gap-4 mb-6 md:mb-8">
+                            {study.stats.map((stat, i) => (
+                              <div
+                                key={i}
+                                className="stat-item bg-white/5 p-2 md:p-3 rounded-lg border border-white/10 backdrop-blur-sm"
+                              >
+                                <div className={`text-base md:text-xl font-bold bg-gradient-to-r ${study.color} bg-clip-text text-transparent`}>
+                                  {stat.value}
+                                </div>
+                                <div className="text-[10px] md:text-xs text-gray-400">{stat.label}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <Button className="case-button group w-full bg-transparent backdrop-blur-sm border border-white/10 hover:bg-white/10">
+                            <span>Bekijk volledige casestudy</span>
+                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                          </Button>
+                        </div>
+                      </div>
+                      <div className={`${isMobile ? "order-1 h-52" : "md:col-span-3 h-[600px]"} relative overflow-hidden`}>
+                        <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-transparent z-10"></div>
+                        <Image
+                          src={study.image}
+                          alt={study.title}
+                          className="w-full h-full object-cover"
+                          width={1000}
+                          height={1000}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          // For animated content
           return (
             <motion.div
               key={study.id}
-              className={`case-study ${isMobile ? "mb-20 relative" : "absolute inset-0 flex items-center justify-center"}`}
-              style={!isMobile ? {
+              className={`case-study ${!useScrollAnimation ? "mb-20 relative" : "absolute inset-0 flex items-center justify-center"}`}
+              style={useScrollAnimation ? {
                 opacity,
                 rotateY,
                 scale,
                 zIndex: caseStudies.length - index,
                 transformStyle: "preserve-3d",
               } : {}}
-              initial={isMobile ? { opacity: 0, y: 50 } : {}}
-              animate={isMobile && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
-              transition={isMobile ? { duration: 0.8, ease: "easeOut" } : {}}
+              initial={!useScrollAnimation ? { opacity: 0, y: 50 } : {}}
+              animate={!useScrollAnimation && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
+              transition={!useScrollAnimation ? { duration: 0.8, ease: "easeOut" } : {}}
             >
               <div className="container px-4 md:px-6">
                 <div className="bg-gray-900/80 backdrop-blur-md rounded-2xl overflow-hidden border border-white/10 shadow-xl max-w-6xl mx-auto">
@@ -256,25 +326,25 @@ export function ShowcaseSection() {
                       <div>
                         <motion.h3
                           className="case-title text-2xl md:text-4xl font-bold mb-3"
-                          initial={isMobile ? { opacity: 0, y: 30 } : {}}
-                          animate={isMobile && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
-                          transition={isMobile ? { duration: 0.5, delay: 0.1 } : {}}
+                          initial={!useScrollAnimation ? { opacity: 0, y: 30 } : {}}
+                          animate={!useScrollAnimation && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
+                          transition={!useScrollAnimation ? { duration: 0.5, delay: 0.1 } : {}}
                         >
                           {study.title}
                         </motion.h3>
                         <motion.div
                           className="case-subtitle text-gray-400 text-sm mb-4 md:mb-6"
-                          initial={isMobile ? { opacity: 0, y: 20 } : {}}
-                          animate={isMobile && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
-                          transition={isMobile ? { duration: 0.4, delay: 0.2 } : {}}
+                          initial={!useScrollAnimation ? { opacity: 0, y: 20 } : {}}
+                          animate={!useScrollAnimation && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
+                          transition={!useScrollAnimation ? { duration: 0.4, delay: 0.2 } : {}}
                         >
                           {study.subtitle}
                         </motion.div>
                         <motion.div
                           className="case-description text-gray-300 text-sm mb-6 md:mb-8"
-                          initial={isMobile ? { opacity: 0, y: 20 } : {}}
-                          animate={isMobile && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
-                          transition={isMobile ? { duration: 0.4, delay: 0.3 } : {}}
+                          initial={!useScrollAnimation ? { opacity: 0, y: 20 } : {}}
+                          animate={!useScrollAnimation && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
+                          transition={!useScrollAnimation ? { duration: 0.4, delay: 0.3 } : {}}
                         >
                           {study.description}
                         </motion.div>
@@ -283,9 +353,9 @@ export function ShowcaseSection() {
                             <motion.div
                               key={i}
                               className="stat-item bg-white/5 p-2 md:p-3 rounded-lg border border-white/10 backdrop-blur-sm"
-                              initial={isMobile ? { opacity: 0, y: 20 } : {}}
-                              animate={isMobile && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
-                              transition={isMobile ? { duration: 0.3, delay: 0.4 + i * 0.1 } : {}}
+                              initial={!useScrollAnimation ? { opacity: 0, y: 20 } : {}}
+                              animate={!useScrollAnimation && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
+                              transition={!useScrollAnimation ? { duration: 0.3, delay: 0.4 + i * 0.1 } : {}}
                             >
                               <div className={`text-base md:text-xl font-bold bg-gradient-to-r ${study.color} bg-clip-text text-transparent`}>
                                 {stat.value}
@@ -296,9 +366,9 @@ export function ShowcaseSection() {
                         </div>
                       </div>
                       <motion.div
-                        initial={isMobile ? { opacity: 0, y: 20 } : {}}
-                        animate={isMobile && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
-                        transition={isMobile ? { duration: 0.3, delay: 0.7 } : {}}
+                        initial={!useScrollAnimation ? { opacity: 0, y: 20 } : {}}
+                        animate={!useScrollAnimation && activeIndices[index] ? { opacity: 1, y: 0 } : {}}
+                        transition={!useScrollAnimation ? { duration: 0.3, delay: 0.7 } : {}}
                       >
                         <Button className="case-button group w-full bg-transparent backdrop-blur-sm border border-white/10 hover:bg-white/10">
                           <span>Bekijk volledige casestudy</span>
@@ -324,8 +394,8 @@ export function ShowcaseSection() {
         })}
       </div>
 
-      {/* Scroll Indicator */}
-      {!isMobile && (
+      {/* Scroll Indicator - only on desktop with animations */}
+      {useScrollAnimation && (
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
           <div className="animate-bounce text-white/60 text-sm font-medium">
             Scroll om meer te ontdekken
