@@ -102,7 +102,7 @@ export function ContactInfo() {
               <Clock className="h-5 w-5 text-green-400" />
             </div>
             <span className="text-white">
-              KvK: 94137676
+              KvK: 97025356
             </span>
           </div>
         </div>
