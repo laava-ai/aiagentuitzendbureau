@@ -74,6 +74,13 @@ export function Footer() {
     "blogPosts": [
       {
         "@type": "BlogPosting",
+        "headline": "AI Agent Huren: Praktijkgids voor Bedrijven in Nederland",
+        "description": "Alles wat u moet weten over het huren van AI agents voor uw organisatie. Van kosten en implementatie tot praktische toepassingen en ROI voor Nederlandse bedrijven.",
+        "url": "https://laava.nl/blog/ai-agent-huren-praktijkgids-bedrijven-nederland",
+        "keywords": ["AI agent huren", "AI agent inzetten", "AI agent in mijn bedrijf", "digitale medewerker", "computer collega", "AI implementatie", "Nederlandse bedrijven"]
+      },
+      {
+        "@type": "BlogPosting",
         "headline": "AI voor Recruitment: Revolutionaire Technologie voor Moderne Recruiters",
         "description": "Ontdek hoe AI het recruitmentproces transformeert, van kandidaatselectie tot onboarding.",
         "url": "https://laava.nl/blog/ai-voor-recruitment-technologie-moderne-recruiters",

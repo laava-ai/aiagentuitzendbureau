@@ -17,8 +17,8 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   title: 'Laava | AI Agents & Digitale Collega\'s',
-  description: 'Verbeter uw organisatie met intelligente AI-agents en digitale collega\'s op maat. Laava creëert AI-oplossingen die naadloos integreren met uw team, complexe taken automatiseren en productiviteit verhogen.',
-  keywords: 'AI agent, digitale collega, computer collega, kunstmatige intelligentie, AI-agent, AI oplossingen, automatisering, productiviteit, bedrijfsautomatisering, intelligente assistenten, AI assistenten, digitale werknemers',
+  description: 'Verbeter uw organisatie met intelligente AI-agents en digitale collega\'s op maat. Laava helpt u AI-agents te huren en in te zetten die naadloos integreren met uw team, complexe taken automatiseren en productiviteit verhogen.',
+  keywords: 'AI agent, digitale collega, computer collega, kunstmatige intelligentie, AI-agent, AI oplossingen, automatisering, productiviteit, bedrijfsautomatisering, intelligente assistenten, AI assistenten, digitale werknemers, AI agent huren, AI agent in mijn bedrijf, AI agent inzetten, AI uitzendbureau, virtuele medewerker',
   authors: [{ name: 'Laava', url: 'https://laava.nl' }],
   creator: 'Laava',
   publisher: 'Laava',
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     locale: 'nl_NL',
     url: 'https://laava.nl',
     title: 'Laava | AI Agents & Digitale Collega\'s',
-    description: 'Verbeter uw organisatie met intelligente AI-agents en digitale collega\'s op maat. Laava creëert AI-oplossingen die naadloos integreren met uw team.',
+    description: 'Verbeter uw organisatie met intelligente AI-agents en digitale collega\'s. Ontdek hoe u AI-agents kunt huren en inzetten voor uw bedrijf om efficiënter te werken en kosten te besparen.',
     siteName: 'Laava',
     images: [
       {
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Laava | AI Agents & Digitale Collega\'s',
-    description: 'Verbeter uw organisatie met intelligente AI-agents en digitale collega\'s op maat. Ontdek hoe onze AI-collega\'s uw team kunnen versterken.',
+    description: 'Verbeter uw organisatie met intelligente AI-agents en digitale collega\'s op maat. Ontdek hoe het huren van AI-agents uw team kan versterken en processen kan optimaliseren.',
     images: ['/images/twitter-image.jpg'],
     creator: '@LaavaAI',
   },

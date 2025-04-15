@@ -12,6 +12,16 @@ export interface BlogPost {
 // Blog posts data - would typically come from a CMS
 export const blogPosts: BlogPost[] = [
   {
+    id: "9",
+    title: "AI Agent Huren: Praktijkgids voor Bedrijven in Nederland",
+    date: "2023-09-25",
+    excerpt: "Alles wat u moet weten over het huren van AI agents voor uw organisatie. Van kosten en implementatie tot praktische toepassingen en ROI voor Nederlandse bedrijven.",
+    image: "/images/blog/ai-agent-huren.jpg",
+    slug: "ai-agent-huren-praktijkgids-bedrijven-nederland",
+    category: "AI Implementatie",
+    readingTime: "7 min"
+  },
+  {
     id: "8",
     title: "AI voor Recruitment: Revolutionaire Technologie voor Moderne Recruiters",
     date: "2023-08-15",

@@ -175,11 +175,11 @@ export function InteractiveAIOrb({
       meshRef.current.scale.z +=
         (targetScale.current.z - meshRef.current.scale.z) * scaleLerpFactor * deltaTime;
 
-      // Continuous material pulsing - reduced for mobile
-      const baseDistortion = isMobile ? 0.5 : 0.6;
-      const baseSpeed = isMobile ? 2.5 : 4;
-      const distortionAmplitude = isMobile ? 0.03 : (isHovered ? 0.1 : 0.06);
-      const speedAmplitude = isMobile ? 0.2 : (isHovered ? 0.8 : 0.5);
+      // Continuous material pulsing - enhanced for mobile
+      const baseDistortion = isMobile ? 0.4 : 0.6;
+      const baseSpeed = isMobile ? 3 : 4;
+      const distortionAmplitude = isMobile ? 0.05 : (isHovered ? 0.1 : 0.06);
+      const speedAmplitude = isMobile ? 0.3 : (isHovered ? 0.8 : 0.5);
 
       distortionRef.current = baseDistortion + Math.sin(time * pulseSpeed) * distortionAmplitude;
       speedRef.current = baseSpeed + Math.cos(time * pulseSpeed * 0.8) * speedAmplitude;
@@ -212,16 +212,16 @@ export function InteractiveAIOrb({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Continuous active glow - simplified for mobile */}
+      {/* Continuous active glow - enhanced for mobile */}
       <motion.div
         className="absolute inset-0 rounded-full opacity-70 blur-2xl"
         animate={{
-          scale: [1.35, 1.45, 1.35],
-          opacity: [0.95, 1, 0.95],
-          filter: ["blur(35px)", "blur(40px)", "blur(35px)"],
+          scale: isMobile ? [1.25, 1.4, 1.25] : [1.35, 1.45, 1.35],
+          opacity: isMobile ? [0.8, 1, 0.8] : [0.95, 1, 0.95],
+          filter: isMobile ? ["blur(25px)", "blur(35px)", "blur(25px)"] : ["blur(35px)", "blur(40px)", "blur(35px)"],
         }}
         transition={{
-          duration: isMobile ? 4 : 2, // Slower on mobile
+          duration: isMobile ? 5 : 2, // Slower on mobile for more subtle effect
           repeat: Infinity,
           ease: "easeInOut",
         }}
@@ -266,18 +266,36 @@ export function InteractiveAIOrb({
       
       {/* Simplified single pulse ring for mobile */}
       {isMobile && (
-        <motion.div
-          initial={{ opacity: 0.3, scale: 1 }}
-          animate={{ opacity: [0.3, 0, 0.3], scale: [1, 1.25, 1] }}
-          transition={{
-            duration: 3, // Slower animation
-            repeat: Infinity,
-            ease: "easeOut",
-            delay: 0.3,
-            times: [0, 0.7, 1],
-          }}
-          className="absolute inset-0 rounded-full border border-violet-400"
-        />
+        <>
+          <motion.div
+            initial={{ opacity: 0.3, scale: 1 }}
+            animate={{ opacity: [0.3, 0, 0.3], scale: [1, 1.25, 1] }}
+            transition={{
+              duration: 3, // Slower animation
+              repeat: Infinity,
+              ease: "easeOut",
+              delay: 0.3,
+              times: [0, 0.7, 1],
+            }}
+            className="absolute inset-0 rounded-full border border-violet-400"
+          />
+          
+          {/* New: Simple mobile-specific floating animation */}
+          <motion.div 
+            className="absolute inset-0 rounded-full border-2 border-indigo-500/30"
+            initial={{ scale: 1 }}
+            animate={{ 
+              y: [0, -8, 0, 8, 0],
+              scale: [1, 1.03, 1, 0.98, 1]
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut",
+              times: [0, 0.25, 0.5, 0.75, 1]
+            }}
+          />
+        </>
       )}
 
       {/* Orb container - now using motion.div with styles from motion values */}
@@ -290,6 +308,31 @@ export function InteractiveAIOrb({
           transformStyle: "preserve-3d",
           backfaceVisibility: "hidden",
         }}
+        // Enhanced mobile animations
+        {...(isMobile && {
+          initial: { scale: 1, y: 0 },
+          animate: { 
+            scale: [1, 1.03, 1],
+            y: [0, -10, 0, 10, 0],
+            transition: { 
+              duration: 8,
+              repeat: Infinity,
+              repeatType: "loop",
+              ease: "easeInOut",
+              times: [0, 0.25, 0.5, 0.75, 1]
+            }
+          },
+          whileInView: { 
+            opacity: [0.92, 1, 0.92],
+            transition: { 
+              duration: 3,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut"
+            }
+          },
+          viewport: { once: false, margin: "-50px" }
+        })}
       >
         {isVisible && (
           <Canvas
