@@ -6,6 +6,7 @@ import { useInView } from "framer-motion";
 
 export function ContactForm() {
   const ref = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -38,8 +39,10 @@ export function ContactForm() {
       }
       
       setFormStatus('success');
-      // Reset form
-      e.currentTarget.reset();
+      // Reset form using the ref instead of e.currentTarget
+      if (formRef.current) {
+        formRef.current.reset();
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
       setFormStatus('error');
@@ -71,7 +74,7 @@ export function ContactForm() {
             <p className="text-white/80 text-base font-medium">Vertel ons over uw bedrijf en hoe wij kunnen helpen</p>
           </div>
           
-          <form className="space-y-5" onSubmit={handleSubmit}>
+          <form ref={formRef} className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="name" className="block text-base font-medium text-white mb-1.5">
                 Naam <span className="text-purple-400">*</span>

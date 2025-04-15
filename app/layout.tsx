@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { Analytics } from '@/components/analytics';
 import { CookieConsent } from '@/components/cookie-consent';
 import { MobileOptimizerProvider } from '@/components/ui/mobile-optimizer';
+import { VisitorTracker } from '@/components/visitor-tracker';
 import Script from 'next/script';
 import { Suspense } from 'react';
 
@@ -155,6 +156,9 @@ export default function RootLayout({
             <Toaster />
             <Suspense fallback={null}>
               <Analytics />
+            </Suspense>
+            <Suspense fallback={null}>
+              <VisitorTracker />
             </Suspense>
             <CookieConsent />
           </MobileOptimizerProvider>
