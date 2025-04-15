@@ -54,19 +54,40 @@ export function MorphingBlob({
       });
     }
     
-    // Create SVG path string
-    let path = `M ${points[0].x},${points[0].y}`;
+    // Ensure we have points before creating the path
+    if (points.length === 0) {
+      return `M ${center},${center} L ${center + 10},${center + 10} Z`; // Default fallback path
+    }
     
-    for (let i = 0; i < points.length; i++) {
-      const curr = points[i];
-      const next = points[(i + 1) % points.length];
+    // Validate all points have valid numbers
+    const validPoints = points.filter(
+      pt => !isNaN(pt.x) && isFinite(pt.x) && !isNaN(pt.y) && isFinite(pt.y)
+    );
+    
+    if (validPoints.length === 0) {
+      return `M ${center},${center} L ${center + 10},${center + 10} Z`; // Default fallback path
+    }
+    
+    // Create SVG path string
+    let path = `M ${validPoints[0].x},${validPoints[0].y}`;
+    
+    for (let i = 0; i < validPoints.length; i++) {
+      const curr = validPoints[i];
+      const next = validPoints[(i + 1) % validPoints.length];
       
       // Control points for bezier curve - simpler on mobile
       const randomFactor = isMobile ? 15 : 25;
       const cp1x = curr.x + (next.x - curr.x) / 2 + Math.random() * randomFactor * 2 - randomFactor;
       const cp1y = curr.y + (next.y - curr.y) / 2 + Math.random() * randomFactor * 2 - randomFactor;
       
-      path += ` Q ${cp1x},${cp1y} ${next.x},${next.y}`;
+      // Ensure control points are valid numbers
+      if (!isNaN(cp1x) && isFinite(cp1x) && !isNaN(cp1y) && isFinite(cp1y) && 
+          !isNaN(next.x) && isFinite(next.x) && !isNaN(next.y) && isFinite(next.y)) {
+        path += ` Q ${cp1x},${cp1y} ${next.x},${next.y}`;
+      } else {
+        // If invalid, use a line segment instead
+        path += ` L ${next.x},${next.y}`;
+      }
     }
     
     path += " Z";
@@ -83,13 +104,22 @@ export function MorphingBlob({
     const mobileComplexity = isMobile ? Math.max(3, complexity - 2) : complexity;
     
     for (let i = 0; i < blobCount; i++) {
-      newPaths.push({
-        start: generateBlobPath(mobileComplexity, size),
-        end: generateBlobPath(mobileComplexity, size),
-      });
+      const start = generateBlobPath(mobileComplexity, size);
+      const end = generateBlobPath(mobileComplexity, size);
+      
+      // Ensure both paths are valid
+      if (start && end && start !== "undefined" && end !== "undefined") {
+        newPaths.push({ start, end });
+      }
     }
     
-    setPaths(newPaths);
+    if (newPaths.length > 0) {
+      setPaths(newPaths);
+    } else {
+      // Create a simple fallback path if all generated paths are invalid
+      const fallback = `M ${size/2},${size/2} m -${size/4},0 a ${size/4},${size/4} 0 1,0 ${size/2},0 a ${size/4},${size/4} 0 1,0 -${size/2},0`;
+      setPaths([{ start: fallback, end: fallback }]);
+    }
     
     // Rotate through gradient colors - less frequently on mobile
     const intervalId = setInterval(() => {
