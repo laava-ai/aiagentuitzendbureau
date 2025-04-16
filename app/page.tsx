@@ -46,9 +46,9 @@ export default function Home() {
             "description": "Laava ontwikkelt geavanceerde AI-agents die als digitale collega's naadloos samenwerken met uw team. Onze intelligente computer collega's automatiseren complexe taken en verhogen de productiviteit.",
             "address": {
               "@type": "PostalAddress",
-              "addressLocality": "Amsterdam",
+              "addressLocality": "Utrecht",
               "addressRegion": "NH",
-              "postalCode": "1000 AA",
+              "postalCode": "3526 WP",
               "addressCountry": "NL"
             },
             "contactPoint": {
@@ -56,7 +56,7 @@ export default function Home() {
               "telephone": "+31-20-123-4567",
               "contactType": "customer service",
               "email": "info@laava.nl",
-              "availableLanguage": ["Dutch", "English"]
+              "availableLanguage": ["Dutch"]
             },
             "potentialAction": {
               "@type": "SearchAction",

@@ -202,8 +202,8 @@ export default async function PrivacyPolicy({ params }: PrivacyPolicyPageProps) 
               Als u vragen, opmerkingen of verzoeken heeft met betrekking tot dit privacybeleid of onze privacypraktijken, neem dan contact met ons op via:
             </p>
             <p className="mb-4">
-              E-mail: privacy@laava.ai<br />
-              Adres: Laava Hoofdkantoor, Amsterdam, Nederland<br />
+              E-mail: privacy@laava.nl<br />
+              Adres: Laava, Utrecht, Nederland<br />
               Telefoon: +31 20 123 4567
             </p>
             <p className="mb-4">

@@ -122,8 +122,8 @@ export default async function TermsOfService({ params }: TermsPageProps) {
               Als u vragen heeft over deze Algemene Voorwaarden, neem dan contact met ons op via:
             </p>
             <p className="mb-4">
-              E-mail: info@laava.ai<br />
-              Adres: Laava Hoofdkantoor, Amsterdam, Nederland
+              E-mail: info@laava.nl<br />
+              Adres: Laava, Utrecht, Nederland
             </p>
           </section>
         </div>

@@ -1,15 +1,30 @@
-import { Metadata } from 'next';
-import { headers } from 'next/headers';
-import Link from 'next/link';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Visitor Dashboard | Laava',
-  description: 'Track and monitor website visitors from companies',
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
+import React, { Suspense } from 'react';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+
+function NavigationLinks() {
+  const searchParams = useSearchParams();
+  const activeTab = searchParams.get('tab') || 'visitors';
+  
+  return (
+    <>
+      <Link 
+        href="/dashboard" 
+        className={`text-sm font-medium transition-colors hover:text-primary ${activeTab === 'visitors' ? 'text-primary' : 'text-muted-foreground'}`}
+      >
+        Visitors
+      </Link>
+      <Link 
+        href="/dashboard?tab=stats" 
+        className={`text-sm font-medium transition-colors hover:text-primary ${activeTab === 'stats' ? 'text-primary' : 'text-muted-foreground'}`}
+      >
+        Statistics
+      </Link>
+    </>
+  );
+}
 
 export default function DashboardLayout({
   children,
@@ -25,18 +40,14 @@ export default function DashboardLayout({
               <span className="font-bold text-lg">Laava</span>
             </Link>
             <nav className="hidden md:flex gap-6">
-              <Link 
-                href="/dashboard" 
-                className="text-sm font-medium transition-colors hover:text-primary"
-              >
-                Visitors
-              </Link>
-              <Link 
-                href="/dashboard?tab=stats" 
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-              >
-                Statistics
-              </Link>
+              <Suspense fallback={
+                <>
+                  <span className="text-sm font-medium text-muted-foreground">Visitors</span>
+                  <span className="text-sm font-medium text-muted-foreground">Statistics</span>
+                </>
+              }>
+                <NavigationLinks />
+              </Suspense>
             </nav>
           </div>
           <div className="flex items-center gap-4">

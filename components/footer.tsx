@@ -66,9 +66,9 @@ export function Footer() {
     "description": "Laava ontwikkelt intelligente AI-agents en digitale collega&apos;s die bedrijfsprocessen optimaliseren en de productiviteit verhogen.",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Hoofdstraat 123",
-      "addressLocality": "Amsterdam",
-      "postalCode": "1000 AA",
+      "streetAddress": "Europaplein 779",
+      "addressLocality": "Utrecht",
+      "postalCode": "3526 WP",
       "addressCountry": "NL"
     },
     "contactPoint": {
@@ -76,7 +76,7 @@ export function Footer() {
       "telephone": "+31-20-123-4567",
       "contactType": "customer service",
       "email": "info@laava.nl",
-      "availableLanguage": ["Dutch", "English"]
+      "availableLanguage": ["Dutch"]
     },
     "sameAs": [
       "https://www.linkedin.com/company/laava-ai"

@@ -118,8 +118,8 @@ export default async function CookiePolicy({ params }: CookiePolicyPageProps) {
               Als u vragen heeft over ons gebruik van cookies of over ons cookiebeleid, neem dan contact met ons op via:
             </p>
             <p className="mb-4">
-              E-mail: info@laava.ai<br />
-              Adres: Laava Hoofdkantoor, Amsterdam, Nederland
+              E-mail: info@laava.nl<br />
+              Adres: Laava Hoofdkantoor, Utrecht, Nederland
             </p>
           </section>
         </div>

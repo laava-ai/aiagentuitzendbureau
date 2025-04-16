@@ -34,6 +34,17 @@ import {
 } from '@/components/ui/pagination';
 import { format } from 'date-fns';
 import { LockIcon, EyeIcon, EyeOffIcon } from 'lucide-react';
+import { 
+  BarChart, Bar, 
+  LineChart, Line, 
+  PieChart, Pie, 
+  Cell, 
+  XAxis, YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  Legend, 
+  ResponsiveContainer 
+} from 'recharts';
 
 // Types
 interface Visitor {
@@ -58,6 +69,21 @@ interface PaginationInfo {
   limit: number;
   totalItems: number;
   totalPages: number;
+}
+
+// New interface for statistics
+interface Statistics {
+  totalUniqueVisitors: number;
+  totalVisits: number;
+  avgVisitsPerVisitor: number;
+  newVsReturning: {
+    new: number;
+    returning: number;
+  };
+  topCountries: Array<{ _id: string; count: number }>;
+  topCompanies: Array<{ _id: string; count: number }>;
+  topPages: Array<{ _id: string; count: number }>;
+  visitorsOverTime: Array<{ _id: string; visitors: number }>;
 }
 
 // Authentication protection wrapper
@@ -218,8 +244,8 @@ function AuthProtection({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Create a separate Dashboard component that uses hooks
-function DashboardContent() {
+// Separated component that uses search params
+function DashboardWithSearchParams() {
   // State
   const [visitors, setVisitors] = useState<Visitor[]>([]);
   const [loading, setLoading] = useState(true);
@@ -240,9 +266,18 @@ function DashboardContent() {
     to: '',
   });
   
+  // New state for statistics
+  const [statistics, setStatistics] = useState<Statistics | null>(null);
+  const [statsLoading, setStatsLoading] = useState(false);
+  const [statsError, setStatsError] = useState<string | null>(null);
+  const [statsPeriod, setStatsPeriod] = useState('30days');
+  
   // Router and search params
   const searchParams = useSearchParams();
   const router = useRouter();
+  
+  // Default tab based on URL or fallback to 'visitors'
+  const activeTab = searchParams.get('tab') || 'visitors';
   
   // Fetch visitors data with filters, sorting, and pagination
   const fetchVisitors = useCallback(async () => {
@@ -285,6 +320,31 @@ function DashboardContent() {
     }
   }, [pagination.page, pagination.limit, sortField, sortOrder, filters]);
   
+  // New function to fetch statistics
+  const fetchStatistics = useCallback(async () => {
+    try {
+      setStatsLoading(true);
+      
+      // Get stored credentials
+      const credentials = localStorage.getItem('dashboard_credentials');
+      
+      // Make API request with authentication
+      const response = await axios.get(`/api/statistics?period=${statsPeriod}`, {
+        headers: credentials ? {
+          Authorization: `Basic ${credentials}`
+        } : undefined
+      });
+      
+      setStatistics(response.data.data);
+      setStatsError(null);
+    } catch (err: any) {
+      setStatsError(err.response?.data?.error || 'Failed to fetch statistics');
+      console.error('Error fetching statistics:', err);
+    } finally {
+      setStatsLoading(false);
+    }
+  }, [statsPeriod]);
+  
   // Apply filters
   const applyFilters = () => {
     setPagination(prev => ({ ...prev, page: 1 })); // Reset to first page
@@ -320,6 +380,24 @@ function DashboardContent() {
     fetchVisitors();
   }, [fetchVisitors]);
   
+  // Fetch statistics when tab changes or period changes
+  useEffect(() => {
+    if (activeTab === 'stats') {
+      fetchStatistics();
+    }
+  }, [activeTab, fetchStatistics]);
+  
+  // Handle tab selection
+  const handleTabChange = (value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('tab', value);
+    router.push(`/dashboard?${params.toString()}`);
+    
+    if (value === 'stats') {
+      fetchStatistics();
+    }
+  };
+  
   // Handle pagination
   const handlePageChange = (newPage: number) => {
     setPagination(prev => ({ ...prev, page: newPage }));
@@ -333,12 +411,15 @@ function DashboardContent() {
       return 'Invalid date';
     }
   };
+  
+  // Generate chart colors
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658', '#8dd1e1', '#a4de6c', '#d0ed57'];
 
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Visitor Tracking Dashboard</h1>
       
-      <Tabs defaultValue="visitors" className="mb-6">
+      <Tabs defaultValue={activeTab} value={activeTab} className="mb-6" onValueChange={handleTabChange}>
         <TabsList>
           <TabsTrigger value="visitors">Visitors</TabsTrigger>
           <TabsTrigger value="stats">Statistics</TabsTrigger>
@@ -563,16 +644,240 @@ function DashboardContent() {
         
         <TabsContent value="stats">
           <Card>
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Visitor Statistics</CardTitle>
+              <Select value={statsPeriod} onValueChange={(value) => setStatsPeriod(value)}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select period" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="7days">Last 7 days</SelectItem>
+                  <SelectItem value="30days">Last 30 days</SelectItem>
+                  <SelectItem value="90days">Last 90 days</SelectItem>
+                  <SelectItem value="6months">Last 6 months</SelectItem>
+                  <SelectItem value="12months">Last 12 months</SelectItem>
+                </SelectContent>
+              </Select>
             </CardHeader>
+            
             <CardContent>
-              <div className="text-center py-10">
-                <p>Statistics dashboard coming soon!</p>
-                <p className="text-sm text-gray-500 mt-2">
-                  This section will include charts and graphs showing visitor trends.
-                </p>
-              </div>
+              {statsLoading ? (
+                <div className="flex items-center justify-center min-h-[400px]">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+                </div>
+              ) : statsError ? (
+                <div className="text-center py-10 text-red-500">
+                  <p>{statsError}</p>
+                </div>
+              ) : statistics ? (
+                <div className="space-y-8">
+                  {/* Summary Cards */}
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <Card>
+                      <CardContent className="pt-6">
+                        <div className="text-center">
+                          <p className="text-sm font-medium text-gray-500 mb-1">Unique Visitors</p>
+                          <p className="text-3xl font-bold">{statistics.totalUniqueVisitors.toLocaleString()}</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    
+                    <Card>
+                      <CardContent className="pt-6">
+                        <div className="text-center">
+                          <p className="text-sm font-medium text-gray-500 mb-1">Total Visits</p>
+                          <p className="text-3xl font-bold">{statistics.totalVisits.toLocaleString()}</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    
+                    <Card>
+                      <CardContent className="pt-6">
+                        <div className="text-center">
+                          <p className="text-sm font-medium text-gray-500 mb-1">Avg. Visits per Visitor</p>
+                          <p className="text-3xl font-bold">{statistics.avgVisitsPerVisitor.toFixed(1)}</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    
+                    <Card>
+                      <CardContent className="pt-6">
+                        <div className="text-center">
+                          <p className="text-sm font-medium text-gray-500 mb-1">Returning Visitors</p>
+                          <p className="text-3xl font-bold">
+                            {statistics.totalUniqueVisitors > 0 
+                              ? ((statistics.newVsReturning.returning / statistics.totalUniqueVisitors) * 100).toFixed(1)
+                              : '0'}%
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                  
+                  {/* Charts */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Visitors Over Time Chart */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Visitors Over Time</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="h-80">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <LineChart
+                              data={statistics.visitorsOverTime.map(item => ({
+                                date: item._id,
+                                visitors: item.visitors
+                              }))}
+                              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                            >
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <XAxis dataKey="date" />
+                              <YAxis />
+                              <Tooltip />
+                              <Legend />
+                              <Line
+                                type="monotone"
+                                dataKey="visitors"
+                                stroke="#8884d8"
+                                activeDot={{ r: 8 }}
+                              />
+                            </LineChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    
+                    {/* New vs Returning Chart */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">New vs Returning Visitors</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="h-80">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                              <Pie
+                                data={[
+                                  { name: 'New', value: statistics.newVsReturning.new },
+                                  { name: 'Returning', value: statistics.newVsReturning.returning }
+                                ]}
+                                cx="50%"
+                                cy="50%"
+                                labelLine={false}
+                                label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                                outerRadius={80}
+                                fill="#8884d8"
+                                dataKey="value"
+                              >
+                                {[
+                                  { name: 'New', value: statistics.newVsReturning.new },
+                                  { name: 'Returning', value: statistics.newVsReturning.returning }
+                                ].map((entry, index) => (
+                                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                ))}
+                              </Pie>
+                              <Tooltip />
+                              <Legend />
+                            </PieChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                  
+                  {/* Top Lists */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Top Countries */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Top Countries</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="h-80">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <BarChart
+                              layout="vertical"
+                              data={statistics.topCountries.map(item => ({
+                                country: item._id || 'Unknown',
+                                visitors: item.count
+                              }))}
+                              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                            >
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <XAxis type="number" />
+                              <YAxis type="category" dataKey="country" />
+                              <Tooltip />
+                              <Legend />
+                              <Bar dataKey="visitors" fill="#8884d8" />
+                            </BarChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    
+                    {/* Top Companies */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Top Companies</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="h-80 overflow-y-auto">
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead>Company</TableHead>
+                                <TableHead className="text-right">Visitors</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {statistics.topCompanies.map((item, index) => (
+                                <TableRow key={index}>
+                                  <TableCell className="font-medium">{item._id || 'Unknown'}</TableCell>
+                                  <TableCell className="text-right">{item.count}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    
+                    {/* Top Pages */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Top Pages</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="h-80 overflow-y-auto">
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead>Page</TableHead>
+                                <TableHead className="text-right">Views</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {statistics.topPages.map((item, index) => (
+                                <TableRow key={index}>
+                                  <TableCell className="font-medium truncate max-w-[200px]">
+                                    {item._id || '/'}
+                                  </TableCell>
+                                  <TableCell className="text-right">{item.count}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-10">
+                  <p>No statistics available.</p>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -591,13 +896,20 @@ function DashboardLoading() {
   );
 }
 
-// Main page component with suspense boundary and auth protection
+// Create a dashboard content component that properly wraps the component with search params
+function DashboardContent() {
+  return (
+    <Suspense fallback={<DashboardLoading />}>
+      <DashboardWithSearchParams />
+    </Suspense>
+  );
+}
+
+// Main page component with auth protection
 export default function VisitorDashboard() {
   return (
     <AuthProtection>
-      <Suspense fallback={<DashboardLoading />}>
-        <DashboardContent />
-      </Suspense>
+      <DashboardContent />
     </AuthProtection>
   );
 } 
