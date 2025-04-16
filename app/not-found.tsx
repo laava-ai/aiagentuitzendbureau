@@ -97,7 +97,7 @@ export default function NotFound() {
               <p className="text-green-400">{">"} ERROR_DETECTED</p>
               <p className="text-gray-400 mb-2">{">"} RUNNING_DIAGNOSTICS...</p>
               <p className="text-white mb-1">{">"} PAGE_NOT_FOUND.exe</p>
-              <p className="text-yellow-400 mb-3">{">"} The page you're looking for has been deleted, relocated, or never existed in my database.</p>
+              <p className="text-yellow-400 mb-3">{">"} The page you&apos;re looking for has been deleted, relocated, or never existed in my database.</p>
               <motion.p 
                 className="text-white"
                 initial={{ opacity: 0 }}
