@@ -26,6 +26,7 @@ export function Header() {
   const menuItems = [
     { name: "Home", href: "/" },
     { name: "Services", href: "/services" },
+    { name: "ROI Calculator", href: "/roi-calculator" },
     { name: "Bedrijf", href: "/company" },
     { name: "Blog", href: "/blog" },
     { name: "Contact", href: "/contact" },
