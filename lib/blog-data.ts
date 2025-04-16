@@ -87,7 +87,7 @@ export const blogPosts: BlogPost[] = [
     date: "2023-09-20",
     excerpt: "Een grondige analyse van hoe bedrijven hun bedrijfsprocessen transformeren van handmatige uitvoering naar autonome afhandeling met AI agents. Casestudy's uit verschillende sectoren.",
     image: "/images/blog/ai-process-automation.png",
-    slug: "ai-agents-procesautomatisering-handmatig-naar-autonoom",
+    slug: "ai-agents-procesautomatisering-van-handmatig-naar-autonoom",
     category: "Procesoptimalisatie",
     readingTime: "9 min"
   },
