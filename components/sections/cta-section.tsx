@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { useInView } from "framer-motion";
 import { ArrowRight, Sparkles, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { RevealText } from "@/components/ui/atoms/reveal-text";
 import { ParticleField } from "@/components/ui/animations/particle-field";
 import { 
@@ -167,20 +168,26 @@ export function CtaSection() {
                     <Button 
                       size="lg"
                       className="group bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 border-0 text-white px-10 py-7 rounded-xl transition-all duration-300 text-base shadow-lg shadow-indigo-500/20"
+                      asChild
                     >
-                      <Sparkles className="mr-2 h-5 w-5" />
-                      <span>Begin Vandaag</span>
-                      <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                      <Link href="/contact">
+                        <Sparkles className="mr-2 h-5 w-5" />
+                        <span>Begin Vandaag</span>
+                        <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                      </Link>
                     </Button>
                   </OptimizedMotionDiv>
                 ) : (
                   <Button 
                     size="lg"
                     className="group bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 border-0 text-white px-10 py-7 rounded-xl transition-all duration-300 text-base shadow-lg shadow-indigo-500/20"
+                    asChild
                   >
-                    <Sparkles className="mr-2 h-5 w-5" />
-                    <span>Begin Vandaag</span>
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    <Link href="/contact">
+                      <Sparkles className="mr-2 h-5 w-5" />
+                      <span>Begin Vandaag</span>
+                      <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </Link>
                   </Button>
                 )}
                 
@@ -188,9 +195,12 @@ export function CtaSection() {
                   size="lg"
                   variant="outline"
                   className="bg-transparent border-white/15 hover:bg-white/10 backdrop-blur-sm px-10 py-7 rounded-xl transition-all duration-300 text-base"
+                  asChild
                 >
-                  <Calendar className="mr-2 h-5 w-5" />
-                  <span>Plan een Demo</span>
+                  <Link href="/demo">
+                    <Calendar className="mr-2 h-5 w-5" />
+                    <span>Plan een Demo</span>
+                  </Link>
                 </Button>
               </div>
               

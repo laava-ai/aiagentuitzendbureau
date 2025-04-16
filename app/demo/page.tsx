@@ -148,8 +148,15 @@ export default function DemoPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               {!isSubmitted ? (
-                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
-                  <h2 className="text-2xl font-bold mb-6">Vul het formulier in om een demo aan te vragen</h2>
+                <div className="w-full max-w-3xl mx-auto bg-[#0A1435]/90 backdrop-blur-xl p-8 rounded-3xl shadow-[0_0_50px_rgba(168,85,247,0.25)] border-2 border-white/5 transform hover:translate-y-[-5px] transition-all duration-300">
+                  <div className="text-center mb-8">
+                    <h2 className="text-3xl font-bold text-white mb-4">Plan Uw Demo</h2>
+                    <div className="flex items-center justify-center gap-3 mb-4">
+                      <div className="h-2 w-12 rounded-full bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.5)]"></div>
+                      <div className="h-2 w-12 rounded-full bg-[#2A3A8F]"></div>
+                    </div>
+                    <p className="text-white/80 text-base font-medium">Vul het formulier in om een gepersonaliseerde demonstratie aan te vragen</p>
+                  </div>
                   
                   <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -159,9 +166,11 @@ export default function DemoPage() {
                           name="name"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Naam</FormLabel>
+                              <FormLabel className="text-base font-medium text-white mb-1.5">
+                                Naam <span className="text-purple-400">*</span>
+                              </FormLabel>
                               <FormControl>
-                                <Input placeholder="Uw volledige naam" {...field} />
+                                <Input placeholder="Uw volledige naam" {...field} className="w-full p-3 rounded-2xl text-white text-base placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 bg-[#0A0F2C]/70 border border-white/10" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -173,9 +182,11 @@ export default function DemoPage() {
                           name="email"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>E-mail</FormLabel>
+                              <FormLabel className="text-base font-medium text-white mb-1.5">
+                                E-mail <span className="text-purple-400">*</span>
+                              </FormLabel>
                               <FormControl>
-                                <Input placeholder="uw@email.nl" {...field} />
+                                <Input placeholder="uw@email.nl" {...field} className="w-full p-3 rounded-2xl text-white text-base placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 bg-[#0A0F2C]/70 border border-white/10" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -189,9 +200,11 @@ export default function DemoPage() {
                           name="company"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Bedrijfsnaam</FormLabel>
+                              <FormLabel className="text-base font-medium text-white mb-1.5">
+                                Bedrijfsnaam <span className="text-purple-400">*</span>
+                              </FormLabel>
                               <FormControl>
-                                <Input placeholder="Uw bedrijf" {...field} />
+                                <Input placeholder="Uw bedrijf" {...field} className="w-full p-3 rounded-2xl text-white text-base placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 bg-[#0A0F2C]/70 border border-white/10" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -203,9 +216,11 @@ export default function DemoPage() {
                           name="phone"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Telefoonnummer (optioneel)</FormLabel>
+                              <FormLabel className="text-base font-medium text-white mb-1.5">
+                                Telefoonnummer
+                              </FormLabel>
                               <FormControl>
-                                <Input placeholder="+31 6 12345678" {...field} />
+                                <Input placeholder="+31 6 12345678" {...field} className="w-full p-3 rounded-2xl text-white text-base placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 bg-[#0A0F2C]/70 border border-white/10" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -218,7 +233,9 @@ export default function DemoPage() {
                         name="requestType"
                         render={({ field }) => (
                           <FormItem className="space-y-3">
-                            <FormLabel>Type demo</FormLabel>
+                            <FormLabel className="text-base font-medium text-white mb-1.5">
+                              Type demo <span className="text-purple-400">*</span>
+                            </FormLabel>
                             <FormControl>
                               <RadioGroup
                                 onValueChange={field.onChange}
@@ -227,17 +244,17 @@ export default function DemoPage() {
                               >
                                 <FormItem className="flex items-center space-x-3 space-y-0">
                                   <FormControl>
-                                    <RadioGroupItem value="online" />
+                                    <RadioGroupItem value="online" className="text-purple-400 border-white/30" />
                                   </FormControl>
-                                  <FormLabel className="font-normal cursor-pointer">
+                                  <FormLabel className="font-normal cursor-pointer text-white">
                                     Online Demo
                                   </FormLabel>
                                 </FormItem>
                                 <FormItem className="flex items-center space-x-3 space-y-0">
                                   <FormControl>
-                                    <RadioGroupItem value="inperson" />
+                                    <RadioGroupItem value="inperson" className="text-purple-400 border-white/30" />
                                   </FormControl>
-                                  <FormLabel className="font-normal cursor-pointer">
+                                  <FormLabel className="font-normal cursor-pointer text-white">
                                     Demo op locatie
                                   </FormLabel>
                                 </FormItem>
@@ -253,14 +270,16 @@ export default function DemoPage() {
                         name="industry"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Uw branche</FormLabel>
+                            <FormLabel className="text-base font-medium text-white mb-1.5">
+                              Uw branche <span className="text-purple-400">*</span>
+                            </FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
-                                <SelectTrigger>
+                                <SelectTrigger className="w-full p-3 rounded-2xl text-white text-base placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 bg-[#0A0F2C]/70 border border-white/10">
                                   <SelectValue placeholder="Selecteer uw branche" />
                                 </SelectTrigger>
                               </FormControl>
-                              <SelectContent>
+                              <SelectContent className="bg-[#0A1435] border border-white/10">
                                 {industries.map((industry) => (
                                   <SelectItem key={industry} value={industry}>
                                     {industry}
@@ -279,11 +298,17 @@ export default function DemoPage() {
                           name="preferredDate"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Voorkeursdatum</FormLabel>
+                              <FormLabel className="text-base font-medium text-white mb-1.5">
+                                Voorkeursdatum <span className="text-purple-400">*</span>
+                              </FormLabel>
                               <FormControl>
                                 <div className="relative">
-                                  <Input type="date" {...field} className="pl-10" />
-                                  <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+                                  <Input 
+                                    type="date" 
+                                    {...field} 
+                                    className="w-full p-3 pl-10 rounded-2xl text-white text-base placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 bg-[#0A0F2C]/70 border border-white/10" 
+                                  />
+                                  <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-purple-400" />
                                 </div>
                               </FormControl>
                               <FormMessage />
@@ -296,15 +321,17 @@ export default function DemoPage() {
                           name="preferredTime"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Voorkeurstijd</FormLabel>
+                              <FormLabel className="text-base font-medium text-white mb-1.5">
+                                Voorkeurstijd <span className="text-purple-400">*</span>
+                              </FormLabel>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
-                                  <SelectTrigger className="pl-10">
-                                    <Clock className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+                                  <SelectTrigger className="w-full p-3 pl-10 rounded-2xl text-white text-base placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 bg-[#0A0F2C]/70 border border-white/10">
+                                    <Clock className="absolute left-3 top-2.5 h-5 w-5 text-purple-400" />
                                     <SelectValue placeholder="Selecteer een tijd" />
                                   </SelectTrigger>
                                 </FormControl>
-                                <SelectContent>
+                                <SelectContent className="bg-[#0A1435] border border-white/10">
                                   {timeSlots.map((time) => (
                                     <SelectItem key={time} value={time}>
                                       {time}
@@ -323,11 +350,13 @@ export default function DemoPage() {
                         name="notes"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Aanvullende informatie (optioneel)</FormLabel>
+                            <FormLabel className="text-base font-medium text-white mb-1.5">
+                              Aanvullende informatie
+                            </FormLabel>
                             <FormControl>
                               <Textarea 
                                 placeholder="Vertel ons meer over uw specifieke behoeften of vragen..."
-                                className="min-h-[120px]"
+                                className="w-full p-3 rounded-2xl text-white text-base placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 bg-[#0A0F2C]/70 border border-white/10 min-h-[120px]"
                                 {...field}
                               />
                             </FormControl>
@@ -336,25 +365,28 @@ export default function DemoPage() {
                         )}
                       />
                       
-                      <Button type="submit" size="lg" className="w-full md:w-auto group bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 border-0">
-                        <Send className="mr-2 h-4 w-4" />
+                      <button
+                        type="submit"
+                        className="w-full p-3 bg-gradient-to-r from-purple-600 to-blue-500 text-white text-base font-semibold rounded-2xl hover:from-purple-500 hover:to-blue-400 transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:ring-offset-2 focus:ring-offset-[#0A0F2C] shadow-[0_0_20px_rgba(168,85,247,0.35)]"
+                      >
+                        <Send className="inline-block mr-2 h-4 w-4" />
                         <span>Verstuur aanvraag</span>
-                      </Button>
+                      </button>
                     </form>
                   </Form>
                 </div>
               ) : (
-                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 text-center">
-                  <div className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500/20 text-green-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="w-full max-w-3xl mx-auto bg-[#0A1435]/90 backdrop-blur-xl p-8 rounded-3xl shadow-[0_0_50px_rgba(168,85,247,0.25)] border-2 border-white/5 transform hover:translate-y-[-5px] transition-all duration-300 text-center">
+                  <div className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-green-400 to-green-600 shadow-[0_0_20px_rgba(74,222,128,0.35)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <h2 className="text-2xl font-bold mb-4">Bedankt voor uw aanvraag!</h2>
-                  <p className="text-gray-300 mb-6">
+                  <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">Bedankt voor uw aanvraag!</h2>
+                  <p className="text-white/80 text-lg mb-8">
                     We hebben uw demo-aanvraag ontvangen en zullen binnen 24 uur contact met u opnemen om de details te bevestigen.
                   </p>
-                  <Button asChild size="lg" className="group bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 border-0">
+                  <Button asChild className="p-3 bg-gradient-to-r from-purple-600 to-blue-500 text-white text-base font-semibold rounded-2xl hover:from-purple-500 hover:to-blue-400 transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:ring-offset-2 focus:ring-offset-[#0A0F2C] shadow-[0_0_20px_rgba(168,85,247,0.35)]">
                     <Link href="/">
                       <span>Terug naar home</span>
                     </Link>
@@ -384,21 +416,21 @@ export default function DemoPage() {
                 ].map((testimonial, index) => (
                   <motion.div 
                     key={index}
-                    className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6"
+                    className="bg-[#0A1435]/90 backdrop-blur-xl p-6 rounded-3xl shadow-lg border border-white/5 transform hover:translate-y-[-5px] transition-all duration-300"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.5 + 0.1 * index }}
                   >
                     <div className="flex flex-col h-full">
-                      <div className="mb-4 text-indigo-400">
-                        <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                      <div className="mb-4 p-3 bg-purple-500/20 rounded-full w-fit">
+                        <svg className="h-5 w-5 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" />
                         </svg>
                       </div>
-                      <p className="text-gray-300 flex-1 mb-4">{testimonial.quote}</p>
+                      <p className="text-white/80 flex-1 mb-4">{testimonial.quote}</p>
                       <div>
                         <p className="font-medium text-white">{testimonial.name}</p>
-                        <p className="text-sm text-gray-400">{testimonial.title}</p>
+                        <p className="text-sm text-white/60">{testimonial.title}</p>
                       </div>
                     </div>
                   </motion.div>

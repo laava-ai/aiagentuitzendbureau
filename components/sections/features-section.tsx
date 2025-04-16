@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { Zap, MessageSquare, Database, Users, Cpu, Bot, BarChart3, Lightbulb } from "lucide-react";
 import { RevealText } from "@/components/ui/atoms/reveal-text";
 import { PerspectiveCard } from "@/components/ui/atoms/perspective-card";
+import Link from "next/link";
 
 interface FeatureCardProps {
   title: string;
@@ -45,17 +46,19 @@ function FeatureCard({ title, description, icon, index, color }: FeatureCardProp
           </p>
           
           <div className="mt-6 pt-4 border-t border-gray-200/10">
-            <motion.div
-              className="flex items-center text-xs text-primary font-medium"
-              whileHover={{ x: 5 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              <span>Meer informatie</span>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-1">
-                <path d="M1.16699 7H12.8337" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M7 1.16675L12.8333 7.00008L7 12.8334" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </motion.div>
+            <Link href="/services">
+              <motion.div
+                className="flex items-center text-xs text-primary font-medium"
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              >
+                <span>Meer informatie</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-1">
+                  <path d="M1.16699 7H12.8337" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M7 1.16675L12.8333 7.00008L7 12.8334" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </motion.div>
+            </Link>
           </div>
         </div>
       </PerspectiveCard>

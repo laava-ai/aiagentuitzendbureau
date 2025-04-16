@@ -27,7 +27,7 @@ const caseStudies = [
     title: "HR & Recruitment Versnelling",
     subtitle: "Automatisering van sollicitatiescreening en onboarding voor efficiëntere werving",
     description: "Een MKB-dienstverlener met 120 medewerkers zette onze AI Agents in om sollicitaties te screenen, interviews in te plannen en het onboarding-proces te begeleiden. Met bestaande HR-systemen geïntegreerd, verwerkt de AI nu 80% van alle routinetaken, waardoor recruiters 15 uur per week besparen en zich kunnen richten op het persoonlijke contact.",
-    image: "https://images.unsplash.com/photo-1631815588090-d1bcbe9b4b38?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80",
+    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     stats: [
       { value: "80%", label: "Minder Routinetaken" },
       { value: "68%", label: "Snellere Respons naar Kandidaten" },

@@ -5,7 +5,7 @@ import { Footer } from "@/components/footer";
 import { ParticleField } from "@/components/ui/animations/particle-field";
 import { useMobileOptimizer } from "@/components/ui/mobile-optimizer";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, ChevronRight } from "lucide-react";
+import { ArrowRight, Check, ChevronRight, Search, Settings, RefreshCw, BarChart3 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -20,22 +20,22 @@ export default function HowItWorks() {
     {
       title: "Analyse & Behoefteonderzoek",
       description: "We beginnen met een grondige analyse van uw bedrijfsprocessen en identificeren waar AI-agents de meeste waarde kunnen toevoegen.",
-      icon: "🔍",
+      icon: <Search className="h-10 w-10 text-indigo-400" />,
     },
     {
       title: "Ontwikkeling op Maat",
       description: "Onze experts ontwikkelen AI-agents specifiek voor uw behoeften, rekening houdend met uw branche en bedrijfsdoelen.",
-      icon: "⚙️",
+      icon: <Settings className="h-10 w-10 text-indigo-400" />,
     },
     {
       title: "Integratie & Training",
       description: "We integreren de AI-agents in uw bestaande systemen en trainen zowel de AI als uw team voor optimale samenwerking.",
-      icon: "🔄",
+      icon: <RefreshCw className="h-10 w-10 text-indigo-400" />,
     },
     {
       title: "Implementatie & Monitoring",
       description: "Na implementatie monitoren we de prestaties en optimaliseren de AI-agents continu voor de beste resultaten.",
-      icon: "📈",
+      icon: <BarChart3 className="h-10 w-10 text-indigo-400" />,
     },
   ];
   
@@ -82,7 +82,7 @@ export default function HowItWorks() {
                 Hoe Onze AI Agents Werken
               </h1>
               <p className="text-xl text-gray-300">
-                Ontdek hoe onze digitale collega's naadloos integreren in uw bedrijf en uw team naar nieuwe hoogten tillen.
+                Ontdek hoe onze digitale collega&apos;s naadloos integreren in uw bedrijf en uw team naar nieuwe hoogten tillen.
               </p>
             </motion.div>
             
@@ -96,7 +96,9 @@ export default function HowItWorks() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
                 >
-                  <div className="text-5xl mb-4">{step.icon}</div>
+                  <div className="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-900/30 border border-indigo-600/50 mb-4">
+                    {step.icon}
+                  </div>
                   <h3 className="text-xl font-bold mb-2 text-white">{step.title}</h3>
                   <p className="text-gray-400">{step.description}</p>
                 </motion.div>
@@ -112,7 +114,7 @@ export default function HowItWorks() {
             >
               <div className="aspect-w-16 aspect-h-9 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 flex items-center justify-center">
                 <div className="p-10 text-center">
-                  <h3 className="text-2xl font-bold mb-4">AI Agent Workflow Visualisatie</h3>
+                  <h3 className="text-2xl font-bold mb-4 text-white">AI Agent Workflow Visualisatie</h3>
                   <p className="text-gray-400">Hier zou een illustratie of diagram van de workflow van uw AI-agents kunnen staan</p>
                 </div>
               </div>
@@ -148,7 +150,7 @@ export default function HowItWorks() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              <h2 className="text-2xl font-bold mb-6">Klaar om uw eerste AI-agent aan te nemen?</h2>
+              <h2 className="text-2xl font-bold mb-6 text-white">Klaar om uw eerste AI-agent aan te nemen?</h2>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild size="lg" className="group bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 border-0">
                   <Link href="/contact">
@@ -158,7 +160,7 @@ export default function HowItWorks() {
                 </Button>
                 <Button asChild size="lg" variant="outline" className="border-white/10 backdrop-blur-sm bg-white/5 hover:bg-white/10">
                   <Link href="/demo">
-                    Plan een demo
+                    <span className="text-white">Plan een demo</span>
                   </Link>
                 </Button>
               </div>

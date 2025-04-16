@@ -10,6 +10,7 @@ import { InteractiveAIOrb } from "@/components/ui/animations/interactive-ai-orb"
 import { CountUp } from "@/components/ui/animations/count-up";
 import { useMobileOptimizer } from "@/components/ui/mobile-optimizer";
 import Image from "next/image";
+import Link from "next/link";
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -110,12 +111,16 @@ export function HeroSection() {
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button size="lg" className="group bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 border-0">
-                    <span>Verbind met AI</span>
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  <Button asChild size="lg" className="group bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 border-0">
+                    <Link href="/demo">
+                      <span>Verbind met AI</span>
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
                   </Button>
-                  <Button size="lg" variant="outline" className="border-white/10 backdrop-blur-sm bg-white/5 hover:bg-white/10">
-                    Hoe het werkt
+                  <Button asChild size="lg" variant="outline" className="border-white/10 backdrop-blur-sm bg-white/5 hover:bg-white/10">
+                    <Link href="/how-it-works">
+                      Hoe het werkt
+                    </Link>
                   </Button>
                 </div>
                 
@@ -178,12 +183,16 @@ export function HeroSection() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.2 }}
                 >
-                  <Button size="lg" className="group bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 border-0">
-                    <span>Verbind met AI</span>
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  <Button asChild size="lg" className="group bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 border-0">
+                    <Link href="/demo">
+                      <span>Verbind met AI</span>
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
                   </Button>
-                  <Button size="lg" variant="outline" className="border-white/10 backdrop-blur-sm bg-white/5 hover:bg-white/10">
-                    Hoe het werkt
+                  <Button asChild size="lg" variant="outline" className="border-white/10 backdrop-blur-sm bg-white/5 hover:bg-white/10">
+                    <Link href="/how-it-works">
+                      Hoe het werkt
+                    </Link>
                   </Button>
                 </motion.div>
                 
