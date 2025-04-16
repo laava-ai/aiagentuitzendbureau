@@ -2375,6 +2375,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </p>
           </>
         );
+        
       default:
         return <p>Content not found for this blog post.</p>;
     }

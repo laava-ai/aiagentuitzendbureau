@@ -32,9 +32,19 @@ export function Footer() {
   ];
   
   const blogLinks = [
-    { name: "AI voor Recruitment", href: "/blog/ai-voor-recruitment-technologie-moderne-recruiters" },
-    { name: "AI voor Bedrijfstakken", href: "/blog/ai-voor-hr-finance-productie-bedrijfstakken-transformeren" },
-    { name: "AI Agents vs Digitale Medewerkers", href: "/blog/ai-agents-vs-digitale-medewerkers-evolutie" },
+    { name: "ROI van AI Agents", href: "/blog/roi-ai-agents-bereken-zakelijke-waarde-bedrijf" },
+    { name: "AI voor MKB-Bedrijven", href: "/blog/implementatie-ai-agents-mkb-stap-voor-stap-handleiding" },
+    { name: "AI vs. Automatisering", href: "/blog/ai-agents-vs-traditionele-automatisering-vergelijking" },
+    { name: "Kostenbesparing met AI", href: "/blog/kostenbesparing-ai-agents-7-gebieden-directe-voordelen" },
+    { name: "AI Agent Huren", href: "/blog/ai-agent-huren-praktijkgids-bedrijven-nederland" },
+  ];
+  
+  const businessSolutionLinks = [
+    { name: "AI voor Klantservice", href: "/blog/ai-agents-klantservice-verhoog-tevredenheid-verlaag-kosten" },
+    { name: "AI Software Integratie", href: "/blog/ai-integration-existing-business-software-compatibiliteit" },
+    { name: "AI voor Verkoop & Marketing", href: "/blog/ai-agents-verkoop-marketing-boost-conversie-leads" },
+    { name: "AI Procesautomatisering", href: "/blog/ai-agents-procesautomatisering-handmatig-naar-autonoom" },
+    { name: "AI Medewerkerstraining", href: "/blog/training-medewerkers-samenwerking-ai-agents-tips" },
   ];
   
   const legalLinks = [
@@ -72,6 +82,41 @@ export function Footer() {
       "https://www.linkedin.com/company/laava-ai"
     ],
     "blogPosts": [
+      {
+        "@type": "BlogPosting",
+        "headline": "ROI van AI Agents: Bereken de Zakelijke Waarde voor Uw Bedrijf",
+        "description": "Een praktische gids voor het berekenen van de return on investment (ROI) bij de implementatie van AI agents in uw bedrijf, met concrete methoden en voorbeelden.",
+        "url": "https://laava.nl/blog/roi-ai-agents-bereken-zakelijke-waarde-bedrijf",
+        "keywords": ["AI ROI", "zakelijke waarde AI", "AI rendement", "rendement berekenen", "investeringsrendement AI", "business case AI", "kosten-baten analyse AI"]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "Implementatie van AI Agents in het MKB: Een Stap-voor-Stap Handleiding",
+        "description": "Praktische implementatiestrategieën voor MKB-bedrijven die AI agents willen integreren zonder grote IT-afdeling of enorm budget.",
+        "url": "https://laava.nl/blog/implementatie-ai-agents-mkb-stap-voor-stap-handleiding",
+        "keywords": ["AI voor MKB", "AI kleine bedrijven", "AI implementatie", "stap voor stap AI", "betaalbare AI oplossingen", "AI zonder IT-afdeling"]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "AI Agents vs. Traditionele Automatisering: Wat Werkt Beter voor Uw Bedrijf?",
+        "description": "Een gedetailleerde vergelijking tussen AI agents en traditionele automatiseringsoplossingen, inclusief use cases, kosten en implementatie-overwegingen.",
+        "url": "https://laava.nl/blog/ai-agents-vs-traditionele-automatisering-vergelijking",
+        "keywords": ["AI vs automatisering", "vergelijking AI automatisering", "traditionele automatisering", "AI voordelen", "betere automatisering", "moderne automatisering"]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "Kostenbesparing door AI Agents: 7 Gebieden Waar Bedrijven Direct Voordeel Behalen",
+        "description": "Ontdek de zeven belangrijkste gebieden waar AI agents aantoonbare kostenbesparingen realiseren, met praktijkvoorbeelden.",
+        "url": "https://laava.nl/blog/kostenbesparing-ai-agents-7-gebieden-directe-voordelen",
+        "keywords": ["AI kostenbesparing", "kosten reduceren met AI", "operationele kosten verlagen", "efficiency verhogen", "kostenvoordelen AI", "AI investeringsvoordelen"]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "AI Integration in Existing Business Software: Compatibiliteit met Uw Huidige Systemen",
+        "description": "Hoe AI agents naadloos integreren met populaire bedrijfssoftware zoals SAP, Exact, Microsoft, Salesforce en branchespecifieke oplossingen.",
+        "url": "https://laava.nl/blog/ai-integration-existing-business-software-compatibiliteit",
+        "keywords": ["AI software integratie", "AI compatibiliteit", "AI integreren bestaande systemen", "ERP AI integratie", "CRM AI integratie", "SAP AI integratie", "Exact AI integratie"]
+      },
       {
         "@type": "BlogPosting",
         "headline": "AI Agent Huren: Praktijkgids voor Bedrijven in Nederland",
@@ -160,7 +205,7 @@ export function Footer() {
       </Script>
 
       <div className="container px-4 mx-auto py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-8">
           {/* Logo and social links */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-6">
@@ -239,6 +284,23 @@ export function Footer() {
             </ul>
           </div>
           
+          {/* Business Solutions */}
+          <div>
+            <h3 className="font-medium text-gray-900 mb-4">Business Solutions</h3>
+            <ul className="space-y-2">
+              {businessSolutionLinks.map((link) => (
+                <li key={link.name}>
+                  <Link 
+                    href={link.href}
+                    className="text-gray-600 hover:text-indigo-600 transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          
           {/* Newsletter */}
           <div>
             <h3 className="font-medium text-gray-900 mb-4">Nieuwsbrief</h3>
@@ -269,6 +331,29 @@ export function Footer() {
                 {isSubmitting ? "Bezig..." : "Aanmelden"}
               </Button>
             </form>
+          </div>
+        </div>
+        
+        {/* SEO-focused blog links section */}
+        <div className="mt-12 pt-8 border-t border-gray-200">
+          <h4 className="text-sm text-gray-500 mb-4">AI Agent Resources</h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-2">
+            <Link href="/blog/roi-ai-agents-bereken-zakelijke-waarde-bedrijf" className="text-xs text-gray-500 hover:text-indigo-600 transition-colors">ROI van AI Agents Berekenen</Link>
+            <Link href="/blog/implementatie-ai-agents-mkb-stap-voor-stap-handleiding" className="text-xs text-gray-500 hover:text-indigo-600 transition-colors">AI Agents voor MKB</Link>
+            <Link href="/blog/ai-agents-vs-traditionele-automatisering-vergelijking" className="text-xs text-gray-500 hover:text-indigo-600 transition-colors">AI vs Traditionele Automatisering</Link>
+            <Link href="/blog/kostenbesparing-ai-agents-7-gebieden-directe-voordelen" className="text-xs text-gray-500 hover:text-indigo-600 transition-colors">Kostenbesparing met AI Agents</Link>
+            <Link href="/blog/ai-integration-existing-business-software-compatibiliteit" className="text-xs text-gray-500 hover:text-indigo-600 transition-colors">AI Integratie met Bestaande Software</Link>
+            <Link href="/blog/ai-agents-klantservice-verhoog-tevredenheid-verlaag-kosten" className="text-xs text-gray-500 hover:text-indigo-600 transition-colors">AI voor Klantservice</Link>
+            <Link href="/blog/training-medewerkers-samenwerking-ai-agents-tips" className="text-xs text-gray-500 hover:text-indigo-600 transition-colors">Medewerkers Trainen voor AI Samenwerking</Link>
+            <Link href="/blog/ai-agents-procesautomatisering-handmatig-naar-autonoom" className="text-xs text-gray-500 hover:text-indigo-600 transition-colors">AI voor Procesautomatisering</Link>
+            <Link href="/blog/beveiliging-privacy-ai-agent-implementatie-wetgeving" className="text-xs text-gray-500 hover:text-indigo-600 transition-colors">AI Agent Beveiliging & Privacy</Link>
+            <Link href="/blog/ai-agents-verkoop-marketing-boost-conversie-leads" className="text-xs text-gray-500 hover:text-indigo-600 transition-colors">AI voor Verkoop & Marketing</Link>
+            <Link href="/blog/ai-agent-huren-praktijkgids-bedrijven-nederland" className="text-xs text-gray-500 hover:text-indigo-600 transition-colors">AI Agent Huren voor Bedrijven</Link>
+            <Link href="/blog/ai-voor-recruitment-technologie-moderne-recruiters" className="text-xs text-gray-500 hover:text-indigo-600 transition-colors">AI voor Recruitment</Link>
+            <Link href="/blog/ai-voor-hr-finance-productie-bedrijfstakken-transformeren" className="text-xs text-gray-500 hover:text-indigo-600 transition-colors">AI voor HR & Finance</Link>
+            <Link href="/blog/ai-agents-vs-digitale-medewerkers-evolutie" className="text-xs text-gray-500 hover:text-indigo-600 transition-colors">AI Agents vs Digitale Medewerkers</Link>
+            <Link href="/blog/kunstmatige-intelligentie-toekomst-bedrijfsautomatisering" className="text-xs text-gray-500 hover:text-indigo-600 transition-colors">AI voor Bedrijfsautomatisering</Link>
+            <Link href="/blog/data-analyse-concurrentievoordeel-praktische-toepassingen" className="text-xs text-gray-500 hover:text-indigo-600 transition-colors">Data-analyse met AI</Link>
           </div>
         </div>
         

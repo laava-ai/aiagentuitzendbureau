@@ -84,32 +84,12 @@ export function BlogList() {
               </div>
               <div className="mt-auto pt-4">
                 <Link href={`/blog/${post.slug}`} passHref>
-                  <Button variant="outline" size="sm">Read more</Button>
+                  <Button variant="outline" size="sm">Lees meer</Button>
                 </Link>
               </div>
             </motion.div>
           ))}
         </motion.div>
-
-        <div className="flex justify-center mt-12">
-          <Link href="/blog" passHref>
-            <Button variant="outline" className="group border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white">
-              Bekijk Alle Artikelen
-              <motion.span
-                className="ml-2 inline-block"
-                animate={{ x: [0, 5, 0] }}
-                transition={{ 
-                  repeat: Infinity, 
-                  repeatType: "loop", 
-                  duration: 1.5,
-                  repeatDelay: 1
-                }}
-              >
-                →
-              </motion.span>
-            </Button>
-          </Link>
-        </div>
       </div>
     </section>
   );

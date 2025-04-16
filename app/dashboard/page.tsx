@@ -33,6 +33,7 @@ import {
   PaginationPrevious
 } from '@/components/ui/pagination';
 import { format } from 'date-fns';
+import { LockIcon, EyeIcon, EyeOffIcon } from 'lucide-react';
 
 // Types
 interface Visitor {
@@ -57,6 +58,164 @@ interface PaginationInfo {
   limit: number;
   totalItems: number;
   totalPages: number;
+}
+
+// Authentication protection wrapper
+function AuthProtection({ children }: { children: React.ReactNode }) {
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Check if user is already authenticated (via localStorage)
+  useEffect(() => {
+    const storedAuth = localStorage.getItem('dashboard_auth');
+    if (storedAuth) {
+      try {
+        const authData = JSON.parse(storedAuth);
+        const expiryTime = authData.expires;
+        
+        // Check if the authentication is still valid
+        if (expiryTime && new Date().getTime() < expiryTime) {
+          setIsAuthenticated(true);
+        } else {
+          localStorage.removeItem('dashboard_auth');
+        }
+      } catch (e) {
+        localStorage.removeItem('dashboard_auth');
+      }
+    }
+  }, []);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+
+    try {
+      // Create Basic Auth header
+      const username = process.env.NEXT_PUBLIC_DASHBOARD_USERNAME || 'admin';
+      const credentials = `${username}:${password}`;
+      const encodedCredentials = btoa(credentials);
+      
+      // Try to fetch data with these credentials
+      const response = await axios.get('/api/visitors', {
+        headers: {
+          Authorization: `Basic ${encodedCredentials}`,
+        },
+        // Limit to just 1 record to minimize data transfer for auth check
+        params: { limit: 1 }
+      });
+      
+      // If we get here, authentication was successful
+      setIsAuthenticated(true);
+      
+      // Store auth in localStorage (expires in 2 hours)
+      const expiryTime = new Date().getTime() + (2 * 60 * 60 * 1000);
+      localStorage.setItem('dashboard_auth', JSON.stringify({
+        expires: expiryTime
+      }));
+      
+      // Also store credentials for future API calls
+      localStorage.setItem('dashboard_credentials', encodedCredentials);
+      
+    } catch (err: any) {
+      console.error('Authentication error:', err);
+      if (err.response?.status === 401) {
+        setError('Incorrect password');
+      } else {
+        setError('Authentication failed. Please try again.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem('dashboard_auth');
+    localStorage.removeItem('dashboard_credentials');
+  };
+
+  // Login screen with dark theme
+  if (!isAuthenticated) {
+    return (
+      <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
+        <div className="w-full max-w-md p-8 rounded-lg bg-gray-900 border border-gray-800 shadow-2xl">
+          <div className="flex justify-center mb-6">
+            <div className="h-16 w-16 rounded-full bg-indigo-900/50 flex items-center justify-center">
+              <LockIcon className="h-8 w-8 text-indigo-400" />
+            </div>
+          </div>
+          
+          <h1 className="text-2xl font-bold text-white text-center mb-2">Restricted Area</h1>
+          <p className="text-gray-400 text-center mb-8">Enter password to access the dashboard</p>
+          
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div className="space-y-2">
+              <label htmlFor="password" className="text-sm font-medium text-gray-300">
+                Password
+              </label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="bg-gray-800 border-gray-700 text-white w-full"
+                  placeholder="Enter dashboard password"
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? (
+                    <EyeOffIcon className="h-5 w-5" />
+                  ) : (
+                    <EyeIcon className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
+            </div>
+            
+            {error && (
+              <div className="text-red-500 text-sm bg-red-950/50 p-3 rounded-md border border-red-900">
+                {error}
+              </div>
+            )}
+            
+            <Button
+              type="submit"
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Verifying...' : 'Login to Dashboard'}
+            </Button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  // Include logout button when authenticated
+  return (
+    <div>
+      <div className="container mx-auto px-4 py-4 flex justify-end">
+        <Button 
+          variant="ghost" 
+          onClick={handleLogout}
+          className="text-gray-500 hover:text-gray-700"
+        >
+          Logout
+        </Button>
+      </div>
+      {children}
+    </div>
+  );
 }
 
 // Create a separate Dashboard component that uses hooks
@@ -104,8 +263,15 @@ function DashboardContent() {
       if (filters.from) params.set('from', filters.from);
       if (filters.to) params.set('to', filters.to);
       
-      // Make API request
-      const response = await axios.get(`/api/visitors?${params.toString()}`);
+      // Get stored credentials
+      const credentials = localStorage.getItem('dashboard_credentials');
+      
+      // Make API request with authentication
+      const response = await axios.get(`/api/visitors?${params.toString()}`, {
+        headers: credentials ? {
+          Authorization: `Basic ${credentials}`
+        } : undefined
+      });
       const { data, pagination: paginationInfo } = response.data;
       
       setVisitors(data);
@@ -159,17 +325,6 @@ function DashboardContent() {
     setPagination(prev => ({ ...prev, page: newPage }));
   };
   
-  // Auth warning banner (if needed)
-  const AuthWarning = () => (
-    <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6">
-      <p className="font-bold">Authentication Required</p>
-      <p>
-        This dashboard requires authentication. If you&apos;re seeing an empty table or authorization errors,
-        make sure you&apos;re properly logged in or have provided the correct credentials.
-      </p>
-    </div>
-  );
-  
   // Format date for display
   const formatDate = (dateString: string) => {
     try {
@@ -182,8 +337,6 @@ function DashboardContent() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Visitor Tracking Dashboard</h1>
-      
-      <AuthWarning />
       
       <Tabs defaultValue="visitors" className="mb-6">
         <TabsList>
@@ -428,46 +581,23 @@ function DashboardContent() {
   );
 }
 
-// Loading component to display while suspense is active
 function DashboardLoading() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Visitor Tracking Dashboard</h1>
-      <div className="bg-white rounded-lg p-6 shadow-md">
-        <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
-          <div className="h-10 bg-gray-200 rounded mb-6"></div>
-          <div className="space-y-3">
-            <div className="grid grid-cols-6 gap-4">
-              <div className="h-4 bg-gray-200 rounded col-span-1"></div>
-              <div className="h-4 bg-gray-200 rounded col-span-1"></div>
-              <div className="h-4 bg-gray-200 rounded col-span-1"></div>
-              <div className="h-4 bg-gray-200 rounded col-span-1"></div>
-              <div className="h-4 bg-gray-200 rounded col-span-1"></div>
-              <div className="h-4 bg-gray-200 rounded col-span-1"></div>
-            </div>
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="grid grid-cols-6 gap-4">
-                <div className="h-4 bg-gray-200 rounded col-span-1"></div>
-                <div className="h-4 bg-gray-200 rounded col-span-1"></div>
-                <div className="h-4 bg-gray-200 rounded col-span-1"></div>
-                <div className="h-4 bg-gray-200 rounded col-span-1"></div>
-                <div className="h-4 bg-gray-200 rounded col-span-1"></div>
-                <div className="h-4 bg-gray-200 rounded col-span-1"></div>
-              </div>
-            ))}
-          </div>
-        </div>
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
       </div>
     </div>
   );
 }
 
-// Main page component with suspense boundary
+// Main page component with suspense boundary and auth protection
 export default function VisitorDashboard() {
   return (
-    <Suspense fallback={<DashboardLoading />}>
-      <DashboardContent />
-    </Suspense>
+    <AuthProtection>
+      <Suspense fallback={<DashboardLoading />}>
+        <DashboardContent />
+      </Suspense>
+    </AuthProtection>
   );
 } 
