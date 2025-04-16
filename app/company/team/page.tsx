@@ -13,7 +13,7 @@ export default function Team() {
       name: "Alec Siemerink",
       position: "Co-founder",
       bio: "Alec heeft meer dan 10 jaar ervaring in het leiden van technologiebedrijven en een passie voor innovatieve AI-oplossingen die bedrijven helpen efficiënter te werken.",
-      image: "/images/team/placeholder-1.jpg", // Placeholder images
+      image: "/images/alec.jpeg", // Placeholder images
       socials: {
         linkedin: "https://linkedin.com/in/alecsiemerink"
       }
@@ -22,7 +22,7 @@ export default function Team() {
       name: "Ruben Haisma",
       position: "Co-founder",
       bio: "Met een sterke achtergrond in software engineering en AI, leidt Ruben de technische ontwikkeling van onze geavanceerde AI-agents die naadloos integreren in uw werkprocessen.",
-      image: "/images/team/placeholder-2.jpg",
+      image: "/images/ruben.jpg",
       socials: {
         linkedin: "https://linkedin.com/in/rubenhaisma"
       }
@@ -31,7 +31,7 @@ export default function Team() {
       name: "Marcel Grauwen",
       position: "Co-founder",
       bio: "Marcel heeft ruime ervaring in operationeel management en zorgt ervoor dat onze AI-oplossingen efficiënt worden geïmplementeerd en optimaal presteren voor onze klanten.",
-      image: "/images/team/placeholder-3.jpg",
+      image: "/images/marcel.jpg",
       socials: {
         linkedin: "https://linkedin.com/in/marcelgrauwen"
       }
