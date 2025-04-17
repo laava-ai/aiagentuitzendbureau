@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { Shell } from "@/components/shells/shell";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
 
 interface TermsPageProps {
   params: Promise<{}>;
@@ -14,16 +13,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function TermsOfService({ params }: TermsPageProps) {
-  // Define breadcrumb items
-  const breadcrumbItems = [
-    { title: "Home", link: "/" },
-    { title: "Algemene Voorwaarden" }
-  ];
-
   return (
-    <Shell>
-      <Breadcrumb items={breadcrumbItems} />
-      <div className="container mx-auto px-4 py-12">
+    <Shell darkHeader>
+      <div className="container mx-auto px-4 py-12 mt-16">
         <h1 className="text-4xl font-bold text-gray-900 mb-8">Algemene Voorwaarden</h1>
         
         <div className="prose prose-lg max-w-none">

@@ -6,9 +6,10 @@ import { ParticleField } from "@/components/ui/animations/particle-field";
 
 interface ShellProps {
   children: React.ReactNode;
+  darkHeader?: boolean;
 }
 
-export function Shell({ children }: ShellProps) {
+export function Shell({ children, darkHeader = false }: ShellProps) {
   return (
     <div className="relative min-h-screen flex flex-col">
       {/* Background particle effect */}
@@ -23,7 +24,7 @@ export function Shell({ children }: ShellProps) {
       />
 
       {/* Header */}
-      <Header />
+      <Header isDark={darkHeader} />
       
       {/* Main content */}
       <main className="flex-1">

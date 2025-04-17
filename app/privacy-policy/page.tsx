@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { Shell } from "@/components/shells/shell";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
 
 interface PrivacyPolicyPageProps {
   params: Promise<{}>;
@@ -14,16 +13,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function PrivacyPolicy({ params }: PrivacyPolicyPageProps) {
-  // Define breadcrumb items
-  const breadcrumbItems = [
-    { title: "Home", link: "/" },
-    { title: "Privacybeleid" }
-  ];
-
   return (
-    <Shell>
-      <Breadcrumb items={breadcrumbItems} />
-      <div className="container mx-auto px-4 py-12">
+    <Shell darkHeader>
+      <div className="container mx-auto px-4 py-12 mt-16">
         <h1 className="text-4xl font-bold text-gray-900 mb-8">Privacybeleid</h1>
         
         <div className="prose prose-lg max-w-none">

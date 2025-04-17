@@ -36,6 +36,7 @@ export function Footer() {
     { name: "AI voor Verkoop & Marketing", href: "/blog/ai-agents-verkoop-marketing-boost-conversie-leads" },
     { name: "AI Procesautomatisering", href: "/blog/ai-agents-procesautomatisering-handmatig-naar-autonoom" },
     { name: "AI Medewerkerstraining", href: "/blog/training-medewerkers-samenwerking-ai-agents-tips" },
+    { name: "Wat is AI?", href: "/blog/wat-is-ai" },
   ];
 
   const legalLinks = [

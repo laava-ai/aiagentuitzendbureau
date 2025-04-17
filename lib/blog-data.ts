@@ -11,6 +11,26 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: "30",
+    title: "Wat is AI?",
+    date: "17/04/25",
+    excerpt: "Je hoort het overal: AI verandert de wereld. Maar wat is AI nou eigenlijk? Kunstmatige intelligentie (AI) is niet langer sciencefiction – het is de technologie achter je Netflix-aanbevelingen, chatbots en zelfs zelfrijdende auto’s.",
+    image: "/images/blog/ai.png",
+    slug: "wat-is-ai",
+    category: "AI Modelleren",
+    readingTime: "5 min"
+  },
+  {
+    id: "29",
+    title: "DeepSeek: Wat is het?",
+    date: "17/04/25",
+    excerpt: "DeepSeek AI is een open-source AI-model dat geboren is uit een visionair idee en gedreven door jonge talenten. Met open-source modellen, lage kosten en ongeëvenaarde efficiëntie maakt DeepSeek geavanceerde technologie toegankelijk voor iedereen.",
+    image: "/images/blog/deepseek.png",
+    slug: "deepseek-ai-wat-is-het",
+    category: "AI Modelleren",
+    readingTime: "5 min"
+  },
+  {
     id: "28",
     title: "Hulpmiddelen voor Kandidaatselectie: De Slimme Manier om Werven",
     date: "15/04/25",
