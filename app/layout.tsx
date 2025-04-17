@@ -9,6 +9,7 @@ import { MobileOptimizerProvider } from '@/components/ui/mobile-optimizer';
 import { VisitorTracker } from '@/components/visitor-tracker';
 import Script from 'next/script';
 import { Suspense } from 'react';
+import { DashboardAnalytics } from '@/components/dashbaord_analytics';
 
 const montserrat = Montserrat({ 
   subsets: ['latin'],
@@ -82,7 +83,8 @@ export default function RootLayout({
   return (
     <html lang="nl" suppressHydrationWarning>
       <head>
-        <Script id="gtag-init" strategy="beforeInteractive">
+        <Script src="https://dashboard.laava.nl/tracker.js" data-website-id="67bc60e5-c6cc-48fb-8de9-fceeafc2a826"></Script>
+        <Script id="gtag-init" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
