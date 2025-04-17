@@ -9,13 +9,92 @@ export interface BlogPost {
   readingTime: string;
 }
 
-// Blog posts data - would typically come from a CMS
 export const blogPosts: BlogPost[] = [
+  {
+    id: "28",
+    title: "Hulpmiddelen voor Kandidaatselectie: De Slimme Manier om Werven",
+    date: "15/04/25",
+    excerpt: "Ontdek hoe slimme hulpmiddelen zoals AI-screening en geautomatiseerde interviews je wervingsproces sneller, eerlijker en efficiënter maken.",
+    image: "/images/blog/candidate-selection-tools.png",
+    slug: "hulpmiddelen-voor-kandidaatselectie-slimme-manier-werven",
+    category: "Recruitment & AI",
+    readingTime: "5 min"
+  },
+  {
+    id: "27",
+    title: "AI-Gedreven Recruitment: De Toekomst van Werving",
+    date: "12/04/25",
+    excerpt: "Leer hoe AI-gestuurde recruitment je wervingsproces transformeert met snelle screening, bias-vrije selectie en een betere kandidaatervaring.",
+    image: "/images/blog/ai-driven-recruitment.png",
+    slug: "ai-gedreven-recruitment-toekomst-werving",
+    category: "Recruitment & AI",
+    readingTime: "5 min"
+  },
+  {
+    id: "26",
+    title: "Leads Genereren met AI: Boost Je Verkoop",
+    date: "09/04/25",
+    excerpt: "Ontdek hoe AI hyper-personalisatie, leadscoring en 24/7 automatisering inzet om je leadgeneratie te verbeteren en je verkoop te boosten.",
+    image: "/images/blog/ai-lead-generation.png",
+    slug: "leads-genereren-ai-boost-verkoop",
+    category: "Verkoop & Marketing",
+    readingTime: "5 min"
+  },
+  {
+    id: "25",
+    title: "Hulpmiddelen voor Kandidaatselectie: Vind Talent Sneller",
+    date: "06/04/25",
+    excerpt: "Leer hoe moderne tools zoals AI-screening en geautomatiseerde interviews je helpen om sneller en efficiënter topkandidaten te vinden.",
+    image: "/images/blog/candidate-selection.png",
+    slug: "hulpmiddelen-kandidaatselectie-vind-talent-sneller",
+    category: "Recruitment & AI",
+    readingTime: "5 min"
+  },
+  {
+    id: "24",
+    title: "Auteursrechten voor Software Ontwikkelaars: Bescherm Je Werk",
+    date: "03/04/25",
+    excerpt: "Een praktische gids om je code te beschermen met auteursrechten, inclusief tips over licenties, documentatie en juridische stappen.",
+    image: "/images/blog/software-copyright.png",
+    slug: "auteursrechten-software-ontwikkelaars-bescherm-je-werk",
+    category: "Intellectueel Eigendom",
+    readingTime: "5 min"
+  },
+  {
+    id: "23",
+    title: "Mens-AI Samenwerking: Het Beste van Twee Werelden",
+    date: "31/03/25",
+    excerpt: "Ontdek hoe menselijke creativiteit en AI-efficiëntie samenkomen om je team productiever en innovatiever te maken.",
+    image: "/images/blog/human-ai-collaboration.png",
+    slug: "mens-ai-samenwerking-beste-twee-werelden",
+    category: "Werkplek Innovatie",
+    readingTime: "5 min"
+  },
+  {
+    id: "22",
+    title: "Revolutie in Bedrijfsprocessen met AI",
+    date: "28/03/25",
+    excerpt: "Leer hoe AI bedrijfsprocessen transformeert door efficiëntie, slimme beslissingen en een ongeëvenaarde klantbeleving.",
+    image: "/images/blog/ai-business-revolution.png",
+    slug: "revolutie-bedrijfsprocessen-ai",
+    category: "Bedrijfsautomatisering",
+    readingTime: "5 min"
+  },
+  {
+    id: "21",
+    title: "Agent2Agent Protocol: AI Samenwerking Revolutie",
+    date: "25/03/25",
+    excerpt: "Ontdek hoe het Agent2Agent Protocol (A2A) AI-systemen laat samenwerken als een dreamteam, met voorbeelden uit diverse sectoren.",
+    image: "/images/blog/agent2agent-protocol.png",
+    slug: "agent2agent-protocol-ai-samenwerking-revolutie",
+    category: "AI Communicatie",
+    readingTime: "10 min"
+  },
   {
     id: "20",
     title: "Model Context Protocol: AI Communicatie Revolutie",
-    date: "2025-04-16",
-    excerpt: "Ontdek hoe het Model Context Protocol (MCP) de AI communicatie revolutioneert, met voorbeelden van toepassingen in verschillende gebieden.",
+    date: "22/03/25",
+    excerpt: "Leer hoe het Model Context Protocol (MCP) AI-communicatie menselijker en effectiever maakt, met praktische toepassingen.",
     image: "/images/blog/model-context-protocol.png",
     slug: "model-context-protocol-ai-communicatie-revolutie",
     category: "AI Communicatie",
@@ -24,8 +103,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "19",
     title: "ROI van AI Agents: Bereken de Zakelijke Waarde voor Uw Bedrijf",
-    date: "2024-12-15",
-    excerpt: "Een praktische gids voor het berekenen van de return on investment (ROI) bij de implementatie van AI agents in uw bedrijf, met concrete methoden en voorbeelden.",
+    date: "19/03/25",
+    excerpt: "Een praktische gids voor het berekenen van de return on investment (ROI) bij de implementatie van AI agents in uw bedrijf.",
     image: "/images/blog/ai-roi-calculation.png",
     slug: "roi-ai-agents-bereken-zakelijke-waarde-bedrijf",
     category: "Business Case",
@@ -34,8 +113,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "18",
     title: "Implementatie van AI Agents in het MKB: Een Stap-voor-Stap Handleiding",
-    date: "2024-12-10",
-    excerpt: "Praktische implementatiestrategieën voor MKB-bedrijven die AI agents willen integreren zonder grote IT-afdeling of enorm budget. Van eerste evaluatie tot volledige uitrol.",
+    date: "16/03/25",
+    excerpt: "Praktische strategieën voor MKB-bedrijven om AI agents te integreren zonder grote IT-afdeling of enorm budget.",
     image: "/images/blog/ai-implementation-smb.png",
     slug: "implementatie-ai-agents-mkb-stap-voor-stap-handleiding",
     category: "MKB & AI",
@@ -44,8 +123,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "17",
     title: "AI Agents vs. Traditionele Automatisering: Wat Werkt Beter voor Uw Bedrijf?",
-    date: "2024-12-20",
-    excerpt: "Een gedetailleerde vergelijking tussen AI agents en traditionele automatiseringsoplossingen, inclusief concrete use cases, kosten en implementatie-overwegingen.",
+    date: "13/03/25",
+    excerpt: "Een vergelijking tussen AI agents en traditionele automatiseringsoplossingen, met use cases en kostenanalyse.",
     image: "/images/blog/ai-vs-automation.png",
     slug: "ai-agents-vs-traditionele-automatisering-vergelijking",
     category: "Automatisering",
@@ -54,8 +133,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "16",
     title: "Kostenbesparing door AI Agents: 7 Gebieden Waar Bedrijven Direct Voordeel Behalen",
-    date: "2024-12-05",
-    excerpt: "Ontdek de zeven belangrijkste gebieden waar AI agents aantoonbare kostenbesparingen realiseren, met praktijkvoorbeelden en implementatieadvies voor verschillende branches.",
+    date: "10/03/25",
+    excerpt: "Ontdek hoe AI agents kosten besparen in zeven cruciale gebieden, met praktijkvoorbeelden en implementatietips.",
     image: "/images/blog/ai-cost-savings.png",
     slug: "kostenbesparing-ai-agents-7-gebieden-directe-voordelen",
     category: "Operationele Efficiëntie",
@@ -64,8 +143,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "15",
     title: "AI Integration in Existing Business Software: Compatibiliteit met Uw Huidige Systemen",
-    date: "2024-11-25",
-    excerpt: "Hoe AI agents naadloos integreren met populaire bedrijfssoftware zoals SAP, Exact, Microsoft, Salesforce en branchespecifieke oplossingen. Technische vereisten en best practices.",
+    date: "07/03/25",
+    excerpt: "Hoe AI agents integreren met software zoals SAP, Exact, Microsoft en Salesforce, met technische best practices.",
     image: "/images/blog/ai-software-integration.png",
     slug: "ai-integration-existing-business-software-compatibiliteit",
     category: "Systeem Integratie",
@@ -74,8 +153,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "14",
     title: "AI Agents voor Klantservice: Verhoog Klanttevredenheid en Verlaag Kosten",
-    date: "2024-11-15",
-    excerpt: "Hoe AI agents de klantervaring transformeren terwijl ze operationele kosten verlagen. Met voorbeelden van succesvolle implementaties in verschillende klantenservice-omgevingen.",
+    date: "04/03/25",
+    excerpt: "Hoe AI agents de klantervaring verbeteren en kosten verlagen, met succesvolle implementaties als voorbeeld.",
     image: "/images/blog/ai-customer-service.png",
     slug: "ai-agents-klantservice-verhoog-tevredenheid-verlaag-kosten",
     category: "Klantervaring",
@@ -84,8 +163,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "13",
     title: "Training van Medewerkers voor Samenwerking met AI Agents: Praktische Tips",
-    date: "2024-11-05",
-    excerpt: "Effectieve strategieën om uw team voor te bereiden op samenwerking met AI agents. Van weerstand overwinnen tot het maximaliseren van productiviteit in een hybride mens-AI werkomgeving.",
+    date: "01/03/25",
+    excerpt: "Strategieën om je team voor te bereiden op samenwerking met AI agents, van weerstand overwinnen tot productiviteit boosten.",
     image: "/images/blog/ai-employee-training.png",
     slug: "training-medewerkers-samenwerking-ai-agents-tips",
     category: "Personeelsontwikkeling",
@@ -94,8 +173,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "12",
     title: "AI Agents voor Procesautomatisering: Van Handmatig naar Autonoom",
-    date: "2024-10-20",
-    excerpt: "Een grondige analyse van hoe bedrijven hun bedrijfsprocessen transformeren van handmatige uitvoering naar autonome afhandeling met AI agents. Casestudy's uit verschillende sectoren.",
+    date: "26/02/25",
+    excerpt: "Hoe bedrijven processen transformeren naar autonome workflows met AI agents, met casestudy’s uit diverse sectoren.",
     image: "/images/blog/ai-process-automation.png",
     slug: "ai-agents-procesautomatisering-van-handmatig-naar-autonoom",
     category: "Procesoptimalisatie",
@@ -104,8 +183,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "11",
     title: "Beveiliging en Privacy bij AI Agent Implementatie: Voldoen aan Wet- en Regelgeving",
-    date: "2024-10-10",
-    excerpt: "Essentiële beveiligingsmaatregelen en privacyoverwegingen bij het implementeren van AI agents in uw organisatie. AVG-compliance, databeveiliging en risicobeheer in één overzicht.",
+    date: "23/02/25",
+    excerpt: "Essentiële beveiligings- en privacytips voor AI-implementaties, inclusief AVG-compliance en risicobeheer.",
     image: "/images/blog/ai-security-privacy.png",
     slug: "beveiliging-privacy-ai-agent-implementatie-wetgeving",
     category: "Compliance & Beveiliging",
@@ -114,8 +193,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "10",
     title: "AI Agents voor Verkoop en Marketing: Boost Uw Conversie en Lead-Generatie",
-    date: "2024-10-01",
-    excerpt: "Praktische toepassingen van AI agents in verkoop- en marketingprocessen. Van geautomatiseerde lead-kwalificatie tot gepersonaliseerde klantcommunicatie en verkoopvoorspellingen.",
+    date: "20/02/25",
+    excerpt: "Hoe AI agents verkoop- en marketingprocessen verbeteren met geautomatiseerde leads en gepersonaliseerde communicatie.",
     image: "/images/blog/ai-sales-marketing.png",
     slug: "ai-agents-verkoop-marketing-boost-conversie-leads",
     category: "Verkoop & Marketing",
@@ -124,8 +203,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "9",
     title: "AI Agent Huren: Praktijkgids voor Bedrijven in Nederland",
-    date: "2024-09-25",
-    excerpt: "Alles wat u moet weten over het huren van AI agents voor uw organisatie. Van kosten en implementatie tot praktische toepassingen en ROI voor Nederlandse bedrijven.",
+    date: "17/02/25",
+    excerpt: "Alles over het huren van AI agents, inclusief kosten, implementatie en ROI voor Nederlandse bedrijven.",
     image: "/images/blog/ai-agent-huren.jpg",
     slug: "ai-agent-huren-praktijkgids-bedrijven-nederland",
     category: "AI Implementatie",
@@ -134,8 +213,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "8",
     title: "AI voor Recruitment: Revolutionaire Technologie voor Moderne Recruiters",
-    date: "2024-09-15",
-    excerpt: "Ontdek hoe AI het recruitmentproces transformeert, van kandidaatselectie tot onboarding. Een essentiële gids voor recruiters en uitzendbureau's die voorop willen blijven lopen in de talentwerving.",
+    date: "14/02/25",
+    excerpt: "Hoe AI recruitment transformeert, van kandidaatselectie tot onboarding, voor recruiters die voorop willen lopen.",
     image: "/images/blog/ai-recruitment.jpg",
     slug: "ai-voor-recruitment-technologie-moderne-recruiters",
     category: "Recruitment & AI",
@@ -144,8 +223,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "7",
     title: "AI voor HR, Finance en Productie: De belangrijkste bedrijfstakken transformeren",
-    date: "2024-08-20",
-    excerpt: "Ontdek hoe verschillende bedrijfstakken zoals HR, Finance en Productie revolutionaire veranderingen ondergaan door de integratie van AI-technologie. Een uitgebreide gids voor besluitvormers.",
+    date: "11/02/25",
+    excerpt: "Hoe AI HR, Finance en Productie revolutionair verandert, met praktische toepassingen voor besluitvormers.",
     image: "/images/blog/ai-business-departments.jpg",
     slug: "ai-voor-hr-finance-productie-bedrijfstakken-transformeren",
     category: "Bedrijfstakken & AI",
@@ -154,8 +233,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "0",
     title: "AI Agents vs Digitale Medewerkers: De Evolutie van Intelligente Assistenten",
-    date: "2024-08-15",
-    excerpt: "Een diepgaande vergelijking tussen traditionele AI Agents en volwaardige Digitale Medewerkers. Ontdek hoe deze technologieën fundamenteel verschillen en welke het beste past bij jouw organisatie.",
+    date: "08/02/25",
+    excerpt: "Een vergelijking tussen AI Agents en Digitale Medewerkers, en welke technologie het beste bij je organisatie past.",
     image: "/images/blog/ai-digital-employee.jpg",
     slug: "ai-agents-vs-digitale-medewerkers-evolutie",
     category: "AI Technologie",
@@ -164,8 +243,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "1",
     title: "Kunstmatige Intelligentie: De Toekomst van Bedrijfsautomatisering",
-    date: "2024-07-12",
-    excerpt: "Hoe AI-gestuurde automatisering de efficiëntie van moderne bedrijven drastisch verbetert en wat dit betekent voor de toekomst van werk.",
+    date: "05/02/25",
+    excerpt: "Hoe AI-gestuurde automatisering de efficiëntie van bedrijven verbetert en de toekomst van werk vormgeeft.",
     image: "/images/blog/ai-automation.jpg",
     slug: "kunstmatige-intelligentie-toekomst-bedrijfsautomatisering",
     category: "Automatisering",
@@ -174,8 +253,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "2",
     title: "Data-analyse als Concurrentievoordeel: Praktische Toepassingen",
-    date: "2024-07-28",
-    excerpt: "Ontdek hoe bedrijven data-analyse gebruiken om strategische beslissingen te nemen en een voorsprong te krijgen op de concurrentie.",
+    date: "02/02/25",
+    excerpt: "Hoe bedrijven data-analyse gebruiken om strategische beslissingen te nemen en een voorsprong te krijgen.",
     image: "/images/blog/data-analytics.jpg",
     slug: "data-analyse-concurrentievoordeel-praktische-toepassingen",
     category: "Data Analyse",
@@ -184,8 +263,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "3",
     title: "Moderne Werkplekken: Mens en AI Samenwerking",
-    date: "2024-07-15",
-    excerpt: "De toekomst van werkplekken ligt in de synergie tussen menselijke creativiteit en AI-ondersteuning. Leer hoe deze samenwerking vorm krijgt.",
+    date: "30/01/25",
+    excerpt: "Hoe menselijke creativiteit en AI-ondersteuning samenkomen om moderne werkplekken productiever te maken.",
     image: "/images/blog/future-work.jpg",
     slug: "moderne-werkplekken-mens-ai-samenwerking",
     category: "Werkplek Innovatie",
@@ -194,8 +273,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "4",
     title: "Ethische AI: Verantwoord Innoveren in het Digitale Tijdperk",
-    date: "2024-07-20",
-    excerpt: "Bij de snelle ontwikkeling van AI-technologie is het cruciaal om ethische richtlijnen te hanteren. Dit artikel bespreekt de belangrijkste overwegingen.",
+    date: "27/01/25",
+    excerpt: "De belangrijkste ethische richtlijnen voor AI-ontwikkeling en implementatie in een snel digitaliserende wereld.",
     image: "/images/blog/ethical-ai.jpg",
     slug: "ethische-ai-verantwoord-innoveren-digitale-tijdperk",
     category: "AI Ethiek",
@@ -204,8 +283,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: "5",
     title: "Natuurlijke Taalverwerking: Revolutie in Klantenservice",
-    date: "2024-07-10",
-    excerpt: "Hoe NLP-technologie de klantenservice transformeert met intelligente chatbots en geautomatiseerde ondersteuningssystemen.",
+    date: "24/01/25",
+    excerpt: "Hoe NLP-technologie klantenservice transformeert met slimme chatbots en geautomatiseerde ondersteuning.",
     image: "/images/blog/nlp-customer-service.jpg",
     slug: "natuurlijke-taalverwerking-revolutie-klantenservice",
     category: "Klantenservice",
@@ -214,11 +293,11 @@ export const blogPosts: BlogPost[] = [
   {
     id: "6",
     title: "De Opkomst van Agile AI-implementaties",
-    date: "2024-07-05",
-    excerpt: "Hoe bedrijven Agile-methodologieën toepassen bij AI-implementaties om sneller resultaten te boeken en flexibel te blijven.",
+    date: "21/01/25",
+    excerpt: "Hoe bedrijven Agile-methodologieën gebruiken voor snellere en flexibelere AI-implementaties.",
     image: "/images/blog/agile-ai.jpg",
     slug: "opkomst-agile-ai-implementaties",
     category: "Implementatie",
     readingTime: "6 min"
   }
-]; 
+];
