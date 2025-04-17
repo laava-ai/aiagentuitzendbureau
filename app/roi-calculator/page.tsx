@@ -276,7 +276,10 @@ export default function ROICalculator() {
                     </Card>
                   </div>
                   
-                  <Button className="w-full h-12 text-lg bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white border-0">
+                  <Button 
+                    className="w-full h-12 text-lg bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white border-0"
+                    onClick={() => window.location.href = '/contact'}
+                  >
                     Neem contact op voor meer informatie
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
