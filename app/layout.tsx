@@ -83,7 +83,7 @@ export default function RootLayout({
   return (
     <html lang="nl" suppressHydrationWarning>
       <head>
-        <Script src="https://dashboard.laava.nl/tracker.js" data-website-id="67bc60e5-c6cc-48fb-8de9-fceeafc2a826"></Script>
+        <Script src="https://dashboard.laava.nl/laava.js" data-website-id="67bc60e5-c6cc-48fb-8de9-fceeafc2a826"></Script>
         <Script id="gtag-init" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
