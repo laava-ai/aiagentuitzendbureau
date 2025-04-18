@@ -18,7 +18,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: 'Laava | AI Agents & Digitale Collega\'s',
+  title: 'AI Agent Uitzendbureau | Laava | AI Agents & Digitale Collega\'s',
   description: 'Verbeter uw organisatie met intelligente AI-agents en digitale collega\'s op maat. Laava helpt u AI-agents te huren en in te zetten die naadloos integreren met uw team, complexe taken automatiseren en productiviteit verhogen.',
   keywords: 'AI agent, digitale collega, computer collega, kunstmatige intelligentie, AI-agent, AI oplossingen, automatisering, productiviteit, bedrijfsautomatisering, intelligente assistenten, AI assistenten, digitale werknemers, AI agent huren, AI agent in mijn bedrijf, AI agent inzetten, AI uitzendbureau, virtuele medewerker',
   authors: [{ name: 'Laava', url: 'https://laava.nl' }],
