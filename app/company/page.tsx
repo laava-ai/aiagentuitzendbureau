@@ -21,13 +21,15 @@ export default function Company() {
       title: "Succesverhalen",
       description: "Ontdek hoe onze klanten met onze AI-oplossingen hun efficiency hebben verbeterd en hun teams hebben versterkt.",
       href: "/company/success-stories",
-      color: "from-blue-600 to-cyan-500"
+      color: "from-blue-600 to-cyan-500",
+      disabled: true
     },
     {
       title: "Referenties",
       description: "Bekijk wat onze klanten over ons zeggen en hoe onze AI-oplossingen een verschil hebben gemaakt in hun bedrijven.",
       href: "/company/testimonials",
-      color: "from-violet-600 to-fuchsia-500"
+      color: "from-violet-600 to-fuchsia-500",
+      disabled: true
     },
     {
       title: "Team",
@@ -81,7 +83,7 @@ export default function Company() {
         <section className="py-24 bg-white">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {companyPages.map((page, index) => (
+              {companyPages.filter(page => !page.disabled).map((page, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
