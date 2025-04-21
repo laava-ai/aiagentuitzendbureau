@@ -11,6 +11,56 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: "35",
+    title: "Werving en Automatisering: Hulpmiddelen voor een Sneller en Eerlijker Wervingproces",
+    date: "21/04/25",
+    excerpt: "Ontdek hoe AI werving en automatiseringshulpmiddelen je wervingproces sneller, eerlijker en efficiënter maken.",
+    image: "/images/blog/wervingsautomatiseringshulpmiddelen.png",
+    slug: "wervingsautomatiseringshulpmiddelen",
+    category: "Recruitment & AI",
+    readingTime: "5 min"
+  },
+  {
+    id: "34",
+    title: "Kunstmatige Intelligentie in het Bedrijfsleven",
+    date: "21/04/25",
+    excerpt: "Ontdek hoe AI in het bedrijfsleven de efficiëntie verbetert en de toekomst van werk vormgeeft.",
+    image: "/images/blog/kunstmatige-intelligentie-in-het-bedrijfsleven.png",
+    slug: "kunstmatige-intelligentie-in-het-bedrijfsleven",
+    category: "AI Modelleren",
+    readingTime: "5 min"
+  },
+  {
+    id: "33",
+    title: "Hulpmiddelen voor Kandidaatselectie",
+    date: "20/04/25",
+    excerpt: "Ontdek hoe slimme hulpmiddelen zoals AI-screening en geautomatiseerde interviews je wervingsproces sneller, eerlijker en efficiënter maken.",
+    image: "/images/blog/hulpmiddelen-voor-kandidaatselectie.png",
+    slug: "hulpmiddelen-voor-kandidaatselectie",
+    category: "Recruitment & AI",
+    readingTime: "5 min"
+  },
+  {
+    id: "32",
+    title: "De Beste AI Chatbot voor MKB",
+    date: "19/04/25",
+    excerpt: "Ontdek de beste AI chatbot voor MKB, met praktische tips en voorbeelden van succesvolle implementaties.",
+    image: "/images/blog/beste-ai-chatbot-mkb.png",
+    slug: "beste-ai-chatbot-mkb",
+    category: "AI Modelleren",
+    readingTime: "5 min"
+  },
+  {
+    id: "31",
+    title: "AI Huren: Een Praktische Gids voor Bedrijven",
+    date: "18/04/25",
+    excerpt: "Ontdek hoe AI agents de klantervaring verbeteren en kosten verlagen, met succesvolle implementaties als voorbeeld.",
+    image: "/images/blog/ai-customer-service.png",
+    slug: "ai-huren-praktische-gids-bedrijven",
+    category: "Klantervaring",
+    readingTime: "5 min"
+  },
+  {
     id: "30",
     title: "Wat is AI?",
     date: "17/04/25",
