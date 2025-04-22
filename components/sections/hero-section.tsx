@@ -245,7 +245,7 @@ export function HeroSection() {
                 
                 {/* The interactive AI orb */}
                 <InteractiveAIOrb 
-                  size={350}
+                  size={200}
                   pulseColor="#6366f1"
                   glowColor="rgba(99, 102, 241, 0.4)"
                 />
