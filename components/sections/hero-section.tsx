@@ -4,7 +4,6 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { MorphingBlob } from "@/components/ui/animations/morphing-blob";
 import { RevealText } from "@/components/ui/atoms/reveal-text";
 import { InteractiveAIOrb } from "@/components/ui/animations/interactive-ai-orb";
 import { CountUp } from "@/components/ui/animations/count-up";
@@ -35,26 +34,6 @@ export function HeroSection() {
       className="relative min-h-[calc(100vh-80px)] flex items-center pt-24 pb-12 md:py-24 overflow-hidden"
       id="hero"
     >
-      {/* Morphing blob backgrounds - only on desktop */}
-      {useAnimations && (
-        <>
-          <MorphingBlob 
-            className="opacity-40 top-0 left-1/2 -translate-x-1/2"
-            colors={["#6366f1", "#8b5cf6", "#6366f1"]}
-            size={900}
-            blur={120}
-          />
-          
-          <MorphingBlob 
-            className="opacity-20 bottom-0 right-0 translate-x-1/3 translate-y-1/3"
-            colors={["#3b82f6", "#8b5cf6", "#ec4899"]}
-            size={600}
-            blur={80}
-            duration={25}
-            complexity={7}
-          />
-        </>
-      )}
       
       {/* Floating elements - only shown on desktop */}
       {useAnimations && (
@@ -245,7 +224,7 @@ export function HeroSection() {
                 
                 {/* The interactive AI orb */}
                 <InteractiveAIOrb 
-                  size={200}
+                  size={350}
                   pulseColor="#6366f1"
                   glowColor="rgba(99, 102, 241, 0.4)"
                 />
