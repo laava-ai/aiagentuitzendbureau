@@ -32,7 +32,7 @@ export default function About() {
       name: "Marcel Grauwen",
       role: "Co-Founder",
       bio: "Marcel is gespecialiseerd in het optimaliseren van bedrijfsprocessen met AI-technologie. Hij helpt organisaties hun efficiëntie te verhogen door slimme automatisering.",
-      image: "/images/marcel.jpg",
+      image: "/images/marcel.jpeg",
       social: {
         linkedin: "https://www.linkedin.com/in/marcel-grauwen/"
       }

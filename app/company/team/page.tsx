@@ -6,14 +6,14 @@ import { ParticleField } from "@/components/ui/animations/particle-field";
 import { CtaSection } from "@/components/sections/cta-section";
 import { motion } from "framer-motion";
 import { Linkedin } from "lucide-react";
-
+import Image from "next/image";
 export default function Team() {
   const teamMembers = [
     {
       name: "Alec Siemerink",
       position: "Co-founder",
       bio: "Alec heeft meer dan 10 jaar ervaring in het leiden van technologiebedrijven en een passie voor innovatieve AI-oplossingen die bedrijven helpen efficiënter te werken.",
-      image: "/images/alec.jpeg", // Placeholder images
+      image: "/images/alec.jpeg",
       socials: {
         linkedin: "https://linkedin.com/in/alecsiemerink"
       }
@@ -31,7 +31,7 @@ export default function Team() {
       name: "Marcel Grauwen",
       position: "Co-founder",
       bio: "Marcel heeft ruime ervaring in operationeel management en zorgt ervoor dat onze AI-oplossingen efficiënt worden geïmplementeerd en optimaal presteren voor onze klanten.",
-      image: "/images/marcel.jpg",
+      image: "/images/marcel.jpeg",
       socials: {
         linkedin: "https://linkedin.com/in/marcelgrauwen"
       }
@@ -123,11 +123,13 @@ export default function Team() {
                   className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-shadow duration-300"
                 >
                   <div className="h-48 bg-gradient-to-r from-indigo-100 to-blue-50 flex items-center justify-center">
-                    <div className="w-24 h-24 bg-indigo-200 rounded-full flex items-center justify-center">
-                      <span className="text-indigo-600 font-bold text-2xl">
-                        {member.name.charAt(0)}
-                      </span>
-                    </div>
+                    <Image 
+                      src={member.image} 
+                      alt={member.name}
+                      className="w-24 h-24 rounded-full object-cover"
+                      width={96}
+                      height={96}
+                    />
                   </div>
                   
                   <div className="p-6">
