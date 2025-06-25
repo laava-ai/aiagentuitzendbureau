@@ -12,7 +12,7 @@ export default function Team() {
     {
       name: "Alec Siemerink",
       position: "Co-founder",
-      bio: "Alec heeft meer dan 10 jaar ervaring in het leiden van technologiebedrijven en een passie voor innovatieve AI-oplossingen die bedrijven helpen efficiënter te werken.",
+      bio: "Alec heeft ruime ervaring in technologie en een passie voor innovatieve AI-oplossingen. Met een achtergrond in zowel softwareontwikkeling als ondernemerschap, richt hij zich op het creëren van impactvolle producten die organisaties helpen te groeien. Alec gelooft sterk in de kracht van samenwerking en innovatie om complexe uitdagingen op te lossen en waarde te leveren aan klanten.",
       image: "/images/alec.jpeg",
       socials: {
         linkedin: "https://linkedin.com/in/alecsiemerink"
@@ -21,7 +21,7 @@ export default function Team() {
     {
       name: "Ruben Haisma",
       position: "Co-founder",
-      bio: "Met een sterke achtergrond in software engineering en AI, leidt Ruben de technische ontwikkeling van onze geavanceerde AI-agents die naadloos integreren in uw werkprocessen.",
+      bio: "Ruben heeft een brede ervaring in software engineering en AI en draagt bij aan de technologische ontwikkeling binnen het team. Met een passie voor het ontwerpen van AI-oplossingen die menselijke capaciteiten versterken, richt hij zich op het creëren van AI-agents die naadloos samenwerken met mensen, waardoor teams productiever en creatiever kunnen worden.",
       image: "/images/ruben.jpg",
       socials: {
         linkedin: "https://linkedin.com/in/rubenhaisma"
@@ -30,7 +30,7 @@ export default function Team() {
     {
       name: "Marcel Grauwen",
       position: "Co-founder",
-      bio: "Marcel heeft ruime ervaring in operationeel management en zorgt ervoor dat onze AI-oplossingen efficiënt worden geïmplementeerd en optimaal presteren voor onze klanten.",
+      bio: "Marcel is gespecialiseerd in het optimaliseren van bedrijfsprocessen met AI-technologie. Hij helpt organisaties hun efficiëntie te verhogen door slimme automatisering en het verhogen van de kwaliteit van hun producten en diensten.",
       image: "/images/marcel.jpeg",
       socials: {
         linkedin: "https://linkedin.com/in/marcelgrauwen"
